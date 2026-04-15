@@ -1,0 +1,118 @@
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --font-size: 16px;
+  
+  /* Backgrounds */
+  --bg-deep: #050505;
+  --bg-surface: #0a0a0a;
+  --bg-surface-elevated: rgba(255, 255, 255, 0.04);
+  
+  /* Brand Colors */
+  --brand-primary: #3b82f6;
+  --brand-secondary: #2563eb;
+  --brand-accent: rgba(59, 130, 246, 0.1);
+  
+  /* Text */
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.55);
+  --text-muted: rgba(255, 255, 255, 0.3);
+  --text-dim: rgba(255, 255, 255, 0.15);
+  
+  /* Glass UI */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-hover-border: rgba(59, 130, 246, 0.3);
+  --glass-blur: blur(12px);
+
+  /* Fonts */
+  --font-syne: 'Syne', sans-serif;
+  --font-grotesk: 'Space Grotesk', sans-serif;
+  --font-dm: 'DM Sans', sans-serif;
+
+  /* Legacy Shade System (Mapping to new Noir theme) */
+  --background: var(--bg-deep);
+  --foreground: var(--text-primary);
+  --card: var(--bg-surface);
+  --card-foreground: var(--text-primary);
+  --popover: var(--bg-surface);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--brand-primary);
+  --primary-foreground: #000000;
+  --secondary: var(--bg-surface-elevated);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--bg-surface);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--brand-accent);
+  --accent-foreground: var(--brand-primary);
+  --border: var(--glass-border);
+  --input: transparent;
+  --input-background: var(--glass-bg);
+  --radius: 0.75rem;
+}
+
+/* Light Mode Overrides */
+.light {
+  --bg-deep: #ffffff;
+  --bg-surface: #fafafa;
+  --bg-surface-elevated: #f4f4f4;
+  
+  --brand-primary: #1a1a1a; /* Professional dark brand color in light mode */
+  --brand-secondary: #3b82f6;
+  --brand-accent: rgba(0, 0, 0, 0.05);
+  
+  --text-primary: #0a0a0a;
+  --text-secondary: #404040;
+  --text-muted: #737373;
+  --text-dim: #a3a3a3;
+  
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-hover-border: rgba(0, 0, 0, 0.2);
+}
+
+@theme inline {
+  /* Colors */
+  --color-bg-deep: var(--bg-deep);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-elevated: var(--bg-surface-elevated);
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-glass-border: var(--glass-border);
+  
+  /* Fonts */
+  --font-syne: var(--font-syne);
+  --font-grotesk: var(--font-grotesk);
+  --font-dm: var(--font-dm);
+
+  /* Legacy Shadcn-like mappings */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  
+  --radius-lg: var(--radius);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-bg-deep text-text-primary;
+    font-family: var(--font-dm);
+  }
+
+  html {
+    font-size: var(--font-size);
+    scroll-behavior: smooth;
+  }
+}
