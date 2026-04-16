@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router";
 import { Menu, X, ChevronDown, ArrowUpRight, Sun, Moon } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { LOGO_URL, navLinks } from "./constants";
 import { useTheme } from "../context/ThemeContext";
 
@@ -22,45 +22,40 @@ export function Header({ variant = "global" }: HeaderProps) {
   }, [location]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // The "global" header is hidden on the homepage because the Hero section renders its own "hero" variant
-  if (variant === "global" && location.pathname === "/") return null;
+  if (variant === "hero") return null;
 
   const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + "/");
 
   return (
     <>
       <motion.header
-        initial={{ y: -100, opacity: 0 }}
+        initial={{ y: -24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1], delay: 0.2 }}
-        className="fixed top-0 left-0 right-0 z-50"
+        transition={{ duration: 0.55, ease: [0.25, 1, 0.5, 1] }}
+        className="fixed inset-x-0 top-0 z-50 pt-4"
       >
-        <div className="max-w-[1600px] mx-auto px-4 md:px-8 lg:px-12 pt-4">
-          {/* Floating glass pill container */}
+        <div className="mx-auto max-w-[1600px] px-4 md:px-8 lg:px-12">
           <motion.div
             animate={{
-              backgroundColor: scrolled ? (theme === 'dark' ? "rgba(10, 10, 10, 0.82)" : "rgba(255, 255, 255, 0.82)") : "var(--glass-bg)",
-              borderColor: scrolled ? "rgba(255,255,255,0.08)" : "var(--glass-border)",
-            }}
-            transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
-            className="rounded-2xl border px-4 md:px-6 flex items-center justify-between h-[60px] backdrop-blur-[24px] saturate-[1.6]"
-            style={{
+              backgroundColor: scrolled ? "rgba(251, 249, 244, 0.96)" : "rgba(251, 249, 244, 0.9)",
+              borderColor: "rgba(31, 33, 28, 0.08)",
               boxShadow: scrolled
-                ? "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04)"
-                : "0 4px 24px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.06)",
+                ? "0 18px 52px rgba(31, 33, 28, 0.09)"
+                : "0 10px 28px rgba(31, 33, 28, 0.06)",
             }}
+            transition={{ duration: 0.35, ease: [0.25, 1, 0.5, 1] }}
+            className="flex h-16 items-center gap-4 rounded-[1.5rem] border px-4 md:px-5 backdrop-blur-xl"
           >
-            {/* Logo */}
-            <Link to="/" className="flex items-center gap-2 group z-50 shrink-0">
+            <Link to="/" className="flex items-center gap-2 group shrink-0">
               <img
                 src={LOGO_URL}
                 alt="Dholakia Retail Logo"
-                className={`h-8 w-auto object-contain transition-all duration-300 ${theme === 'dark' ? 'brightness-0 invert opacity-90 group-hover:opacity-100' : 'opacity-100'}`}
+                className={`h-8 w-auto object-contain transition-opacity duration-300 ${theme === "dark" ? "brightness-0 invert opacity-90 group-hover:opacity-100" : "opacity-100"}`}
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
                   e.currentTarget.nextElementSibling?.classList.remove("hidden");
@@ -68,17 +63,16 @@ export function Header({ variant = "global" }: HeaderProps) {
                 }}
               />
               <div className="hidden items-center gap-1.5">
-                <span className={`font-syne text-[18px] font-bold tracking-[-0.02em] transition-colors text-text-primary group-hover:text-text-primary/70`}>
+                <span className="font-syne text-[18px] font-bold tracking-[-0.02em] text-text-primary">
                   DHOLAKIA
                 </span>
-                <span className={`font-grotesk text-[9px] font-normal tracking-[0.2em] uppercase text-text-muted`}>
+                <span className="font-grotesk text-[9px] font-normal uppercase tracking-[0.2em] text-text-muted">
                   Retail
                 </span>
               </div>
             </Link>
 
-            {/* Center Nav Links — floating pill style */}
-            <nav className="hidden lg:flex items-center gap-1 mx-auto">
+            <nav className="hidden lg:flex items-center gap-1 mx-auto rounded-full border border-glass-border bg-bg-surface-elevated/75 px-2 py-1 shadow-[0_10px_24px_rgba(31,33,28,0.05)]">
               {navLinks.map((link) =>
                 link.children ? (
                   <div
@@ -89,53 +83,40 @@ export function Header({ variant = "global" }: HeaderProps) {
                   >
                     <Link
                       to={link.path}
-                      className={`font-dm flex items-center gap-1 px-4 py-2 rounded-xl transition-all duration-300 text-[13px] font-medium ${isActive(link.path)
-                          ? "text-text-primary bg-bg-surface-elevated"
-                          : "text-text-secondary hover:text-text-primary hover:bg-glass-bg"
-                        }`}
+                      className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-medium transition-colors ${isActive(link.path) ? "bg-text-primary text-bg-deep" : "text-text-secondary hover:bg-bg-surface hover:text-text-primary"}`}
                     >
                       {link.label}
-                      <ChevronDown
-                        size={13}
-                        className={`transition-transform duration-300 opacity-50 ${portfolioOpen ? "rotate-180" : ""}`}
-                      />
+                      <ChevronDown size={13} className={`transition-transform duration-300 ${portfolioOpen ? "rotate-180" : ""}`} />
                     </Link>
 
-                    {/* Modern dropdown */}
                     <AnimatePresence>
                       {portfolioOpen && (
                         <motion.div
-                          initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                          initial={{ opacity: 0, y: 8, scale: 0.98 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                          transition={{ duration: 0.25, ease: [0.25, 1, 0.5, 1] }}
-                          className="absolute top-full left-1/2 -translate-x-1/2 pt-3"
+                          exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                          transition={{ duration: 0.2, ease: [0.25, 1, 0.5, 1] }}
+                          className="absolute left-0 top-full pt-3"
                         >
-                          <div
-                            className="rounded-2xl border border-glass-border py-2 min-w-[220px] overflow-hidden backdrop-blur-[24px] saturate-[1.5]"
-                            style={{
-                              background: theme === 'dark' ? "rgba(12, 12, 12, 0.92)" : "rgba(255, 255, 255, 0.92)",
-                              boxShadow: "0 16px 48px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)",
-                            }}
-                          >
+                          <div className="min-w-[224px] overflow-hidden rounded-[1.25rem] border border-glass-border bg-bg-surface/98 py-2 shadow-[0_20px_48px_rgba(31,33,28,0.12)] backdrop-blur-xl">
                             {link.children.map((child, i) => (
                               <motion.div
                                 key={child.path}
                                 initial={{ opacity: 0, x: -8 }}
                                 animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: i * 0.04, duration: 0.3 }}
+                                transition={{ delay: i * 0.03, duration: 0.2 }}
                               >
                                 <Link
                                   to={child.path}
-                                  className="font-dm group flex items-center justify-between px-5 py-3 text-text-muted hover:text-text-primary hover:bg-glass-bg transition-all duration-200 text-[13.5px] font-medium"
+                                  className="group flex items-center justify-between px-5 py-3 text-[13.5px] font-medium text-text-secondary transition-colors hover:bg-bg-surface-elevated hover:text-text-primary"
                                 >
                                   <span className="flex items-center gap-2.5">
-                                    <span className="w-1 h-1 rounded-full bg-text-muted transition-colors" />
+                                    <span className="h-1.5 w-1.5 rounded-full bg-brand-primary/40" />
                                     {child.label}
                                   </span>
                                   <ArrowUpRight
                                     size={13}
-                                    className="opacity-0 translate-y-1 group-hover:opacity-50 group-hover:translate-y-0 transition-all duration-300"
+                                    className="opacity-0 translate-y-1 transition-all duration-300 group-hover:opacity-60 group-hover:translate-y-0"
                                   />
                                 </Link>
                               </motion.div>
@@ -149,10 +130,7 @@ export function Header({ variant = "global" }: HeaderProps) {
                   <Link
                     key={link.path}
                     to={link.path}
-                    className={`font-dm px-4 py-2 rounded-xl transition-all duration-300 text-[13px] font-medium ${isActive(link.path)
-                        ? "text-text-primary bg-text-primary/10"
-                        : "text-text-secondary hover:text-text-primary hover:bg-glass-bg"
-                      }`}
+                    className={`rounded-full px-4 py-2 text-[13px] font-medium transition-colors ${isActive(link.path) ? "bg-text-primary text-bg-deep" : "text-text-secondary hover:bg-bg-surface hover:text-text-primary"}`}
                   >
                     {link.label}
                   </Link>
@@ -160,65 +138,58 @@ export function Header({ variant = "global" }: HeaderProps) {
               )}
             </nav>
 
-            {/* Right side — CTA + Theme Toggle + mobile toggle */}
-            <div className="flex items-center gap-2 shrink-0">
-              {/* Theme Toggle Button */}
+            <div className="ml-auto flex items-center gap-2 shrink-0">
               <button
                 onClick={toggleTheme}
-                className="p-2.5 rounded-xl border border-glass-border bg-glass-bg text-text-primary hover:bg-glass-bg/20 transition-all duration-300 group relative overflow-hidden"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-glass-border bg-bg-surface-elevated text-text-primary shadow-sm transition-colors hover:bg-bg-surface"
                 aria-label="Toggle Theme"
               >
                 <AnimatePresence mode="wait">
                   {theme === "dark" ? (
                     <motion.div
                       key="sun"
-                      initial={{ y: 20, opacity: 0, scale: 0.5 }}
+                      initial={{ y: 10, opacity: 0, scale: 0.8 }}
                       animate={{ y: 0, opacity: 1, scale: 1 }}
-                      exit={{ y: -20, opacity: 0, scale: 0.5 }}
-                      transition={{ duration: 0.3, ease: "backOut" }}
+                      exit={{ y: -10, opacity: 0, scale: 0.8 }}
+                      transition={{ duration: 0.2 }}
                     >
-                      <Sun size={18} className="text-amber-300" />
+                      <Sun size={17} className="text-amber-500" />
                     </motion.div>
                   ) : (
                     <motion.div
                       key="moon"
-                      initial={{ y: 20, opacity: 0, scale: 0.5 }}
+                      initial={{ y: 10, opacity: 0, scale: 0.8 }}
                       animate={{ y: 0, opacity: 1, scale: 1 }}
-                      exit={{ y: -20, opacity: 0, scale: 0.5 }}
-                      transition={{ duration: 0.3, ease: "backOut" }}
+                      exit={{ y: -10, opacity: 0, scale: 0.8 }}
+                      transition={{ duration: 0.2 }}
                     >
-                      <Moon size={18} className="text-blue-600" />
+                      <Moon size={17} className="text-slate-700" />
                     </motion.div>
                   )}
                 </AnimatePresence>
-                <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               </button>
 
               <Link
                 to="/contact"
-                className="font-dm hidden lg:inline-flex items-center gap-2 px-5 py-2 rounded-xl text-text-primary hover:text-text-primary/80 transition-all duration-300 group text-[13px] font-bold border border-glass-border"
-                style={{
-                  background: theme === 'dark'
-                    ? "linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04))"
-                    : "linear-gradient(135deg, rgba(0,0,0,0.06), rgba(0,0,0,0.02))",
-                }}
+                className="hidden lg:inline-flex items-center gap-2 rounded-full border border-text-primary/10 bg-text-primary px-5 py-2 text-[13px] font-semibold text-bg-deep shadow-[0_12px_26px_rgba(31,33,28,0.12)] transition-transform hover:-translate-y-0.5"
               >
                 Get in Touch
-                <ArrowUpRight size={14} className="opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
+                <ArrowUpRight size={14} />
               </Link>
 
               <button
-                className="lg:hidden text-text-primary p-2 rounded-xl hover:bg-white/10 transition-colors z-50 relative"
+                className="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-full border border-glass-border bg-bg-surface-elevated text-text-primary shadow-sm transition-colors hover:bg-bg-surface"
                 onClick={() => setMobileOpen(!mobileOpen)}
+                aria-label="Toggle menu"
               >
                 <AnimatePresence mode="wait">
                   {mobileOpen ? (
-                    <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }}>
-                      <X size={22} />
+                    <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.18 }}>
+                      <X size={20} />
                     </motion.div>
                   ) : (
-                    <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}>
-                      <Menu size={22} />
+                    <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.18 }}>
+                      <Menu size={20} />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -228,64 +199,105 @@ export function Header({ variant = "global" }: HeaderProps) {
         </div>
       </motion.header>
 
-      {/* Cinematic Mobile Nav */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="fixed inset-0 lg:hidden z-40 bg-bg-deep/97 backdrop-blur-[20px]"
-          >
-            <div className="flex flex-col justify-center items-center h-full px-8">
-              <div className="space-y-5 text-center">
-                {navLinks.map((link, i) => (
-                  <motion.div
-                    key={link.path}
-                    initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ delay: 0.08 + i * 0.06, duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+          <>
+            <motion.button
+              type="button"
+              aria-label="Close menu"
+              onClick={() => setMobileOpen(false)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-40 bg-black/10 backdrop-blur-[2px] lg:hidden"
+            />
+
+            <motion.div
+              initial={{ opacity: 0, y: -12, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -12, scale: 0.98 }}
+              transition={{ duration: 0.22, ease: [0.25, 1, 0.5, 1] }}
+              className="fixed inset-x-4 top-[5.25rem] z-50 overflow-hidden rounded-[1.75rem] border border-glass-border bg-bg-surface/98 shadow-[0_30px_80px_rgba(31,33,28,0.16)] lg:hidden"
+            >
+              <div className="px-5 py-5">
+                <div className="flex items-center justify-between border-b border-glass-border pb-4">
+                  <div>
+                    <p className="font-grotesk text-[11px] font-semibold uppercase tracking-[0.2em] text-text-muted">
+                      Navigation
+                    </p>
+                    <p className="mt-1 font-dm text-[13px] text-text-secondary">
+                      Editorial header sheet
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setMobileOpen(false)}
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-glass-border bg-bg-surface-elevated text-text-primary"
+                    aria-label="Close menu"
                   >
-                    <Link
-                      to={link.path}
-                      onClick={() => setMobileOpen(false)}
-                      className={`font-dm block transition-colors duration-300 text-[clamp(1.8rem,7vw,2.8rem)] font-bold tracking-[-0.03em] leading-[1.3] ${isActive(link.path) ? "text-text-primary" : "text-text-dim hover:text-text-primary"
-                        }`}
-                    >
-                      {link.label}
-                    </Link>
-                  </motion.div>
-                ))}
+                    <X size={18} />
+                  </button>
+                </div>
+
+                <div className="space-y-5 py-5">
+                  {navLinks.map((link) =>
+                    link.children ? (
+                      <div key={link.path} className="space-y-3">
+                        <Link
+                          to={link.path}
+                          onClick={() => setMobileOpen(false)}
+                          className={`flex items-center justify-between rounded-2xl border border-glass-border px-4 py-3 text-[15px] font-medium transition-colors ${isActive(link.path) ? "bg-text-primary text-bg-deep" : "bg-bg-surface-elevated text-text-primary hover:bg-bg-surface"}`}
+                        >
+                          {link.label}
+                          <ChevronDown size={14} className="opacity-50" />
+                        </Link>
+                        <div className="space-y-2 border-l border-glass-border pl-4">
+                          {link.children.map((child) => (
+                            <Link
+                              key={child.path}
+                              to={child.path}
+                              onClick={() => setMobileOpen(false)}
+                              className={`block rounded-xl px-3 py-2 text-[14px] font-medium transition-colors ${isActive(child.path) ? "bg-brand-primary/8 text-text-primary" : "text-text-secondary hover:bg-bg-surface-elevated hover:text-text-primary"}`}
+                            >
+                              {child.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <Link
+                        key={link.path}
+                        to={link.path}
+                        onClick={() => setMobileOpen(false)}
+                        className={`block rounded-2xl border px-4 py-3 text-[15px] font-medium transition-colors ${isActive(link.path) ? "border-text-primary/15 bg-text-primary text-bg-deep" : "border-glass-border bg-bg-surface-elevated text-text-primary hover:bg-bg-surface"}`}
+                      >
+                        {link.label}
+                      </Link>
+                    )
+                  )}
+                </div>
+
+                <div className="grid grid-cols-1 gap-3 border-t border-glass-border pt-5 sm:grid-cols-2">
+                  <button
+                    onClick={toggleTheme}
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-glass-border bg-bg-surface-elevated px-5 py-3 text-[14px] font-semibold text-text-primary"
+                  >
+                    {theme === "dark" ? <Sun size={16} className="text-amber-500" /> : <Moon size={16} className="text-slate-700" />}
+                    {theme === "dark" ? "Light Mode" : "Dark Mode"}
+                  </button>
+
+                  <Link
+                    to="/contact"
+                    onClick={() => setMobileOpen(false)}
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-text-primary px-5 py-3 text-[14px] font-semibold text-bg-deep shadow-[0_12px_24px_rgba(31,33,28,0.12)]"
+                  >
+                    Get in Touch
+                    <ArrowUpRight size={15} />
+                  </Link>
+                </div>
               </div>
-
-              {/* Mobile Theme Toggle */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.45 }}
-                className="mt-12 flex flex-col items-center gap-6"
-              >
-                <button
-                  onClick={toggleTheme}
-                  className="flex items-center gap-3 px-6 py-3 rounded-full border border-glass-border bg-glass-bg text-text-primary"
-                >
-                  {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-                  <span className="font-dm font-bold">{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
-                </button>
-
-                <Link
-                  to="/contact"
-                  onClick={() => setMobileOpen(false)}
-                  className="font-dm inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-text-primary text-bg-deep transition-colors hover:bg-text-primary/90 text-[15px] font-bold"
-                >
-                  Get in Touch
-                  <ArrowUpRight size={16} />
-                </Link>
-              </motion.div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>
