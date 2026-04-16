@@ -12,30 +12,15 @@ export function HomePage() {
   const { smoothX, smoothY } = useMouseParallax();
 
   return (
-    <div className="bg-[#050505] text-neutral-200">
-      {/* ── HERO ── */}
+    <div className="bg-[var(--bg-canvas)] text-[var(--text-primary)] font-editorial">
       <Hero smoothX={smoothX} smoothY={smoothY} />
-
-      {/* ── VALUES ── */}
       <ValuesSection />
-
-      {/* ── ABOUT TEASER ── */}
-      <AboutTeaserSection smoothX={smoothX} smoothY={smoothY} />
-
-      {/* ── PORTFOLIO PREVIEW ── */}
-      <PortfolioPreviewSection smoothX={smoothX} smoothY={smoothY} />
-
-      {/* ── STATS ── */}
+      <AboutTeaserSection />
+      <PortfolioPreviewSection />
       <StatsSection />
-
-      {/* ── MANUFACTURING & SUSTAINABILITY ── */}
-      <ManufacturingSustainabilitySection smoothX={smoothX} smoothY={smoothY} />
-
-      {/* ── NEWS ── */}
+      <ManufacturingSustainabilitySection />
       <NewsSection />
-
-      {/* ── CTA ── */}
-      <CTASection smoothX={smoothX} smoothY={smoothY} />
+      <CTASection />
     </div>
   );
 }
