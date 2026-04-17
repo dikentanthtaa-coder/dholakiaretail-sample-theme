@@ -23,15 +23,15 @@ export function PortfolioPreviewSection({ smoothX, smoothY }: PortfolioPreviewPr
   return (
     <>
       {/* ── PORTFOLIO PREVIEW HEADER ── */}
-      <section className="pt-32 lg:pt-48 bg-bg-deep">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+      <section className="pt-20 md:pt-32 lg:pt-40 bg-bg-deep">
+        <div className="max-w-[1600px] mx-auto px-6 md:px-8 lg:px-12">
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, ease: ease }}
             className="flex flex-col md:flex-row md:items-end md:justify-between"
           >
             <div>
               <span className="font-grotesk text-text-secondary tracking-[0.22em] uppercase text-[12px] font-semibold">Portfolio</span>
-              <h2 className="font-syne mt-4 text-text-primary tracking-tighter text-[clamp(2.5rem,4vw,4.2rem)] font-bold leading-[1.1]">House of Brands</h2>
+              <h2 className="font-syne mt-4 text-text-primary tracking-tighter text-[clamp(1.75rem,3.5vw,3rem)] font-bold leading-[1.1]">House of Brands</h2>
             </div>
             <Link to="/portfolio" data-cursor-hover
               className="font-grotesk group inline-flex items-center gap-2 mt-6 md:mt-0 text-text-secondary hover:text-text-primary transition-colors text-[13px] font-semibold tracking-[0.1em] uppercase"
@@ -97,7 +97,7 @@ export function PortfolioPreviewSection({ smoothX, smoothY }: PortfolioPreviewPr
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 1.2, delay: 0.2, ease: ease }}
-            className="font-syne text-text-primary tracking-tighter mb-2 text-[clamp(3.5rem,7vw,8rem)] font-extrabold leading-[0.92] tracking-[-0.03em] whitespace-nowrap"
+            className="font-syne text-text-primary tracking-tighter mb-2 text-[clamp(2rem,5vw,5rem)] font-extrabold leading-[0.92] tracking-[-0.03em]"
           >
             {MAYAVE.name}
           </motion.h3>

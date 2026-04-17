@@ -5,16 +5,16 @@ import { useEffect, useRef } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 
 // ─── Typography tokens ────────────────────────────────────────────────────────
-const syne    = "'Syne', sans-serif";
+const syne = "'Syne', sans-serif";
 const grotesk = "'Space Grotesk', sans-serif";
-const dm      = "'DM Sans', sans-serif";
+const dm = "'DM Sans', sans-serif";
 
 // ─── Images ──────────────────────────────────────────────────────────────────
 const IMGS = {
-  bg:       "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=90&w=2400&auto=format&fit=crop",
-  card1:    "https://images.unsplash.com/photo-1587829741301-dc798b83add3?q=85&w=900&auto=format&fit=crop",
-  card2:    "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=85&w=900&auto=format&fit=crop",
-  card3:    "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=85&w=900&auto=format&fit=crop",
+  bg: "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=90&w=2400&auto=format&fit=crop",
+  card1: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?q=85&w=900&auto=format&fit=crop",
+  card2: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=85&w=900&auto=format&fit=crop",
+  card3: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=85&w=900&auto=format&fit=crop",
 };
 
 const ease = [0.76, 0, 0.24, 1] as const;
@@ -49,9 +49,8 @@ function FloatingCard({
       initial={{ opacity: 0, scale: 0.85, y: 30 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ delay, duration: 1.2, ease }}
-      style={{ x: mx, y: my }}
+      style={{ x: mx, y: my, borderRadius: "1.5rem" }}
       className={`absolute overflow-hidden shadow-2xl pointer-events-none ${className ?? ""}`}
-      style={{ borderRadius: "1.5rem" }}
     >
       <ImageWithFallback
         src={src}
@@ -64,7 +63,7 @@ function FloatingCard({
 
 // ─── Text slide-up variant ────────────────────────────────────────────────────
 const slideUp = {
-  hidden:  { y: "110%", opacity: 0 },
+  hidden: { y: "110%", opacity: 0 },
   visible: (i: number) => ({
     y: 0, opacity: 1,
     transition: { delay: i * 0.12, duration: 1.1, ease },
@@ -91,18 +90,18 @@ export function HeroBanner() {
   // Parallax transforms for each depth layer
   const d1x = useTransform(smoothX, [-1, 1], ["2.5%", "-2.5%"]);
   const d1y = useTransform(smoothY, [-1, 1], ["2.5%", "-2.5%"]);
-  const d2x = useTransform(smoothX, [-1, 1], ["5%",   "-5%"]);
-  const d2y = useTransform(smoothY, [-1, 1], ["5%",   "-5%"]);
-  const d3x = useTransform(smoothX, [-1, 1], ["-4%",  "4%"]);
-  const d3y = useTransform(smoothY, [-1, 1], ["-4%",  "4%"]);
-  const d4x = useTransform(smoothX, [-1, 1], ["6%",   "-6%"]);
-  const d4y = useTransform(smoothY, [-1, 1], ["6%",   "-6%"]);
-  const d5x = useTransform(smoothX, [-1, 1], ["-7%",  "7%"]);
-  const d5y = useTransform(smoothY, [-1, 1], ["-7%",  "7%"]);
+  const d2x = useTransform(smoothX, [-1, 1], ["5%", "-5%"]);
+  const d2y = useTransform(smoothY, [-1, 1], ["5%", "-5%"]);
+  const d3x = useTransform(smoothX, [-1, 1], ["-4%", "4%"]);
+  const d3y = useTransform(smoothY, [-1, 1], ["-4%", "4%"]);
+  const d4x = useTransform(smoothX, [-1, 1], ["6%", "-6%"]);
+  const d4y = useTransform(smoothY, [-1, 1], ["6%", "-6%"]);
+  const d5x = useTransform(smoothX, [-1, 1], ["-7%", "7%"]);
+  const d5y = useTransform(smoothY, [-1, 1], ["-7%", "7%"]);
 
   return (
     <section
-      className="relative w-full min-h-screen flex flex-col overflow-hidden"
+      className="relative w-full h-screen flex flex-col overflow-hidden"
       style={{ background: "#0e0e0e" }}
     >
       {/* ── Background image with dark overlay ─────────────────────────────── */}
@@ -174,7 +173,7 @@ export function HeroBanner() {
       </motion.header>
 
       {/* ── Hero Content ───────────────────────────────────────────────────── */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 pt-8 pb-24">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6">
         {/* Eyebrow badge */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -199,7 +198,7 @@ export function HeroBanner() {
               animate="visible"
               variants={slideUp}
               className="text-white tracking-tighter"
-              style={{ fontFamily: syne, fontSize: "clamp(2.6rem, 6vw, 6.5rem)", fontWeight: 700 }}
+              style={{ fontFamily: syne, fontSize: "clamp(1.8rem, 4.5vw, 4rem)", fontWeight: 700 }}
             >
               The all-in-one platform
             </motion.h1>
@@ -213,7 +212,7 @@ export function HeroBanner() {
               className="tracking-tighter"
               style={{
                 fontFamily: syne,
-                fontSize: "clamp(2.6rem, 6vw, 6.5rem)",
+                fontSize: "clamp(1.8rem, 4.5vw, 4rem)",
                 fontWeight: 700,
                 color: "#D4AF37",
               }}
@@ -230,7 +229,7 @@ export function HeroBanner() {
               className="tracking-tighter"
               style={{
                 fontFamily: syne,
-                fontSize: "clamp(2.6rem, 6vw, 6.5rem)",
+                fontSize: "clamp(1.8rem, 4.5vw, 4rem)",
                 fontWeight: 700,
                 color: "#D4AF37",
               }}
@@ -248,7 +247,7 @@ export function HeroBanner() {
             animate="visible"
             variants={slideUp}
             className="text-white/55"
-            style={{ fontFamily: dm, fontSize: "clamp(1rem, 1.8vw, 1.15rem)", lineHeight: 1.7 }}
+            style={{ fontFamily: dm, fontSize: "clamp(0.95rem, 1.5vw, 1.1rem)", lineHeight: 1.7 }}
           >
             Manage every aspect of your luxury retail journey with a heritage-rooted,
             innovation-driven portfolio that is transparent, scalable, and future-proof.
@@ -289,8 +288,7 @@ export function HeroBanner() {
         animate={{ opacity: 1, scale: 1, x: 0 }}
         transition={{ delay: 0.5, duration: 1.3, ease }}
         style={{ x: d2x, y: d2y }}
-        className="absolute left-[2%] bottom-[12%] w-[18vw] min-w-[150px] max-w-[260px] aspect-square overflow-hidden pointer-events-none shadow-2xl z-20"
-        css={{ borderRadius: "1.5rem" }}
+        className="absolute left-[2%] bottom-[12%] w-[18vw] min-w-[150px] max-w-[260px] aspect-square overflow-hidden pointer-events-none shadow-2xl z-20 rounded-[1.5rem]"
       >
         <div style={{ borderRadius: "1.5rem", overflow: "hidden", width: "100%", height: "100%" }}>
           <ImageWithFallback src={IMGS.card1} alt="Jewellery manufacturing" className="w-full h-full object-cover" />
@@ -337,19 +335,19 @@ export function HeroBanner() {
       {/* ── Decorative geometric shapes (RACON360 colored squares) ──────────── */}
 
       {/* Gold square – top right */}
-      <Shape size={80}  color="#D4AF37" className="top-[18%] right-[14%] z-10" delay={0.7}  radius="18px" />
+      <Shape size={80} color="#D4AF37" className="top-[18%] right-[14%] z-10" delay={0.7} radius="18px" />
       {/* Gold square – smaller mid right */}
-      <Shape size={48}  color="#D4AF37" className="top-[36%] right-[9%]  z-10" delay={0.85} radius="12px" />
+      <Shape size={48} color="#D4AF37" className="top-[36%] right-[9%]  z-10" delay={0.85} radius="12px" />
       {/* White/accent square – bottom left area */}
-      <Shape size={36}  color="rgba(255,255,255,0.18)" className="bottom-[28%] left-[20%] z-10" delay={0.9} radius="8px" />
+      <Shape size={36} color="rgba(255,255,255,0.18)" className="bottom-[28%] left-[20%] z-10" delay={0.9} radius="8px" />
       {/* White dot – mid left */}
-      <Shape size={16}  color="rgba(255,255,255,0.25)" className="bottom-[45%] left-[22%] z-10" delay={1.0} radius="50%" />
+      <Shape size={16} color="rgba(255,255,255,0.25)" className="bottom-[45%] left-[22%] z-10" delay={1.0} radius="50%" />
       {/* Accent dot – center low */}
-      <Shape size={22}  color="#D4AF37" className="bottom-[22%] left-[48%] z-10" delay={1.05} radius="50%" />
+      <Shape size={22} color="#D4AF37" className="bottom-[22%] left-[48%] z-10" delay={1.05} radius="50%" />
       {/* Large muted square – far right bottom */}
       <Shape size={120} color="rgba(212,175,55,0.12)" className="bottom-[6%] right-[0%] z-10" delay={0.6} radius="1.5rem 0 0 0" />
       {/* Small white square – right mid */}
-      <Shape size={28}  color="rgba(255,255,255,0.15)" className="top-[55%] right-[20%] z-10" delay={1.1} radius="6px" />
+      <Shape size={28} color="rgba(255,255,255,0.15)" className="top-[55%] right-[20%] z-10" delay={1.1} radius="6px" />
 
       {/* ── Subtle ambient glow ──────────────────────────────────────────────── */}
       <div

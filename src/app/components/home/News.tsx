@@ -163,14 +163,14 @@ function NewsCarousel() {
 
 export function NewsSection() {
   return (
-    <section className="py-32 lg:py-48 bg-bg-surface overflow-hidden border-t border-glass-border">
+    <section className="py-20 md:py-32 lg:py-40 bg-bg-surface overflow-hidden border-t border-glass-border">
       <div className="max-w-[1600px] mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 1, ease: ease }}
-          className="flex flex-col md:flex-row md:items-end md:justify-between mb-16 px-6 lg:px-12"
+          className="flex flex-col md:flex-row md:items-end md:justify-between mb-16 px-6 md:px-8 lg:px-12"
         >
           <div>
             <span
@@ -179,7 +179,7 @@ export function NewsSection() {
               Latest
             </span>
             <h2
-              className="font-syne mt-4 text-text-primary tracking-tighter text-[clamp(2.5rem,4vw,4.2rem)] font-bold leading-[1.1]"
+              className="font-syne mt-4 text-text-primary tracking-tighter text-[clamp(1.75rem,3.5vw,3rem)] font-bold leading-[1.1]"
             >
               News & Insights
             </h2>

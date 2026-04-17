@@ -11,17 +11,17 @@ interface AboutTeaserProps {
 
 export function AboutTeaserSection({ smoothX, smoothY }: AboutTeaserProps) {
   return (
-    <section className="py-32 lg:py-48 bg-bg-surface overflow-hidden border-y border-glass-border">
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+    <section className="py-20 md:py-32 lg:py-40 bg-bg-surface overflow-hidden border-y border-glass-border">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-20 items-center">
         <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1.2, ease: ease }}
           className="lg:col-span-5"
         >
           <span className="font-grotesk text-text-secondary tracking-[0.22em] uppercase text-[12px] font-semibold">The Group</span>
-          <h2 className="font-syne mt-6 text-text-primary tracking-tighter text-[clamp(2.5rem,4vw,4.2rem)] font-bold leading-[1.05]">
+          <h2 className="font-syne mt-6 text-text-primary tracking-tighter text-[clamp(1.75rem,3.5vw,3rem)] font-bold leading-[1.05]">
             Five Decades<br /><span className="italic font-light text-text-secondary">of Excellence</span>
           </h2>
-          <p className="font-dm mt-8 text-text-secondary text-[18px] leading-[1.85]">
+          <p className="font-dm mt-8 text-text-secondary text-[clamp(1rem,2vw,1.1rem)] leading-[1.85]">
             Founded on master craftsmanship and visionary enterprise, Dholakia Retail has grown from a family legacy into one of India's most distinguished luxury retail groups.
           </p>
           <Link to="/about" data-cursor-hover

@@ -16,7 +16,7 @@ export function Hero({ smoothX, smoothY }: HeroProps) {
   const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
 
   const heroOp = useTransform(heroScroll, [0, 0.65], [1, 0]);
-  const textY = useTransform(heroScroll, [0, 1], ["0%", "-20%"]);
+  // const textY = useTransform(heroScroll, [0, 1], ["0%", "-20%"]);
 
   return (
     <section ref={heroRef} className="relative h-screen overflow-hidden">
@@ -32,8 +32,8 @@ export function Hero({ smoothX, smoothY }: HeroProps) {
       {/* Header is now fixed globally via the Header component */}
       <Header variant="hero" />
 
-      <motion.div style={{ y: textY, opacity: heroOp }}
-        className="absolute bottom-0 left-0 right-0 z-10 pb-24 md:pb-28 lg:pb-32 px-6 md:px-12 lg:px-16"
+      <motion.div style={{ opacity: heroOp }}
+        className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6 md:px-8 lg:px-12"
       >
         <div className="max-w-[1600px] mx-auto flex flex-col items-center text-center">
           <div className="overflow-hidden mb-6">
@@ -46,15 +46,15 @@ export function Hero({ smoothX, smoothY }: HeroProps) {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-              className="font-syne text-[clamp(3rem,10vw,10rem)] font-black leading-[0.9] tracking-[-0.045em] text-white text-center"
+              className="font-syne text-[clamp(3rem,7vw,5.5rem)] font-black leading-[0.9] tracking-[-0.045em] text-white text-center"
             >
               PRECISION<br />
               <span className="italic font-light opacity-85">EMOTION</span>
             </motion.h1>
-            
+
             <div className="overflow-hidden mt-10 max-w-xl text-center">
               <motion.p custom={3} initial="hidden" animate="visible" variants={slideUp}
-                className="font-dm text-white/60 leading-[1.7] text-[clamp(1rem,1.8vw,1.3rem)] font-light"
+                className="font-dm text-white/60 leading-[1.7] text-[clamp(0.95rem,1.5vw,1.15rem)] font-light"
               >Heritage-rooted. Innovation-driven. A legacy of master craftsmanship, forging the future of luxury retail.</motion.p>
             </div>
           </div>
@@ -94,10 +94,10 @@ export function Hero({ smoothX, smoothY }: HeroProps) {
           className="flex flex-col items-center -mt-1"
         >
           <svg width="14" height="8" viewBox="0 0 14 8" fill="none" className="opacity-50">
-            <path d="M1 1L7 7L13 1" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M1 1L7 7L13 1" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </motion.div>
       </motion.div>
-    </section>
+    </section >
   );
 }
