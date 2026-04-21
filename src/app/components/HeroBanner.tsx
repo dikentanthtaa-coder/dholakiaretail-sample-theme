@@ -243,7 +243,7 @@ export function HeroBanner() {
         <div className="overflow-hidden mt-8 max-w-2xl">
           <motion.p
             custom={3}
-            initial="hidden"
+            intiial="hidden"
             animate="visible"
             variants={slideUp}
             className="text-white/55"

@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { navLinks, LOGO_URL } from "../Layout";
 import { slideUp, ease } from "./constants";
 import { Header } from "../Header";
+import { ParticleText } from "../immersive/ParticleText";
 
 interface HeroProps {
   smoothX: MotionValue<number>;
@@ -48,9 +49,14 @@ export function Hero({ smoothX, smoothY }: HeroProps) {
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
               className="font-syne text-[clamp(3rem,7vw,5.5rem)] font-black leading-[0.9] tracking-[-0.045em] text-white text-center"
             >
-              PRECISION<br />
-              <span className="italic font-light opacity-85">EMOTION</span>
+              {/* PRECISION<br />
+              <span className="italic font-light opacity-85">EMOTION</span> */}
             </motion.h1>
+
+            <h1 className="w-full max-w-6xl">
+              <ParticleText text="PRECISION" fontFamily="Syne" fontWeight={900} className="w-full" />
+              <ParticleText text="EMOTION " fontFamily="Syne" fontWeight={300} fontStyle="italic" className="opacity-85" />
+            </h1>
 
             <div className="overflow-hidden mt-10 max-w-xl text-center">
               <motion.p custom={3} initial="hidden" animate="visible" variants={slideUp}

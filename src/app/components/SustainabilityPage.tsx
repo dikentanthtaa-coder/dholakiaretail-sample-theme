@@ -34,7 +34,7 @@ export function SustainabilityPage() {
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <ImageWithFallback src="https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=2072&auto=format&fit=crop" alt="Sustainability - Solar Energy" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-bg-deep/60 dark:bg-black/50" />
+          <div className="absolute inset-0 bg-bg-deep/30 dark:bg-black/50" />
         </div>
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-10 text-center">
           <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: [0.25, 0.1, 0, 1] }}>
@@ -96,9 +96,9 @@ export function SustainabilityPage() {
       <section className="py-28 lg:py-40 bg-bg-deep text-text-primary relative overflow-hidden">
         {/* Decorative background glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-primary/5 rounded-full blur-[120px] pointer-events-none" />
-        
+
         <div className="max-w-[1200px] mx-auto px-6 lg:px-10 relative">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -114,7 +114,7 @@ export function SustainabilityPage() {
 
             <div className="space-y-12 lg:space-y-0">
               {milestones.map((m, i) => (
-                <motion.div 
+                <motion.div
                   key={m.year}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -124,7 +124,7 @@ export function SustainabilityPage() {
                 >
                   {/* Content Card */}
                   <div className="lg:w-[45%] pl-12 lg:pl-0">
-                    <motion.div 
+                    <motion.div
                       whileHover={{ y: -5, borderColor: "var(--glass-hover-border)" }}
                       className="p-8 rounded-[2rem] border border-glass-border bg-bg-surface backdrop-blur-md transition-all duration-500 group shadow-sm hover:shadow-xl"
                     >
@@ -164,7 +164,7 @@ export function SustainabilityPage() {
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-primary/[0.02] rounded-full blur-[100px] pointer-events-none" />
 
         <div className="max-w-[900px] mx-auto px-6 lg:px-10 relative">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -176,11 +176,11 @@ export function SustainabilityPage() {
 
           <div className="space-y-4">
             {reports.map((r, i) => (
-              <motion.div 
-                key={r.title} 
-                initial={{ opacity: 0, y: 20 }} 
-                whileInView={{ opacity: 1, y: 0 }} 
-                viewport={{ once: true }} 
+              <motion.div
+                key={r.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
                 whileHover={{ x: 10 }}
                 className="flex items-center justify-between p-6 lg:p-8 rounded-2xl bg-white/[0.03] border border-glass-border hover:bg-white/[0.06] hover:border-brand-primary/30 transition-all duration-500 group cursor-pointer backdrop-blur-sm"
@@ -201,7 +201,7 @@ export function SustainabilityPage() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="text-text-secondary flex items-center justify-center w-10 h-10 rounded-full border border-glass-border group-hover:bg-text-primary group-hover:border-text-primary group-hover:text-bg-deep transition-all duration-500">
                   <Download size={16} strokeWidth={2} />
                 </div>
@@ -209,12 +209,12 @@ export function SustainabilityPage() {
             ))}
           </div>
 
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.5 }}
-            className="font-dm mt-12 text-text-muted text-center italic text-[14px]" 
+            className="font-dm mt-12 text-text-muted text-center italic text-[14px]"
           >
             All certifications are independently audited and verified annually.
           </motion.p>
@@ -228,7 +228,7 @@ export function SustainabilityPage() {
           <ImageWithFallback
             src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop"
             alt="Nature - Sustainable Future"
-            className="w-full h-full object-cover opacity-20 dark:opacity-25"
+            className="w-full h-full object-cover opacity-60"
           />
           {/* Theme-aware overlays for depth */}
           <div className="absolute inset-0 bg-gradient-to-b from-bg-deep via-bg-deep/60 to-bg-deep" />
@@ -240,14 +240,14 @@ export function SustainabilityPage() {
         <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-brand-primary/5 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-10 text-center">
-          <motion.div 
-            initial={{ opacity: 0, y: 40 }} 
-            whileInView={{ opacity: 1, y: 0 }} 
-            viewport={{ once: true }} 
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 1, ease: [0.25, 0.1, 0, 1] }}
           >
             <span className="font-grotesk text-brand-primary/60 tracking-[0.3em] uppercase mb-6 block text-[13px] font-bold">Our Eternal Commitment</span>
-            
+
             <h2 className="font-syne text-text-primary max-w-4xl mx-auto text-[clamp(2.5rem,5vw,4.2rem)] font-bold leading-1.1 tracking-[-0.04em]">
               Sustainability is<br />
               <span className="italic font-light opacity-70">Long-Term Value</span>
@@ -258,9 +258,9 @@ export function SustainabilityPage() {
             </p>
 
             <div className="flex flex-wrap justify-center gap-6 mt-12">
-              <Link 
-                to="/investor-relations" 
-                className="font-grotesk group relative overflow-hidden px-10 py-4 bg-text-primary text-bg-deep rounded-full transition-transform hover:scale-105 duration-300 text-[15px] font-bold shadow-xl" 
+              <Link
+                to="/investor-relations"
+                className="font-grotesk group relative overflow-hidden px-10 py-4 bg-text-primary text-bg-deep rounded-full transition-transform hover:scale-105 duration-300 text-[15px] font-bold shadow-xl"
               >
                 <div className="absolute inset-0 bg-bg-deep/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.76, 0, 0.24, 1]" />
                 <span className="relative z-10 flex items-center gap-2">
