@@ -36,24 +36,24 @@ export function Hero({ smoothX, smoothY }: HeroProps) {
       <motion.div style={{ opacity: heroOp }}
         className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6 md:px-8 lg:px-12"
       >
-        <div className="max-w-[1600px] mx-auto flex flex-col items-center text-center">
+        <div className="w-full flex flex-col items-center text-center">
           <div className="overflow-hidden mb-6">
             <motion.p custom={0} initial="hidden" animate="visible" variants={slideUp}
               className="font-dm text-white tracking-[0.22em] uppercase text-[12px] font-medium"
             >Dholakia Retail Private Limited</motion.p>
           </div>
-          <div className="max-w-6xl w-full flex flex-col items-center gap-0">
-            <motion.h1
+          <div className="w-full flex flex-col items-center gap-0">
+            {/* <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
               className="font-syne text-[clamp(3rem,7vw,5.5rem)] font-black leading-[0.9] tracking-[-0.045em] text-white text-center"
             >
-              {/* PRECISION<br />
-              <span className="italic font-light opacity-85">EMOTION</span> */}
-            </motion.h1>
+              PRECISION<br />
+              <span className="italic font-light opacity-85">EMOTION</span>
+            </motion.h1> */}
 
-            <h1 className="w-full max-w-6xl">
+            <h1 className="w-full">
               <ParticleText text="PRECISION" fontFamily="Syne" fontWeight={900} className="w-full" />
               <ParticleText text="EMOTION " fontFamily="Syne" fontWeight={300} fontStyle="italic" className="opacity-85" />
             </h1>

@@ -67,7 +67,7 @@
   --text-dim: #a3a3a3;
   
   --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-border: rgba(0, 0, 0, 0.15);
   --glass-hover-border: rgba(0, 0, 0, 0.2);
 }
 

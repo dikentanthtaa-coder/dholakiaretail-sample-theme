@@ -27,7 +27,7 @@ export function ParticleText({
     fontSize = 0.7,
     className = "",
     height = 110,
-    fontFamily = "serif",
+    fontFamily = "Syne",
     fontWeight = 700,
     fontStyle = "normal",
 }: ParticleTextProps) {
@@ -54,6 +54,10 @@ export function ParticleText({
             ctx.textBaseline = "middle";
             ctx.textAlign = "center";
             ctx.font = `${fontStyle} ${fontWeight} ${baseSize}px ${fontFamily}`;
+            
+            // Measure text width to ensure full text fits
+            const textWidth = ctx.measureText(text).width;
+            const padding = baseSize * 0.3; // 30% padding on each side
             
             ctx.fillStyle = "#fff";
             ctx.fillText(text, canvasWidth / 2, canvasHeight / 2);
@@ -118,7 +122,11 @@ export function ParticleText({
             canvas.style.height = `${displayHeight}px`;
             canvas.width = displayWidth * dpr;
             canvas.height = displayHeight * dpr;
-            createParticles(canvas.width, canvas.height, dpr);
+            
+            // Wait for fonts to load before creating particles
+            document.fonts.ready.then(() => {
+                createParticles(canvas.width, canvas.height, dpr);
+            });
         };
 
         const drawFrame = () => {
@@ -134,23 +142,28 @@ export function ParticleText({
                 const particle = particles[i];
                 const dx = particle.tx - particle.x;
                 const dy = particle.ty - particle.y;
-                particle.vx += dx * 0.07;
-                particle.vy += dy * 0.07;
 
                 const deltaX = particle.x - mouseX;
                 const deltaY = particle.y - mouseY;
                 const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-                if (distance < 90) {
-                    const force = ((90 - distance) / 90) * 6;
+                // Attract particles towards cursor when nearby
+                if (distance < 120) {
+                    const force = ((120 - distance) / 120) * 2.5;
                     if (distance > 0.1) {
-                        particle.vx += (deltaX / distance) * force;
-                        particle.vy += (deltaY / distance) * force;
+                        // Move particles towards cursor
+                        particle.vx -= (deltaX / distance) * force;
+                        particle.vy -= (deltaY / distance) * force;
                     }
                 }
 
-                particle.vx *= 0.8;
-                particle.vy *= 0.8;
+                // Always pull particles back to their original positions
+                particle.vx += dx * 0.02;
+                particle.vy += dy * 0.02;
+
+                // Apply friction for smooth movement
+                particle.vx *= 0.92;
+                particle.vy *= 0.92;
                 particle.x += particle.vx;
                 particle.y += particle.vy;
 

@@ -79,7 +79,7 @@ export function CareersPage() {
             {pillars.map((p, i) => (
               <motion.div key={p.title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}
                 whileHover={{ y: -4, borderColor: "var(--color-brand-primary)" }}
-                className="p-8 rounded-2xl bg-bg-surface-elevated border border-glass-border backdrop-blur-sm transition-all text-center shadow-sm hover:shadow-xl"
+                className="p-8 rounded-2xl bg-bg-surface-elevated border-[1px] backdrop-blur-sm transition-all text-center shadow-sm hover:shadow-xl dark:border-white/10 light:border-black/15"
               >
                 <span className="font-syne text-brand-primary/20 text-[40px] font-extrabold">{p.emoji}</span>
                 <h3 className="font-syne mt-2 text-text-primary text-[22px] font-bold">{p.title}</h3>
