@@ -41,7 +41,7 @@ export function ContactPage() {
           <ImageWithFallback
             src={BG_IMAGE}
             alt=""
-            className="w-full h-full object-cover opacity-[0.08] dark:opacity-25 transition-opacity duration-700"
+            className="w-full h-full object-cover transition-opacity duration-700"
           />
           {/* Theme-aware overlays for depth */}
           <div className="absolute inset-0 bg-gradient-to-b from-bg-deep via-bg-deep/80 to-bg-deep" />

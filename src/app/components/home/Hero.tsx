@@ -53,12 +53,12 @@ export function Hero({ smoothX, smoothY }: HeroProps) {
               <span className="italic font-light opacity-85">EMOTION</span>
             </motion.h1> */}
 
-            <h1 className="w-full">
-              <ParticleText text="PRECISION" fontFamily="Syne" fontWeight={900} className="w-full" />
-              <ParticleText text="EMOTION " fontFamily="Syne" fontWeight={300} fontStyle="italic" className="opacity-85" />
-            </h1>
+            <div className="flex flex-col items-center gap-0 md:gap-2">
+              <ParticleText text="PRECISION" fontFamily="Syne" fontWeight={900} fontSize={3} height={90} />
+              <ParticleText text="EMOTION" fontFamily="Syne" fontWeight={300} fontStyle="italic" fontSize={4} height={90} className="opacity-85" />
+            </div>
 
-            <div className="overflow-hidden mt-10 max-w-xl text-center">
+            <div className="overflow-hidden mt-8 md:mt-10 max-w-xl text-center">
               <motion.p custom={3} initial="hidden" animate="visible" variants={slideUp}
                 className="font-dm text-white/60 leading-[1.7] text-[clamp(0.95rem,1.5vw,1.15rem)] font-light"
               >Heritage-rooted. Innovation-driven. A legacy of master craftsmanship, forging the future of luxury retail.</motion.p>

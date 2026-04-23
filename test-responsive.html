@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Test - Dholakia Retail</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #000;
+            color: white;
+        }
+        .test-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .viewport {
+            border: 2px solid #333;
+            background: #111;
+            padding: 20px;
+            text-align: center;
+        }
+        .mobile { width: 425px; height: 300px; }
+        .tablet { width: 768px; height: 400px; }
+        .laptop { width: 1024px; height: 500px; }
+        .desktop { width: 1920px; height: 600px; }
+        h2 {
+            margin: 0 0 10px 0;
+            color: #fff;
+        }
+        .info {
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+        iframe {
+            width: 100%;
+            height: calc(100% - 80px);
+            border: 1px solid #444;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Responsive Test - PRECISION EMOTION Title</h1>
+        
+        <div class="viewport mobile">
+            <h2>Mobile (425px)</h2>
+            <div class="info">Expected: Smaller font, proper centering, no cutoff</div>
+            <iframe src="http://localhost:5174"></iframe>
+        </div>
+        
+        <div class="viewport tablet">
+            <h2>Tablet (768px)</h2>
+            <div class="info">Expected: Medium font, proper spacing</div>
+            <iframe src="http://localhost:5174"></iframe>
+        </div>
+        
+        <div class="viewport laptop">
+            <h2>Laptop (1024px)</h2>
+            <div class="info">Expected: Larger font, optimal layout</div>
+            <iframe src="http://localhost:5174"></iframe>
+        </div>
+        
+        <div class="viewport desktop">
+            <h2>Desktop (1920px)</h2>
+            <div class="info">Expected: Full size font, maximum impact</div>
+            <iframe src="http://localhost:5174"></iframe>
+        </div>
+    </div>
+</body>
+</html>

@@ -49,22 +49,41 @@ export function ParticleText({
                 return;
             }
 
-            const baseSize = Math.max(32, Math.round(120 * fontSize));
+            // Calculate responsive font size based on viewport width and base fontSize
+            const viewportWidth = window.innerWidth;
+            let responsiveFontSize;
+
+            if (viewportWidth < 768) {
+                responsiveFontSize = fontSize * 1;  // Increased for tablet
+            } else if (viewportWidth < 1024) {
+                responsiveFontSize = fontSize * 1;  // Increased for laptop
+            } else {
+                responsiveFontSize = fontSize * 1.3;  // Increased for large screens
+            }
+
+            // Calculate base size with better scaling and increased maximum for large screens
+            const baseSize = Math.max(48, Math.min(160, Math.round((120 * responsiveFontSize * viewportWidth) / 1920)));
             ctx.clearRect(0, 0, canvasWidth, canvasHeight);
             ctx.textBaseline = "middle";
             ctx.textAlign = "center";
             ctx.font = `${fontStyle} ${fontWeight} ${baseSize}px ${fontFamily}`;
-            
+
             // Measure text width to ensure full text fits
             const textWidth = ctx.measureText(text).width;
             const padding = baseSize * 0.3; // 30% padding on each side
-            
+
             ctx.fillStyle = "#fff";
             ctx.fillText(text, canvasWidth / 2, canvasHeight / 2);
 
             const imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
             const data = imageData.data;
-            const gap = window.innerWidth < 768 ? 5 : 3;
+            // Responsive gap based on viewport width
+            let gap;
+            if (viewportWidth < 1024) {
+                gap = 4;
+            } else {
+                gap = 3;
+            }
             const sampled: Particle[] = [];
 
             for (let y = 0; y < canvasHeight; y += gap) {
@@ -116,13 +135,30 @@ export function ParticleText({
 
         const resizeCanvas = () => {
             const rect = container.getBoundingClientRect();
-            const displayWidth = Math.max(100, Math.floor(rect.width));
-            const displayHeight = height;
+            const viewportWidth = window.innerWidth;
+
+            // Calculate responsive width based on viewport - make it full screen
+            let displayWidth;
+            if (viewportWidth < 425) {
+                displayWidth = Math.max(320, Math.floor(viewportWidth * 0.95));
+            } else if (viewportWidth < 768) {
+                displayWidth = Math.max(500, Math.floor(viewportWidth * 0.85));
+            } else if (viewportWidth < 1024) {
+                displayWidth = Math.max(700, Math.floor(viewportWidth * 0.85));
+            } else {
+                displayWidth = Math.max(900, Math.floor(viewportWidth * 0.75));
+            }
+
+            // Reduce Y-axis padding for mobile screens only
+            let displayHeight = height;
+            if (viewportWidth < 425) {
+                displayHeight = height * 0.6; // Reduce vertical padding for mobile
+            }
             canvas.style.width = `${displayWidth}px`;
             canvas.style.height = `${displayHeight}px`;
             canvas.width = displayWidth * dpr;
             canvas.height = displayHeight * dpr;
-            
+
             // Wait for fonts to load before creating particles
             document.fonts.ready.then(() => {
                 createParticles(canvas.width, canvas.height, dpr);
