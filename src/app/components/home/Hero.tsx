@@ -21,14 +21,37 @@ export function Hero({ smoothX, smoothY }: HeroProps) {
 
   return (
     <section ref={heroRef} className="relative h-screen overflow-hidden">
-      {/* Image background */}
-      <img
-        src="/images/hero-bg.jpg"
-        alt="Dholakia Retail Campus"
-        className="absolute inset-0 w-full h-full object-cover"
+      {/* Layered parallax background */}
+      <motion.div 
+        style={{ x: smoothX, y: smoothY }}
+        className="absolute inset-0"
+      >
+        <img
+          src="/images/hero-bg.jpg"
+          alt="Dholakia Retail Campus"
+          className="absolute inset-0 w-full h-full object-cover scale-110"
+        />
+      </motion.div>
+      
+      {/* Animated gradient overlay */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 2 }}
+        className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"
       />
-      {/* Dark overlay for readability */}
-      <div className="absolute inset-0 bg-black/55" />
+      
+      {/* Animated glow effect */}
+      <motion.div 
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 0.3 }}
+        transition={{ duration: 3, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] max-w-[800px] max-h-[800px]"
+        style={{
+          background: "radial-gradient(circle, var(--brand-accent) 0%, transparent 65%)",
+          filter: "blur(60px)"
+        }}
+      />
 
       {/* Header is now fixed globally via the Header component */}
       <Header variant="hero" />
@@ -104,6 +127,6 @@ export function Hero({ smoothX, smoothY }: HeroProps) {
           </svg>
         </motion.div>
       </motion.div>
-    </section >
+    </section>
   );
 }
