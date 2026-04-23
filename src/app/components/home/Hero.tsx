@@ -17,7 +17,7 @@ export function Hero({ smoothX, smoothY }: HeroProps) {
   const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
 
   const heroOp = useTransform(heroScroll, [0, 0.65], [1, 0]);
-  // const textY = useTransform(heroScroll, [0, 1], ["0%", "-20%"]);
+  // const textY = useTransform(heroScroll, [0, 1], ["0%", "-20%"]); // not needed
 
   return (
     <section ref={heroRef} className="relative h-screen overflow-hidden">
