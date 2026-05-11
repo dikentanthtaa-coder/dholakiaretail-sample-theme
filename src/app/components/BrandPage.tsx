@@ -1,235 +1,493 @@
-import { Link } from "react-router";
-import { ArrowRight, ArrowLeft } from "lucide-react";
+import { Link, useParams } from "react-router";
+import { ArrowRight, ArrowUpRight, ChevronRight, Expand } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 
+const ease = [0.65, 0, 0.35, 1] as const;
+
 const MAYAVE = {
-  name: "Mayavé",
-  tag: "Coming Soon — 2026",
-  category: "Bespoke Ultra-Luxury",
-  hero: "/banner.jpg",
-  img1: "/banner.jpg",
-  img2: "/banner.jpg",
-  story: "Mayavé is Dholakia Retail's first and defining expression of refined artistry — where every creation is a whisper of rare beauty, crafted for those who seek the extraordinary.",
-  long: "Rooted in the DNA of India's finest diamond heritage and inspired by global luxury codes, Mayavé is built for a clientele that values provenance, silence, and the poetry of the handmade. Each piece is conceived as a singular statement — not merely worn, but experienced.",
-  pillars: [
-    { title: "Bespoke Craftsmanship", desc: "Each creation conceived in private consultation, realised by master artisans." },
-    { title: "Rare Materials", desc: "Only the most exceptional stones, sourced through five decades of expertise." },
-    { title: "Timeless Design", desc: "Pieces that transcend season and trend — made to be passed down." },
-    { title: "Invitation Only", desc: "A brand for those who believe true luxury is never advertised." },
+  hero: "/assets/web/P04_S01_mayave_hero_optA_image.jpg",
+  lookbookHero: "/assets/web/P04_S04_mayave_lookbook_optA_image.jpg",
+  relatedBlog: "/assets/images/P04_S05_mayave_related_blog_optA_image.png",
+  relatedNews: "/assets/images/P04_S06_mayave_related_news_optA_image.png",
+  facts: [
+    { label: "Audience", value: "Private luxury clientele" },
+    { label: "Segment", value: "Bespoke fine jewellery" },
+    { label: "Tone", value: "Quiet, poetic, precise" },
+    { label: "Positioning", value: "Intimate modern elegance" },
   ],
-  strength: "Mayavé draws upon Dholakia Retail's unparalleled diamond sourcing network, world-class manufacturing, and half-century heritage to deliver creations no independent atelier could match.",
-  cta: "Visit Mayavé",
-  url: "https://mayave.com/",
-  audience: "Connoisseurs & Ultra-HNI Collectors",
-  segment: "Bespoke Fine Jewellery",
-  origin: "India",
+  lookbook: [
+    {
+      src: "/assets/web/P04_S04_mayave_lookbook_optA_image.jpg",
+      caption: "Stillness in detail",
+      ratio: "aspect-[4/5]",
+    },
+    {
+      src: "/assets/web/P04_S04_mayave_lookbook_optA_image.jpg",
+      caption: "Light in proportion",
+      ratio: "aspect-[1/1]",
+    },
+    {
+      src: "/assets/web/P03_S03_portfolio_featured_brand_mayave_optA_image.jpg",
+      caption: "The private surface",
+      ratio: "aspect-[4/5]",
+    },
+    {
+      src: "/assets/web/P04_S01_mayave_hero_optA_image.jpg",
+      caption: "Jewellery as whisper",
+      ratio: "aspect-[1/1]",
+    },
+    {
+      src: "/assets/web/P04_S04_mayave_lookbook_optA_image.jpg",
+      caption: "Polished restraint",
+      ratio: "aspect-[16/9]",
+    },
+    {
+      src: "/assets/web/P03_S03_portfolio_featured_brand_mayave_optA_image.jpg",
+      caption: "Material as memory",
+      ratio: "aspect-[4/5]",
+    },
+  ],
+  blog: [
+    {
+      slug: "tension-between-restraint-and-embellishment",
+      cat: "Craft",
+      title: "On the tension between restraint and embellishment",
+      meta: "Craft · 8 min read · 3 April 2026",
+      img: "/assets/images/P04_S05_mayave_related_blog_optA_image.png",
+    },
+    {
+      slug: "why-we-polish-for-nine-hours",
+      cat: "Atelier",
+      title: "Why we polish for nine hours when six would suffice",
+      meta: "Atelier · 6 min read · 12 March 2026",
+      img: "/assets/images/P04_S05_mayave_related_blog_optA_image.png",
+    },
+    {
+      slug: "asha-collection-diamond-cutter",
+      cat: "Conversations",
+      title: "A dialogue with the diamond cutter behind the Asha collection",
+      meta: "Conversations · 12 min read · 24 February 2026",
+      img: "/assets/images/P04_S05_mayave_related_blog_optA_image.png",
+    },
+  ],
+  news: [
+    {
+      slug: "mayave-a-new-chapter-in-bespoke-luxury",
+      cat: "Awards",
+      title: "Mayavé awarded the 2026 Couture Design Prize for the Asha collection",
+      meta: "Awards · 18 March 2026",
+      img: "/assets/images/P04_S06_mayave_related_news_optA_image.png",
+    },
+    {
+      slug: "mayave-a-new-chapter-in-bespoke-luxury",
+      cat: "Brand Launch",
+      title: "Mayavé opens its first private salon outside Surat",
+      meta: "Brand Launch · 5 February 2026",
+      img: "/assets/images/P04_S06_mayave_related_news_optA_image.png",
+    },
+    {
+      slug: "mayave-a-new-chapter-in-bespoke-luxury",
+      cat: "Press",
+      title: "Mayavé featured in Vogue India's Heritage Houses 2026 issue",
+      meta: "Press · 22 January 2026",
+      img: "/assets/images/P04_S06_mayave_related_news_optA_image.png",
+    },
+  ],
 };
 
-const ease = [0.76, 0, 0.24, 1] as const;
-
+/**
+ * Page 4 — Mayavé brand page (/portfolio/mayave)
+ *
+ *  S01 Brand Hero
+ *  S02 Brand Essence
+ *  S03 Brand Facts
+ *  S04 Lookbook (masonry)
+ *  S05 Related Blog
+ *  S06 Related News
+ *  S07 Appointment CTA
+ */
 export function BrandPage() {
-  const heroRef = useRef(null);
+  const { slug } = useParams();
+  const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.18]);
-  const heroOp = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
+  const heroOp = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const [lightbox, setLightbox] = useState<number | null>(null);
+
+  // For now slug is unused (we only have mayave) but supports future brands
+  const isMayave = !slug || slug === "mayave";
+
+  if (!isMayave) {
+    return (
+      <div className="bg-white text-[#0B1426] min-h-screen flex items-center justify-center px-6">
+        <div className="text-center max-w-[480px]">
+          <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-4">
+            Future Territory
+          </p>
+          <h1 className="font-syne text-[2rem] font-normal leading-[1.2]">
+            This brand territory is in development.
+          </h1>
+          <p className="font-dm text-[#0B1426]/60 mt-5">
+            Currently, Mayavé is the active house under Dholakia Retail's portfolio.
+          </p>
+          <Link
+            to="/portfolio/mayave"
+            className="font-dm group inline-flex mt-8 items-center gap-2 px-7 h-12 bg-[#3B6FFF] hover:bg-[#14275C] text-white rounded-sm text-[14px] font-semibold transition-colors duration-300"
+          >
+            Explore Mayavé
+            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="bg-bg-deep text-text-primary">
-
-      {/* ── HERO ── */}
-      <section ref={heroRef} className="relative min-h-[85vh] flex items-end overflow-hidden">
+    <div className="bg-white text-[#0B1426]">
+      {/* P04-S01 — Brand Hero */}
+      <section
+        ref={heroRef}
+        data-header-theme="dark"
+        className="relative h-screen min-h-[640px] overflow-hidden bg-[#0B1426]"
+      >
         <motion.div style={{ scale: heroScale }} className="absolute inset-0">
-          <ImageWithFallback src={MAYAVE.hero} alt="Mayavé" className="w-full h-full object-cover opacity-70" />
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 0%, transparent 30%, var(--bg-deep) 100%)" }} />
-          <div className="absolute inset-0 bg-gradient-to-r from-bg-deep/80 via-bg-deep/40 to-transparent" />
+          <ImageWithFallback
+            src={MAYAVE.hero}
+            alt="Mayavé signature"
+            className="w-full h-full object-cover opacity-80"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0B1426] via-[#0B1426]/40 to-[#0B1426]/30" />
         </motion.div>
 
-        <motion.div style={{ opacity: heroOp }} className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-14 pb-20 w-full">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: ease }}>
-            <Link
-              to="/portfolio"
-              className="font-grotesk inline-flex items-center gap-2 mb-8 transition-colors text-text-muted hover:text-text-primary text-[12px] font-medium tracking-[0.12em] uppercase"
-            >
-              <ArrowLeft size={13} /> Portfolio
-            </Link>
-
-            <div className="flex items-center gap-4 mb-6">
-              <span
-                className="font-grotesk inline-flex items-center gap-2 px-4 py-2 rounded-full border border-glass-border backdrop-blur-md bg-bg-surface-elevated text-text-primary text-[11px] font-bold tracking-[0.16em] uppercase shadow-sm"
-              >
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary/60 opacity-60" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary" />
-                </span>
-                {MAYAVE.tag}
-              </span>
-              <span className="h-px w-10 bg-glass-border" />
-              <span className="font-grotesk text-text-dim text-[10px] font-semibold tracking-[0.12em] uppercase">{MAYAVE.category}</span>
-            </div>
-
-            <h1
-              className="font-syne text-text-primary tracking-tighter leading-none text-[clamp(4rem, 9vw, 11rem)] font-extrabold"
-            >
-              {MAYAVE.name}
-            </h1>
-            <p
-              className="font-syne mt-5 max-w-lg italic font-light text-text-dim text-[clamp(1rem, 1.8vw, 1.4rem)]"
-            >
-              Where Silence Becomes Jewellery
-            </p>
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* ── STORY ── */}
-      <section className="py-28 lg:py-44 border-t border-glass-border bg-bg-deep">
-        <div className="max-w-[900px] mx-auto px-6 lg:px-10">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.9, ease: ease }}>
-            <span className="font-grotesk text-text-dim text-[11px] font-semibold tracking-[0.2em] uppercase">The Story</span>
-            <p
-              className="font-syne mt-8 text-text-secondary font-medium leading-[1.72] text-[clamp(1.2rem, 2.2vw, 1.6rem)]"
-            >
-              {MAYAVE.story}
-            </p>
-            <p
-              className="font-dm mt-6 text-text-muted leading-[1.88] text-[17px]"
-            >
-              {MAYAVE.long}
-            </p>
-            <a
-              href={MAYAVE.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-grotesk group mt-12 inline-flex items-center gap-3 text-[13px] font-semibold tracking-[0.12em] uppercase"
-            >
-              <span className="relative text-text-primary overflow-hidden pb-1">
-                {MAYAVE.cta}
-                <span className="absolute bottom-0 left-0 w-full h-px bg-text-primary -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
-              </span>
-              <span className="flex items-center justify-center w-9 h-9 rounded-full border border-glass-border text-text-primary group-hover:bg-text-primary group-hover:text-bg-deep transition-all duration-400">
-                <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
-              </span>
-            </a>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── PILLARS ── */}
-      <section className="py-28 lg:py-40 bg-bg-surface border-t border-glass-border">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-14">
-          <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="font-grotesk block mb-12 text-text-dim text-[11px] font-semibold tracking-[0.2em] uppercase">Brand Pillars</motion.span>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {MAYAVE.pillars.map((p, i) => (
-              <motion.div
-                key={p.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1, ease: ease }}
-                whileHover={{ y: -4 }}
-                className="p-8 rounded-2xl border border-glass-border bg-bg-surface-elevated hover:bg-bg-surface transition-all shadow-sm hover:shadow-xl"
-              >
-                <p className="font-grotesk text-text-dim mb-2 text-[10px] font-semibold tracking-[0.16em] uppercase">0{i + 1}</p>
-                <h3 className="font-syne text-text-primary text-[20px] font-bold leading-[1.2]">{p.title}</h3>
-                <p className="font-dm mt-3 text-text-muted text-[15px] leading-[1.7]">{p.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── DHOLAKIA ADVANTAGE ── */}
-      <section className="py-28 lg:py-44 border-t border-glass-border bg-bg-deep">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-14 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-          <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 1.1, ease: ease }}>
-            <span className="font-grotesk text-text-dim text-[11px] font-semibold tracking-[0.2em] uppercase">Dholakia Advantage</span>
-            <h2
-              className="font-syne mt-6 text-white tracking-tighter text-[clamp(2rem, 3.5vw, 3.5rem)] font-bold leading-[1.08]"
-            >
-              Backed by<br /><span className="italic font-light text-text-secondary">50 years of heritage</span>
-            </h2>
-            <p className="font-dm mt-8 text-text-muted text-[17px] leading-[1.88]">{MAYAVE.strength}</p>
-            <div className="mt-12 pt-10 border-t border-glass-border flex items-center gap-8">
-              {[{ label: "Audience", val: MAYAVE.audience }, { label: "Segment", val: MAYAVE.segment }, { label: "Origin", val: MAYAVE.origin }].map((m, i, arr) => (
-                <div key={m.label} className="flex items-center gap-8">
-                  <div key={m.label}>
-                    <p className="font-grotesk text-text-dim text-[10px] font-semibold tracking-[0.14em] uppercase">{m.label}</p>
-                    <p className="font-dm mt-1 text-text-secondary text-[14px]">{m.val}</p>
-                  </div>
-                  {i < arr.length - 1 && <div className="w-px h-10 bg-white/10" />}
-                </div>
-              ))}
-            </div>
-          </motion.div>
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 1.3, ease: ease }} className="rounded-[2rem] overflow-hidden border border-glass-border shadow-2xl">
-            <ImageWithFallback src={MAYAVE.img1} alt="Mayavé jewellery craftsmanship" className="w-full h-[440px] object-cover" />
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── GALLERY ── */}
-      <section className="pb-20 border-t border-glass-border bg-bg-deep">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-14 pt-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {[MAYAVE.img1, MAYAVE.img2].map((img, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.96 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: i * 0.12, ease: ease }}
-                className="rounded-2xl overflow-hidden h-[340px] border border-glass-border"
-              >
-                <ImageWithFallback src={img} alt={`Mayavé ${i + 1}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── BOTTOM CTA ── */}
-      <section className="py-28 lg:py-44 bg-bg-surface border-t border-glass-border text-center">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, ease: ease }}
-          className="max-w-[800px] mx-auto px-6"
+          style={{ opacity: heroOp }}
+          className="absolute top-28 left-6 lg:left-12 flex items-center gap-2 text-[12px] z-10"
         >
-          <span className="font-grotesk inline-flex items-center gap-3 mb-8 text-text-dim text-[11px] font-semibold tracking-[0.24em] uppercase">
-            <span className="block w-8 h-px bg-white/20" />
-            Experience Mayavé
-            <span className="block w-8 h-px bg-white/20" />
-          </span>
-          <h2
-            className="font-syne text-text-primary tracking-tighter text-[clamp(2.5rem, 5vw, 5rem)] font-bold leading-[1.05]"
+          <Link to="/" className="font-dm text-white/55 hover:text-white transition-colors">
+            Dholakia Retail
+          </Link>
+          <ChevronRight size={12} className="text-white/45" />
+          <Link to="/portfolio" className="font-dm text-white/55 hover:text-white transition-colors">
+            Portfolio
+          </Link>
+          <ChevronRight size={12} className="text-white/45" />
+          <span className="font-dm text-white/85">Mayavé</span>
+        </motion.div>
+
+        <motion.div
+          style={{ opacity: heroOp }}
+          className="relative z-10 h-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 flex flex-col justify-end pb-24 lg:pb-32"
+        >
+          <p className="font-dm text-white/70 text-[11px] font-medium tracking-[0.22em] uppercase mb-5">
+            Mayavé
+          </p>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 0.4, ease }}
+            className="font-syne text-white font-normal italic leading-[1.04] tracking-[-0.025em] text-[clamp(2.6rem,6vw,5.4rem)] max-w-[18ch]"
           >
-            Where Beauty <span className="italic font-light opacity-70">is Felt</span>
-          </h2>
-          <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-            <a
-              href={MAYAVE.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-grotesk group relative overflow-hidden px-10 py-4 bg-text-primary text-bg-deep rounded-full text-[15px] font-bold shadow-xl"
-            >
-              <span className="relative z-10 flex items-center justify-center gap-2">
-                {MAYAVE.cta} <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-              </span>
-              <div className="absolute inset-0 bg-bg-deep/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-            </a>
+            Where Silence Becomes Jewellery
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.7, ease }}
+            className="font-dm text-white/75 max-w-[58ch] mt-7 text-[clamp(1rem,1.4vw,1.18rem)] leading-[1.7] font-light"
+          >
+            A new chapter in bespoke luxury, crafted for those who seek rarity, intimacy, and refined
+            beauty.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1, ease }}
+            className="mt-10 flex flex-wrap gap-3"
+          >
             <Link
-              to="/portfolio"
-              className="font-grotesk inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-white/15 transition-colors text-text-muted text-[14px] font-medium"
+              to="/contact?type=appointment"
+              className="font-dm group inline-flex items-center gap-2 px-7 h-12 bg-[#3B6FFF] hover:bg-[#14275C] text-white rounded-sm text-[14px] font-semibold transition-colors duration-300"
             >
-              <ArrowLeft size={14} /> Back to Portfolio
+              Book a Private Viewing
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
-          </div>
+          </motion.div>
         </motion.div>
       </section>
 
+      {/* P04-S02 — Brand Essence */}
+      <section className="bg-[#F5F5F7] py-32 lg:py-44 border-y border-[#0B1426]/10">
+        <div className="max-w-[640px] mx-auto px-6 md:px-12 lg:px-20">
+          <div className="border-l border-[#6B8AC9]/40 pl-8">
+            <motion.h2
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.9, ease }}
+              className="font-syne text-[#0B1426] font-normal text-[clamp(1.8rem,3vw,2.6rem)] leading-[1.18] tracking-[-0.01em]"
+            >
+              A language of restraint, intimacy, and rare detail.
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.8, delay: 0.3, ease }}
+              className="font-dm text-[#0B1426]/70 mt-6 text-[clamp(1rem,1.3vw,1.13rem)] leading-[1.75] font-light"
+            >
+              Mayavé should feel like a private room rather than a public display — considered, quiet,
+              and emotionally resonant.
+            </motion.p>
+          </div>
+        </div>
+      </section>
+
+      {/* P04-S03 — Brand Facts */}
+      <section className="bg-white py-20 lg:py-28">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+          <dl className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[#0B1426]/10 border border-[#0B1426]/10">
+            {MAYAVE.facts.map((f, i) => (
+              <motion.div
+                key={f.label}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.6, delay: i * 0.06, ease }}
+                className="bg-white p-8 lg:p-10"
+              >
+                <dt className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.16em] uppercase">
+                  {f.label}
+                </dt>
+                <dd className="font-syne italic text-[#0B1426] text-[clamp(1.1rem,1.6vw,1.4rem)] mt-3">
+                  {f.value}
+                </dd>
+              </motion.div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      {/* P04-S04 — Lookbook (masonry) */}
+      <section className="bg-[#F5F5F7] py-24 lg:py-32 border-y border-[#0B1426]/10">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7 }}
+            className="mb-12 flex items-end justify-between"
+          >
+            <div>
+              <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-4">
+                Lookbook
+              </p>
+              <h2 className="font-syne text-[#0B1426] font-normal text-[clamp(1.6rem,2.6vw,2.2rem)] leading-[1.2]">
+                Stillness, light, and the private surface.
+              </h2>
+            </div>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+            {MAYAVE.lookbook.map((shot, i) => (
+              <motion.button
+                key={i}
+                onClick={() => setLightbox(i)}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.6, delay: i * 0.06, ease }}
+                className={`group block w-full text-left ${shot.ratio} overflow-hidden bg-white relative`}
+              >
+                <ImageWithFallback
+                  src={shot.src}
+                  alt={shot.caption}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <span className="absolute inset-0 bg-[#0B1426]/0 group-hover:bg-[#0B1426]/15 transition-colors duration-500" />
+                <span className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/85 backdrop-blur text-[#3B6FFF] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Expand size={14} />
+                </span>
+                <span className="absolute bottom-3 left-3 right-3 font-syne italic text-white text-[14px] tracking-[0.04em] opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md">
+                  {shot.caption}
+                </span>
+              </motion.button>
+            ))}
+          </div>
+
+          {/* Lightbox modal */}
+          {lightbox !== null && (
+            <div
+              role="dialog"
+              aria-modal
+              onClick={() => setLightbox(null)}
+              className="fixed inset-0 z-[60] bg-black/95 flex items-center justify-center p-6"
+            >
+              <button
+                onClick={() => setLightbox(null)}
+                className="absolute top-6 right-6 text-white text-[28px]"
+                aria-label="Close"
+              >
+                ×
+              </button>
+              <img
+                src={MAYAVE.lookbook[lightbox].src}
+                alt=""
+                className="max-w-[1100px] w-full max-h-[80vh] object-contain"
+              />
+              <p className="absolute bottom-8 left-1/2 -translate-x-1/2 font-syne italic text-white text-[16px]">
+                {MAYAVE.lookbook[lightbox].caption}
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* P04-S05 — Related Blog */}
+      <section className="bg-white py-24 lg:py-32">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+          <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <h2 className="font-syne text-[#0B1426] font-normal text-[clamp(1.6rem,2.6vw,2.2rem)] leading-[1.18]">
+              From the Mayavé journal
+            </h2>
+            <p className="font-dm text-[#0B1426]/65 text-[15px] leading-[1.7] md:max-w-[42ch]">
+              Long-form notes on craft, materials, and the philosophy behind the house.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#0B1426]/10">
+            {MAYAVE.blog.map((post, i) => (
+              <motion.div
+                key={post.slug}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease }}
+                className="bg-white"
+              >
+                <Link to={`/blog/${post.slug}`} className="group block">
+                  <div className="aspect-[16/9] overflow-hidden">
+                    <ImageWithFallback
+                      src={post.img}
+                      alt={post.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                  </div>
+                  <div className="p-7">
+                    <p className="font-dm text-[#3B6FFF] text-[10px] font-medium tracking-[0.16em] uppercase">
+                      {post.cat}
+                    </p>
+                    <h3 className="font-syne text-[#0B1426] mt-3 text-[18px] font-medium leading-[1.35] line-clamp-3 group-hover:text-[#3B6FFF] transition-colors">
+                      {post.title}
+                    </h3>
+                    <p className="font-dm text-[#0B1426]/55 mt-3 text-[13px]">{post.meta}</p>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <Link
+              to="/blog?category=mayave"
+              className="font-dm group inline-flex items-center gap-2 px-7 h-12 border-2 border-[#3B6FFF] text-[#3B6FFF] hover:bg-[#3B6FFF] hover:text-white rounded-sm text-[14px] font-semibold transition-all duration-300"
+            >
+              Read the full journal
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* P04-S06 — Related News */}
+      <section className="bg-[#F5F5F7] py-20 lg:py-28 border-y border-[#0B1426]/10">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+          <div className="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <h2 className="font-syne text-[#0B1426] font-normal text-[clamp(1.4rem,2.4vw,2rem)] leading-[1.2]">
+              Mayavé in the news
+            </h2>
+            <Link
+              to="/news?category=mayave"
+              className="font-dm group inline-flex items-center gap-2 text-[#0B1426] hover:text-[#3B6FFF] transition-colors text-[13px] font-semibold"
+            >
+              View all Mayavé press
+              <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+
+          <ul className="border-t border-[#0B1426]/10">
+            {MAYAVE.news.map((n, i) => (
+              <motion.li
+                key={n.slug}
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ duration: 0.5, delay: i * 0.06, ease }}
+                className="border-b border-[#0B1426]/10"
+              >
+                <Link
+                  to={`/news/${n.slug}`}
+                  className="group flex items-center gap-5 lg:gap-8 py-5 hover:bg-white/50 transition-colors px-2"
+                >
+                  <div className="w-24 h-14 lg:w-32 lg:h-20 overflow-hidden bg-white shrink-0">
+                    <ImageWithFallback
+                      src={n.img}
+                      alt={n.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-dm text-[#3B6FFF] text-[10px] font-medium tracking-[0.16em] uppercase">
+                      {n.cat}
+                    </p>
+                    <h3 className="font-syne text-[#0B1426] mt-1.5 text-[clamp(1rem,1.3vw,1.18rem)] font-medium leading-[1.35] line-clamp-2 group-hover:text-[#3B6FFF] transition-colors">
+                      {n.title}
+                    </h3>
+                    <p className="font-dm text-[#0B1426]/55 mt-1 text-[12px]">{n.meta}</p>
+                  </div>
+                  <ArrowUpRight
+                    size={18}
+                    className="text-[#0B1426]/40 group-hover:text-[#3B6FFF] group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-300 shrink-0"
+                  />
+                </Link>
+              </motion.li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* P04-S07 — Appointment CTA */}
+      <section className="bg-white py-32 lg:py-44">
+        <div className="max-w-[820px] mx-auto px-6 md:px-12 lg:px-20 text-center">
+          <motion.h2
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.9, ease }}
+            className="font-syne text-[#0B1426] font-normal italic text-[clamp(1.8rem,3.4vw,2.8rem)] leading-[1.15]"
+          >
+            By appointment, by intention.
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, delay: 0.3, ease }}
+            className="font-dm text-[#0B1426]/65 max-w-[58ch] mx-auto mt-6 text-[clamp(1rem,1.3vw,1.13rem)] leading-[1.7] font-light"
+          >
+            For private consultations, bespoke discussions, and brand inquiries, connect with Mayavé
+            directly through Dholakia Retail.
+          </motion.p>
+          <Link
+            to="/contact?type=appointment"
+            className="font-dm group inline-flex mt-9 items-center gap-2 px-8 h-13 bg-[#3B6FFF] hover:bg-[#14275C] text-white rounded-sm text-[14px] font-semibold transition-colors duration-300"
+          >
+            Arrange a Viewing
+            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

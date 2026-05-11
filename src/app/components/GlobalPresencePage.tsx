@@ -1,192 +1,154 @@
 import { Link } from "react-router";
-import { ArrowRight, MapPin } from "lucide-react";
+import { Building2, Briefcase, Globe2, ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
+import { ImageWithFallback } from "./figma/ImageWithFallback";
 
-const ease = [0.76, 0, 0.24, 1] as const;
+const ease = [0.65, 0, 0.35, 1] as const;
 
-const locations = [
+/* P08-S02 — 3 locations per build spec */
+const FOOTPRINT = [
   {
-    num: "01",
+    icon: Building2,
+    region: "01",
     city: "Surat",
-    role: "Corporate Base",
-    body: "The corporate seat of Dholakia Retail, located within Surat's Gem & Jewellery Park — at the centre of India's diamond ecosystem.",
-    address: "Gem & Jewellery Park, Ichhapore, Surat, Gujarat – 394510, India",
+    note: "Headquarters and diamond ecosystem base",
   },
   {
-    num: "02",
+    icon: Briefcase,
+    region: "02",
     city: "Mumbai",
-    role: "Commercial Presence",
-    body: "Linked through commercial and retail-facing engagements, supporting brand-development conversations and partner relations.",
-    address: "Commercial liaison — by appointment",
+    note: "Commercial and brand activation hub",
   },
   {
-    num: "03",
-    city: "International",
-    role: "Wider Group Footprint",
-    body: "Connected through the wider Dholakia Group's established presence — Antwerp, Hong Kong, New York — for sourcing, partnerships, and brand expansion.",
-    address: "Wider group offices and partner facilities",
+    icon: Globe2,
+    region: "03",
+    city: "New York-linked group presence",
+    note: "Wider Dholakia Group context",
   },
 ];
 
+/**
+ * Page 8 — Global Presence & Partnerships
+ */
 export function GlobalPresencePage() {
   return (
-    <div className="bg-bg-deep text-text-primary">
-      {/* HERO */}
-      <section className="relative h-screen min-h-[600px] flex items-end overflow-hidden bg-bg-deep">
-        <div className="absolute inset-0 opacity-30">
-          <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid meet" className="w-full h-full">
-            <defs>
-              <pattern id="globegrid" width="60" height="60" patternUnits="userSpaceOnUse">
-                <path d="M 60 0 L 0 0 0 60" fill="none" stroke="var(--brand-primary)" strokeWidth="0.4" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#globegrid)" />
-            <motion.ellipse initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 3.5, ease: "easeOut" }} cx="600" cy="300" rx="500" ry="220" fill="none" stroke="var(--brand-primary)" strokeWidth="1" />
-            <motion.ellipse initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 3.5, ease: "easeOut", delay: 0.4 }} cx="600" cy="300" rx="320" ry="140" fill="none" stroke="var(--brand-primary)" strokeWidth="0.7" />
-            {/* location dots */}
-            {[
-              { x: 480, y: 240 }, // Surat
-              { x: 510, y: 250 }, // Mumbai
-              { x: 720, y: 215 }, // Asia
-              { x: 320, y: 220 }, // Europe
-              { x: 270, y: 290 }, // NY
-            ].map((p, i) => (
-              <motion.circle
-                key={i}
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 1.5 + i * 0.15, duration: 0.5 }}
-                cx={p.x} cy={p.y} r="6"
-                fill="var(--brand-primary)"
-              />
-            ))}
-          </svg>
-        </div>
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 pb-20 lg:pb-32 w-full">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: ease }}>
-            <span className="font-grotesk text-text-secondary tracking-[0.22em] uppercase text-[12px] font-semibold">Global Presence</span>
-            <h1 className="font-syne mt-6 max-w-3xl text-text-primary tracking-tighter text-[clamp(2.4rem,5vw,4.6rem)] font-bold leading-[1.05]">
-              Rooted in Surat.<br /><span className="italic font-light text-text-secondary">Built for beyond.</span>
-            </h1>
-            <p className="font-dm mt-8 max-w-xl text-text-secondary text-[17px] leading-[1.85]">
-              Dholakia Retail draws on Surat's standing in the diamond ecosystem while shaping a global growth story of its own.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+    <div className="bg-white text-[#0B1426]">
+      {/* P08-S01 — Hero */}
+      <section
+        data-header-theme="dark"
+        className="relative h-[80vh] min-h-[560px] flex items-end overflow-hidden bg-[#0B1426]"
+      >
+        <ImageWithFallback
+          src="/assets/images/P08_S01_global_presence_partnerships_hero_optA_image.png"
+          alt="Surat — global gateway"
+          className="absolute inset-0 w-full h-full object-cover opacity-80"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1426] via-[#0B1426]/40 to-transparent" />
 
-      {/* ECOSYSTEM FOOTPRINT */}
-      <section className="py-28 lg:py-40 bg-bg-surface border-y border-glass-border">
-        <div className="max-w-[1300px] mx-auto px-6 lg:px-12">
-          <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.9, ease: ease }} className="text-center mb-20 max-w-2xl mx-auto">
-            <span className="font-grotesk text-text-muted tracking-[0.22em] uppercase text-[12px] font-semibold">Ecosystem Footprint</span>
-            <h2 className="font-syne mt-4 text-text-primary text-[clamp(1.8rem,3.5vw,2.8rem)] font-bold leading-[1.15]">
-              From Surat outward.
-            </h2>
-            <p className="font-dm mt-6 text-text-secondary text-[15px] leading-[1.85]">
-              Dholakia Retail's own footprint, supported by the wider Dholakia Group's established international relationships.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {locations.map((l, i) => (
-              <motion.div
-                key={l.num}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.7, delay: i * 0.12, ease: ease }}
-                whileHover={{ y: -4 }}
-                className="p-10 rounded-3xl bg-bg-surface-elevated border border-glass-border hover:border-brand-primary/30 transition-all"
-              >
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="font-syne italic font-light text-brand-primary text-[2.4rem] leading-none">{l.num}</div>
-                  <MapPin size={20} strokeWidth={1.5} className="text-brand-primary" />
-                </div>
-                <h3 className="font-syne text-text-primary text-[26px] font-bold tracking-[-0.02em]">{l.city}</h3>
-                <p className="font-grotesk mt-2 text-text-muted tracking-[0.16em] uppercase text-[11px] font-semibold">{l.role}</p>
-                <p className="font-dm mt-5 text-text-secondary text-[15px] leading-[1.8]">{l.body}</p>
-                <div className="mt-6 pt-6 border-t border-glass-border">
-                  <p className="font-grotesk text-text-muted tracking-[0.14em] uppercase text-[10px] font-semibold mb-2">Address</p>
-                  <p className="font-dm text-text-secondary text-[13px] leading-[1.7]">{l.address}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.6 }}
-            className="font-dm mt-10 text-text-muted text-center italic text-[13px]"
+        <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 pb-20 lg:pb-28 w-full">
+          <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-5">
+            Global Presence
+          </p>
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.3, ease }}
+            className="font-syne text-white font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(2.2rem,5vw,4.4rem)] max-w-[20ch]"
           >
-            Note: Locations 02 and 03 reflect commercial liaisons and the wider Dholakia Group footprint, not a separate retail network.
+            Built in Surat. Positioned for Broader Markets.
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.6, ease }}
+            className="font-dm text-white/75 max-w-[58ch] mt-7 text-[clamp(1rem,1.3vw,1.18rem)] leading-[1.7] font-light"
+          >
+            Dholakia Retail draws strength from Surat's place within the diamond ecosystem while
+            aligning to a broader global growth story.
           </motion.p>
         </div>
       </section>
 
-      {/* PARTNERSHIPS — long-form essay */}
-      <section className="py-28 lg:py-40 bg-bg-deep">
-        <div className="max-w-[760px] mx-auto px-6 lg:px-10">
-          <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.9, ease: ease }} className="mb-12">
-            <span className="font-grotesk text-text-muted tracking-[0.22em] uppercase text-[12px] font-semibold">Partnerships</span>
-            <h2 className="font-syne mt-4 text-text-primary text-[clamp(1.8rem,3.5vw,2.8rem)] font-bold leading-[1.15]">
-              A platform built for partnerships.
+      {/* P08-S02 — Ecosystem Footprint */}
+      <section className="bg-white py-28 lg:py-36">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7 }}
+            className="mb-14 max-w-[820px]"
+          >
+            <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-5">
+              Footprint
+            </p>
+            <h2 className="font-syne text-[#0B1426] font-normal text-[clamp(1.7rem,2.8vw,2.4rem)] leading-[1.18]">
+              Where the house operates today.
             </h2>
           </motion.div>
-          <div className="space-y-7 font-dm text-text-secondary text-[16px] leading-[1.9]">
-            <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, ease: ease }}>
-              Our structure is purpose-built for retail development, strategic growth, and serious brand expansion conversations. We are open to partners aligned with the platform's values — heritage, ethics, and the discipline of restraint.
-            </motion.p>
-            <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.1, ease: ease }}>
-              Whether you are an emerging house seeking governance and creative direction, an established brand exploring portfolio integration, or a retail partner with a proposition that fits, we welcome the conversation.
-            </motion.p>
-            <motion.blockquote
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.9, ease: ease }}
-              className="border-l-2 border-brand-primary pl-6 my-8 font-syne italic text-text-primary text-[clamp(1.2rem,2vw,1.6rem)] leading-[1.4]"
-            >
-              We don't grow by adding logos. We grow by adding houses we can stand behind for decades.
-            </motion.blockquote>
-            <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.1, ease: ease }}>
-              Partnership conversations move at the pace of due diligence — never the pace of campaigns. The first call is always private and exploratory.
-            </motion.p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#0B1426]/10">
+            {FOOTPRINT.map((f, i) => (
+              <motion.div
+                key={f.region}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease }}
+                className="bg-white p-10 lg:p-12"
+              >
+                <f.icon size={26} strokeWidth={1.5} className="text-[#3B6FFF]" />
+                <p className="font-syne italic text-[#3B6FFF] text-[1.6rem] mt-6 leading-none">
+                  {f.region}
+                </p>
+                <p className="font-syne text-[#0B1426] mt-3 text-[clamp(1.2rem,1.6vw,1.5rem)] font-medium leading-[1.3]">
+                  {f.city}
+                </p>
+                <p className="font-dm text-[#0B1426]/65 mt-3 text-[14px] leading-[1.6]">{f.note}</p>
+              </motion.div>
+            ))}
           </div>
+          <p className="font-dm text-[#0B1426]/45 text-[12.5px] mt-6 italic">
+            Phrasing carefully distinguishes Dholakia Retail from the wider group context.
+          </p>
         </div>
       </section>
 
-      {/* CLOSER CTA */}
-      <section className="py-24 lg:py-32 bg-bg-surface border-t border-glass-border">
-        <div className="max-w-[1100px] mx-auto px-6 lg:px-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      {/* P08-S03 — Partnerships */}
+      <section className="bg-[#F5F5F7] py-28 lg:py-36 border-y border-[#0B1426]/10">
+        <div className="max-w-[820px] mx-auto px-6 md:px-12 lg:px-20 text-center">
+          <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-5">
+            Partnerships
+          </p>
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.9, ease: ease }}
-            className="font-syne text-text-primary text-[clamp(1.6rem,3vw,2.4rem)] font-bold leading-[1.15]"
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.9, ease }}
+            className="font-syne text-[#0B1426] font-normal text-[clamp(1.7rem,2.8vw,2.4rem)] leading-[1.18]"
           >
-            Begin a partnership conversation.
+            Designed for future collaboration.
           </motion.h2>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.9, delay: 0.15, ease: ease }}
+          <p className="font-dm text-[#0B1426]/65 mt-6 text-[clamp(1rem,1.3vw,1.13rem)] leading-[1.75] font-light">
+            The platform is built to support partnerships across retail development, strategic
+            growth, and brand expansion conversations.
+          </p>
+        </div>
+      </section>
+
+      {/* P08-S04 — CTA */}
+      <section className="bg-white py-28 lg:py-36">
+        <div className="max-w-[820px] mx-auto px-6 md:px-12 lg:px-20 text-center">
+          <h2 className="font-syne text-[#0B1426] font-normal text-[clamp(1.6rem,2.6vw,2.2rem)] leading-[1.2]">
+            Open to partners with the right ambition.
+          </h2>
+          <Link
+            to="/contact?type=partnership"
+            className="font-dm group inline-flex items-center gap-2 mt-8 px-8 h-13 bg-[#3B6FFF] hover:bg-[#14275C] text-white rounded-sm text-[14px] font-semibold transition-colors duration-300"
           >
-            <p className="font-dm text-text-secondary text-[16px] leading-[1.85]">
-              Every serious enquiry is read by the partnerships team and answered within 48 hours.
-            </p>
-            <Link
-              to="/contact?type=partnership"
-              className="font-grotesk group inline-flex items-center gap-3 mt-8 px-8 py-4 bg-text-primary text-bg-deep rounded-full text-[14px] font-semibold tracking-[0.04em]"
-            >
-              Begin a partnership conversation
-              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-            </Link>
-          </motion.div>
+            Partner with the House
+            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
+          </Link>
         </div>
       </section>
     </div>

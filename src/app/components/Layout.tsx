@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router";
-import { MagneticCursor } from "./MagneticCursor";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { ScrollProgress } from "./ScrollProgress";
@@ -11,26 +10,24 @@ export function Layout() {
   const location = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
+    // Reset scroll on route change unless there's an in-page anchor
+    if (location.hash) {
+      const el = document.getElementById(location.hash.slice(1));
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+    }
+    window.scrollTo({ top: 0 });
+  }, [location.pathname, location.hash]);
 
   return (
-    <div className="min-h-screen bg-bg-deep text-text-primary selection:bg-brand-primary selection:text-white overflow-x-hidden font-dm" style={{ cursor: "none" }}>
-
-      {/* Global Magnetic Cursor */}
-      <MagneticCursor />
-
-      {/* Cinematic Scroll Progress Bar */}
+    <div className="min-h-screen bg-bg-deep text-text-primary selection:bg-[#3B6FFF] selection:text-white overflow-x-hidden font-dm">
       <ScrollProgress />
-
-      {/* Unified Header */}
-      <Header variant="global" />
-
-      <main className="pt-0">
+      <Header />
+      <main>
         <Outlet />
       </main>
-
-      {/* Unified Footer */}
       <Footer />
     </div>
   );

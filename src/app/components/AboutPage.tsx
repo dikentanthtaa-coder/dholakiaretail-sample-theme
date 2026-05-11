@@ -1,308 +1,527 @@
+"use client";
+
 import { Link } from "react-router";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Building2, Hash, MapPin, Calendar, Linkedin, CircleDot } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { COMPANY } from "./constants";
 
-const ease = [0.76, 0, 0.24, 1] as const;
+const ease = [0.65, 0, 0.35, 1] as const;
+const EASE_STANDARD = [0.25, 0.1, 0.25, 1] as const;
 
-const timeline = [
-  { year: "1972", title: "The Beginning",          desc: "Founded as a family diamond polishing enterprise in Surat." },
-  { year: "1988", title: "Retail Expansion",        desc: "Entered the retail jewelry market with the first branded showroom." },
-  { year: "1998", title: "Kisna Launch",            desc: "Launched Kisna as an accessible premium diamond jewelry brand." },
-  { year: "2005", title: "Manufacturing Scale",     desc: "Opened state-of-the-art facility with 5,000+ artisans." },
-  { year: "2012", title: "RARE Debut",              desc: "Introduced RARE as the ultra-luxury bespoke jewelry brand." },
-  { year: "2018", title: "Global Reach",            desc: "Expanded to 25+ countries across Asia, Middle East, and Europe." },
-  { year: "2024", title: "Corporate Consolidation", desc: "Established Dholakia Retail Private Limited to govern the growing brand portfolio." },
-  { year: "2026", title: "Digital Future",          desc: "Next-generation investor portal and digital brand experiences." },
+type Milestone = { yearLabel: string; yearCount?: number; title: string; body: string };
+
+const MILESTONES: Milestone[] = [
+  {
+    yearLabel: "2024",
+    yearCount: 2024,
+    title: "Dholakia Retail is incorporated.",
+    body:
+      "Dholakia Retail Private Limited is incorporated in 2024, establishing the corporate vehicle through which a new generation of Indian luxury jewellery brands will be conceived, capitalised, and stewarded. The company is structured from inception with institutional governance, long-horizon ownership, and the operating discipline required to build a multi-house portfolio with patience and precision.",
+  },
+  {
+    yearLabel: "Foundation",
+    title: "Corporate identity and registered office established in Surat.",
+    body:
+      "Corporate identity, governance frameworks, and the registered office at the Gem & Jewellery Park, Ichhapore are formally established — placing the platform inside Surat's centre of cutting, polishing, and craft expertise. Reporting structures, financial controls, and brand-stewardship protocols are codified to support a portfolio designed to operate across multiple price points, design territories, and audiences.",
+  },
+  {
+    yearLabel: "Next chapter",
+    title: "Portfolio expansion and retail brand development.",
+    body:
+      "The platform begins building out its first house — Mayavé — and architects future territories spanning bespoke fine jewellery, bridal, everyday luxury, and high-jewellery editions. Each future house is designed to serve a specific audience and emotional register while drawing on a shared standard of provenance, governance, and craft. The roadmap is deliberately patient: brands launch only when their foundations meet the standard.",
+  },
 ];
 
-const stats = [
-  { v: "10,000+", l: "Employees",       sub: "Skilled artisans & professionals" },
-  { v: "25+",     l: "Export Markets",  sub: "Across Asia, Middle East & Europe" },
-  { v: "500K+",   l: "Pieces Annually", sub: "Crafted with precision every year" },
-  { v: "4",       l: "Portfolio Brands", sub: "Each curated for a distinct luxury tier" },
+function useReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mql.matches);
+    const onChange = (e: MediaQueryListEvent) => setReduced(e.matches);
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
+  }, []);
+  return reduced;
+}
+
+function CountUp({ to, durationMs = 1000 }: { to: number; durationMs?: number }) {
+  const [value, setValue] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !started.current) {
+            started.current = true;
+            const start = performance.now();
+            const tick = (now: number) => {
+              const elapsed = now - start;
+              const progress = Math.min(elapsed / durationMs, 1);
+              setValue(Math.floor(to * progress));
+              if (progress < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [to, durationMs]);
+
+  return <span ref={ref}>{value}</span>;
+}
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+const LEADERSHIP_IMG = "/assets/web/P02_S03_the_group_leadership_optA_image.jpg";
+const ABOUT_HERO_IMG = "/assets/images/P02_S05_the_group_timeline_optA_image.png";
+const TIMELINE_IMG = "/assets/images/P02_S05_the_group_timeline_optA_image.png";
+
+const LEADERS = [
+  {
+    name: "Director Name",
+    role: "Founder · Chair",
+    bio: "Director information will be populated from public records or client-approved internal materials.",
+    img: LEADERSHIP_IMG,
+  },
+  {
+    name: "Director Name",
+    role: "Managing Director",
+    bio: "Director information will be populated from public records or client-approved internal materials.",
+    img: LEADERSHIP_IMG,
+  },
+  {
+    name: "Director Name",
+    role: "Chief Operating Officer",
+    bio: "Director information will be populated from public records or client-approved internal materials.",
+    img: LEADERSHIP_IMG,
+  },
+  {
+    name: "Director Name",
+    role: "Head of Sustainability",
+    bio: "Director information will be populated from public records or client-approved internal materials.",
+    img: LEADERSHIP_IMG,
+  },
 ];
 
+const IDENTITY = [
+  { icon: Building2, label: "Company Name", value: COMPANY.legalName },
+  { icon: Hash, label: "CIN", value: COMPANY.cin, mono: true },
+  { icon: Hash, label: "ROC", value: COMPANY.roc },
+  { icon: MapPin, label: "Registered Office", value: COMPANY.registeredOffice },
+  { icon: Calendar, label: "Established", value: COMPANY.established },
+];
+
+/**
+ * Page 2 — The Group (/the-group)
+ *
+ *  S01 About Hero
+ *  S02 Corporate Identity (data table)
+ *  S03 Leadership grid
+ *  S04 Philosophy pull-quote
+ *  S05 Timeline
+ */
 export function AboutPage() {
-  const heroRef = useRef(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const timelineSectionRef = useRef<HTMLElement>(null);
+  const railFillRef = useRef<SVGLineElement>(null);
+  const reduced = useReducedMotion();
+
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
+  const heroOp = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
+  useEffect(() => {
+    const fill = railFillRef.current;
+    const section = timelineSectionRef.current;
+    if (!fill || !section) return;
+
+    if (reduced) {
+      fill.setAttribute("stroke-dashoffset", "0");
+      return;
+    }
+
+    gsap.set(fill, { attr: { "stroke-dashoffset": 1 } });
+
+    const trigger = ScrollTrigger.create({
+      trigger: section,
+      start: "top 70%",
+      end: "bottom 30%",
+      scrub: 0.6,
+      onUpdate: (self) => {
+        gsap.set(fill, { attr: { "stroke-dashoffset": 1 - self.progress } });
+      },
+    });
+
+    return () => {
+      trigger.kill();
+    };
+  }, [reduced]);
 
   return (
-    <div className="bg-bg-deep text-text-primary">
-
-      {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section ref={heroRef} className="relative h-[70vh] min-h-[450px] flex items-center overflow-hidden">
+    <div className="bg-white text-[#0B1426]">
+      {/* P02-S01 — About Hero */}
+      <section
+        ref={heroRef}
+        data-header-theme="dark"
+        className="relative h-screen min-h-[600px] flex items-end overflow-hidden bg-[#0B1426]"
+      >
         <motion.div style={{ scale: heroScale }} className="absolute inset-0">
           <ImageWithFallback
-            src="https://images.unsplash.com/photo-1655111379423-b85edc4da9ac?q=80&w=2400&auto=format&fit=crop"
-            alt="Heritage artisan hands"
-            className="w-full h-full object-cover"
+            src={ABOUT_HERO_IMG}
+            alt="Founder portrait — black-and-white editorial"
+            className="w-full h-full object-cover opacity-80"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-bg-deep/60 dark:from-black/60 via-bg-deep/40 dark:via-black/40 to-bg-deep" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0B1426] via-[#0B1426]/30 to-[#0B1426]/40" />
         </motion.div>
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-10">
-          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: ease }}>
-            <span className="font-grotesk text-text-secondary tracking-[0.18em] uppercase text-[13px] font-medium">About Us</span>
-            <h1 className="font-syne mt-4 text-text-primary max-w-3xl text-[clamp(2.5rem,5vw,4.5rem)] font-bold leading-[1.05] tracking-[-0.03em]">
-              The Vision Behind<br /><span className="italic font-light opacity-80">Modern Luxury</span>
-            </h1>
-            <p className="font-dm mt-6 text-text-secondary max-w-lg text-[17px] leading-[1.7]">
-              A heritage-rooted enterprise building the future of luxury retail with innovation, integrity, and artistry.
-            </p>
-          </motion.div>
+
+        <motion.div
+          style={{ opacity: heroOp }}
+          className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 pb-20 lg:pb-32 w-full"
+        >
+          <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-5">
+            The Group
+          </p>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease, delay: 0.3 }}
+            className="font-syne text-white font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(2.4rem,5.5vw,5rem)] max-w-[20ch]"
+          >
+            A New Corporate Chapter
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease, delay: 0.6 }}
+            className="font-dm text-white/75 max-w-[58ch] mt-7 text-[clamp(1rem,1.4vw,1.18rem)] leading-[1.7] font-light"
+          >
+            Established in 2024, Dholakia Retail was created to build, guide, and grow luxury jewellery
+            brands with governance, precision, and long-term vision.
+          </motion.p>
+        </motion.div>
+      </section>
+
+      {/* P02-S02 — Corporate Identity */}
+      <section className="bg-[#F5F5F7] py-24 lg:py-32 border-y border-[#0B1426]/10">
+        <div className="max-w-[1100px] mx-auto px-6 md:px-12 lg:px-20">
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7 }}
+            className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-12"
+          >
+            Corporate Identity
+          </motion.p>
+
+          <dl className="border-t border-[#0B1426]/10">
+            {IDENTITY.map((row, i) => (
+              <motion.div
+                key={row.label}
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ duration: 0.5, delay: i * 0.06, ease }}
+                className="group flex items-start gap-6 py-6 border-b border-[#0B1426]/10 hover:bg-white/50 transition-colors"
+              >
+                <div className="hidden md:flex items-center justify-center w-9 h-9 text-[#3B6FFF] shrink-0">
+                  <row.icon size={18} strokeWidth={1.5} />
+                </div>
+                <dt className="font-dm text-[#0B1426]/55 text-[11px] font-medium tracking-[0.16em] uppercase w-full md:w-[200px] shrink-0 pt-1">
+                  {row.label}
+                </dt>
+                <dd
+                  className={
+                    row.mono
+                      ? "font-mono text-[#0B1426] text-[15px] flex-1"
+                      : "font-syne text-[#0B1426] italic text-[clamp(1rem,1.4vw,1.2rem)] flex-1"
+                  }
+                >
+                  {row.value}
+                </dd>
+              </motion.div>
+            ))}
+          </dl>
         </div>
       </section>
 
-      {/* ── INTRODUCTION ────────────────────────────────────────────────── */}
-      <section className="py-28 lg:py-40 bg-bg-deep">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-10 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+      {/* P02-S03 — Leadership */}
+      <section id="leadership" className="bg-white py-32 lg:py-40">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
           <motion.div
-            initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.9, ease: ease }}
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease }}
+            className="mb-14 max-w-[820px]"
           >
-            <h2 className="font-syne text-text-primary text-[clamp(1.8rem, 3vw, 2.5rem)] font-bold leading-[1.15] tracking-[-0.03em]">
-              Building the Future of Luxury Retail
-            </h2>
-            <p className="font-dm mt-6 text-text-secondary text-[16px] leading-[1.8]">
-              Established in 2024, Dholakia Retail Private Limited serves as the corporate foundation for our growing portfolio of luxury jewellery brands. Headquartered in Surat, Gujarat—India's renowned diamond processing hub—we are uniquely positioned at the intersection of tradition and innovation.
+            <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-5">
+              Leadership
             </p>
-            <p className="font-dm mt-4 text-text-secondary text-[16px] leading-[1.8]">
-              Our commitment to quality, authenticity, and customer experience drives everything we do. As a registered corporate entity (CIN: U32111GJ2024PTC155690), we maintain the highest standards of governance and transparency.
+            <h2 className="font-syne text-[#0B1426] font-normal leading-[1.1] tracking-[-0.02em] text-[clamp(1.9rem,3.4vw,3.2rem)]">
+              Guided by long-term thinking.
+            </h2>
+            <p className="font-dm text-[#0B1426]/65 mt-5 max-w-[60ch] text-[clamp(1rem,1.3vw,1.1rem)] leading-[1.7] font-light">
+              Decisions made with patience and precision — names and roles populated from public records
+              or client-approved internal information only.
             </p>
           </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#0B1426]/10">
+            {LEADERS.map((p, i) => (
+              <motion.article
+                key={i}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.7, delay: i * 0.08, ease }}
+                className="bg-white group"
+              >
+                <div className="aspect-[4/5] overflow-hidden bg-[#F5F5F7]">
+                  <ImageWithFallback
+                    src={p.img}
+                    alt={p.name}
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="font-syne text-[#0B1426] text-[18px] font-medium">{p.name}</h3>
+                  <p className="font-dm text-[#0B1426]/55 text-[11px] font-medium tracking-[0.16em] uppercase mt-1.5">
+                    {p.role}
+                  </p>
+                  <p className="font-dm text-[#0B1426]/70 text-[13px] leading-[1.6] mt-4">{p.bio}</p>
+                  <span className="inline-flex items-center gap-1 mt-5 text-[#3B6FFF] text-[12px] font-medium">
+                    <Linkedin size={14} strokeWidth={1.6} /> Profile
+                  </span>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+
+          <div id="governance" className="mt-14 flex flex-wrap gap-x-10 gap-y-4 text-[14px]">
+            {[
+              ["Governance Framework", "/legal/disclaimer"],
+              ["Code of Conduct", "/legal/terms"],
+              ["Ethical Sourcing Charter", "/legal/terms"],
+            ].map(([label, path]) => (
+              <Link
+                key={label}
+                to={path}
+                className="font-dm text-[#0B1426]/70 hover:text-[#3B6FFF] underline-offset-4 hover:underline transition-colors"
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* P02-S04 — Philosophy */}
+      <section className="bg-[#F5F5F7] py-32 lg:py-44 border-y border-[#0B1426]/10">
+        <div className="max-w-[820px] mx-auto px-6 md:px-12 lg:px-20 text-center relative">
+          <span
+            aria-hidden
+            className="font-syne italic text-[#3B6FFF]/8 absolute -top-12 left-1/2 -translate-x-1/2 text-[14rem] leading-none select-none pointer-events-none"
+          >
+            "
+          </span>
+          <motion.blockquote
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 1, ease }}
+            className="relative font-syne text-[#0B1426] font-normal italic leading-[1.18] tracking-[-0.01em] text-[clamp(1.6rem,3vw,2.6rem)]"
+          >
+            The parent company exists to give every brand more room to become itself.
+          </motion.blockquote>
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.9, delay: 0.4, ease }}
+            className="font-dm text-[#0B1426]/65 max-w-[58ch] mx-auto mt-9 text-[1.05rem] leading-[1.7] font-light"
+          >
+            Its purpose is to provide clarity, direction, and discipline without diminishing the
+            individuality of the brands it supports.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* P02-S05 — Timeline */}
+      <section ref={timelineSectionRef} className="bg-white" style={{ paddingTop: "120px", paddingBottom: "120px" }}>
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+          <div className="max-w-2xl mb-16 md:mb-24">
+            <motion.p
+              className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-5"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.5 }}
+            >
+              Timeline
+            </motion.p>
+            <motion.h2
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.6, ease: EASE_STANDARD }}
+              style={{
+                fontSize: "clamp(1.875rem, 3.4vw, 3rem)",
+                lineHeight: 1.15,
+                letterSpacing: "-0.015em",
+              }}
+              className="font-syne text-[#0B1426] font-normal"
+            >
+              From incorporation to future portfolio growth
+            </motion.h2>
+          </div>
+
           <motion.div
-            initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.9, ease: ease }}
-            className="rounded-3xl overflow-hidden border border-glass-border"
+            initial={{ opacity: 0, scale: 0.97 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.9, ease }}
+            className="aspect-[3/4] sm:aspect-[16/9] overflow-hidden bg-[#F5F5F7] mb-16 max-w-[680px] mx-auto"
           >
             <ImageWithFallback
-              src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=85&w=1800&auto=format&fit=crop"
-              alt="Luxury store interior"
-              className="w-full h-[400px] lg:h-[500px] object-cover"
+              src={TIMELINE_IMG}
+              alt="Heritage timeline marker"
+              className="w-full h-full object-cover"
             />
           </motion.div>
-        </div>
-      </section>
 
-      {/* ── TIMELINE ────────────────────────────────────────────────────── */}
-      <section className="py-28 lg:py-40 bg-bg-surface border-y border-glass-border">
-        <div className="max-w-[1000px] mx-auto px-6 lg:px-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }} transition={{ duration: 0.8, ease: ease }}
-            className="text-center mb-20"
-          >
-            <span className="font-grotesk text-text-muted tracking-[0.18em] uppercase text-[13px] font-medium">Our Journey</span>
-            <h2 className="font-syne mt-3 text-text-primary text-[clamp(1.8rem, 3vw, 2.5rem)] font-bold tracking-[-0.03em]">Heritage Timeline</h2>
-          </motion.div>
           <div className="relative">
-            <div className="absolute left-8 lg:left-1/2 top-0 bottom-0 w-px bg-glass-border" />
-            <div className="space-y-12">
-              {timeline.map((t, i) => (
-                <motion.div
-                  key={t.year}
-                  initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.7, ease: ease }}
-                  className={`relative flex items-start gap-6 lg:gap-0 ${
-                    i % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
-                  }`}
-                >
-                  <div className={`lg:w-1/2 ${
-                    i % 2 === 0 ? "lg:text-right lg:pr-16" : "lg:text-left lg:pl-16"
-                  } pl-16 lg:pl-0`}>
-                    <span className="font-syne text-[36px] font-extrabold text-brand-primary/40 dark:text-brand-primary/25">{t.year}</span>
-                    <h3 className="font-syne mt-1 text-text-primary text-[18px] font-bold">{t.title}</h3>
-                    <p className="font-dm mt-2 text-text-secondary opacity-80 text-[15px] leading-[1.6]">{t.desc}</p>
-                  </div>
-                  <div className="absolute left-8 lg:left-1/2 top-3 w-3 h-3 bg-text-primary rounded-full -translate-x-1/2 z-10 ring-4 ring-bg-surface shadow-[0_0_15px_rgba(0,0,0,0.1)]" />
-                  <div className="hidden lg:block lg:w-1/2" />
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── VISION & MISSION ────────────────────────────────────────────── */}
-      <section className="py-28 lg:py-40 bg-bg-deep">
-        <div className="max-w-[1000px] mx-auto px-6 lg:px-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }} transition={{ duration: 0.8, ease: ease }}
-          >
-            <span className="font-grotesk text-text-muted tracking-[0.18em] uppercase text-[13px] font-medium">Our Purpose</span>
-            <h2 className="font-syne mt-6 text-text-primary text-[clamp(1.5rem, 3vw, 2.4rem)] font-bold leading-[1.25] tracking-[-0.02em]">
-              &ldquo;To build a global luxury retail ecosystem that honours heritage while pioneering the future of craftsmanship and commerce.&rdquo;
-            </h2>
-          </motion.div>
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[
-              { label: "Vision",   text: "To be the world's most admired luxury retail group of Indian origin—setting benchmarks for quality, innovation, and responsible business." },
-              { label: "Mission",  text: "To create enduring value through brands that unite master craftsmanship with modern design, ethical sourcing with global reach." },
-            ].map((item, i) => (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: i * 0.12, ease: ease }}
-                className="text-left p-10 rounded-2xl border border-glass-border bg-bg-surface-elevated backdrop-blur-sm hover:bg-bg-surface hover:border-brand-primary/30 transition-all duration-500 shadow-sm hover:shadow-xl"
-              >
-                <h3 className="font-syne text-text-primary text-[20px] font-bold">{item.label}</h3>
-                <div className="mt-3 w-8 h-px bg-brand-primary/20" />
-                <p className="font-dm mt-5 text-text-secondary leading-[1.85] text-[15px]">{item.text}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── CORE VALUES ─────────────────────────────────────────────────── */}
-      <section className="py-28 lg:py-40 bg-bg-surface border-y border-glass-border">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
-          <motion.h2
-            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
-            viewport={{ once: true }} transition={{ duration: 0.8, ease: ease }}
-            className="font-syne text-center text-text-primary mb-16 text-[clamp(1.8rem, 3vw, 2.5rem)] font-bold tracking-[-0.03em]"
-          >
-            Core Values
-          </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { title: "Innovation", desc: "Embracing technology, design thinking, and creative ambition to reimagine luxury." },
-              { title: "Integrity",  desc: "Operating with transparency, ethical conviction, and deep respect for every stakeholder." },
-              { title: "Artistry",   desc: "Preserving the soul of handcraftsmanship while evolving techniques that define fine jewelry." },
-            ].map((v, i) => (
-              <motion.div
-                key={v.title}
-                initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ duration: 0.7, delay: i * 0.12, ease: ease }}
-                whileHover={{ y: -4 }}
-                className="p-10 rounded-2xl border border-glass-border bg-bg-surface-elevated text-center hover:bg-bg-surface hover:border-brand-primary/30 transition-all duration-500 shadow-sm hover:shadow-xl"
-              >
-                <h3 className="font-syne text-text-primary text-[24px] font-bold">{v.title}</h3>
-                <p className="font-dm mt-4 text-text-secondary lg:text-text-muted group-hover:text-text-secondary text-[15px] leading-[1.7]">{v.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── STATS — BY THE NUMBERS ──────────────────────────────────────── */}
-      <section className="relative py-28 lg:py-36 overflow-hidden bg-bg-deep border-y border-glass-border">
-        {/* Radial glow top-center */}
-        <div
-          className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[300px] rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(ellipse at center, rgba(255,255,255,0.03) 0%, transparent 70%)" }}
-        />
-
-        <div className="relative max-w-[1400px] mx-auto px-6 lg:px-10">
-          {/* Section header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }} transition={{ duration: 0.8, ease: ease }}
-            className="text-center mb-16"
-          >
-            <span
-              className="font-grotesk inline-flex items-center gap-3 text-text-muted tracking-[0.22em] uppercase text-[12px] font-medium"
+            {/* Rail — SVG <line> with stroke-dashoffset scrubbed via ScrollTrigger */}
+            <svg
+              aria-hidden
+              className="absolute left-6 md:left-1/2 md:-translate-x-1/2 top-0 bottom-0"
+              width="1"
+              height="100%"
+              preserveAspectRatio="none"
+              viewBox="0 0 1 100"
+              style={{ overflow: "visible" }}
             >
-              <span className="w-8 h-px bg-brand-primary/30" />
-              By The Numbers
-              <span className="w-8 h-px bg-brand-primary/30" />
-            </span>
-          </motion.div>
+              <line
+                x1="0.5"
+                y1="0"
+                x2="0.5"
+                y2="100"
+                stroke="rgba(107, 138, 201, 0.30)"
+                strokeWidth={1}
+                vectorEffect="non-scaling-stroke"
+              />
+              <line
+                ref={railFillRef}
+                x1="0.5"
+                y1="0"
+                x2="0.5"
+                y2="100"
+                stroke="#3B6FFF"
+                strokeWidth={1}
+                vectorEffect="non-scaling-stroke"
+                pathLength={1}
+                strokeDasharray={1}
+                strokeDashoffset={1}
+                style={{ willChange: "stroke-dashoffset" }}
+              />
+            </svg>
 
-          {/* Stats grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-6 lg:gap-0 items-stretch">
-            {stats.map((s, i) => (
-              <div key={s.l} className="lg:contents">
-                {/* Gradient divider line (between cards, desktop only) */}
-                {i > 0 && (
-                  <div className="hidden lg:flex items-center justify-center">
+            <ol className="relative space-y-12 md:space-y-16">
+              {MILESTONES.map((m, i) => {
+                const isRight = i % 2 === 1;
+                return (
+                  <motion.li
+                    key={m.title}
+                    className="relative"
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.4 }}
+                    transition={{ duration: 0.6, delay: 0.1, ease: EASE_STANDARD }}
+                  >
+                    {/* Node — Lucide circle-dot, 12px Electric Blue, with glow pulse */}
+                    <motion.span
+                      aria-hidden
+                      className="absolute left-6 md:left-1/2 -translate-x-1/2 -translate-y-1 inline-flex items-center justify-center z-10"
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true, amount: 0.6 }}
+                      transition={{ type: "spring", stiffness: 200, damping: 12 }}
+                    >
+                      <motion.span
+                        className="absolute w-6 h-6 rounded-full bg-[#3B6FFF]"
+                        initial={{ scale: 0.6, opacity: 0.4 }}
+                        whileInView={{ scale: 2.2, opacity: 0 }}
+                        viewport={{ once: true, amount: 0.6 }}
+                        transition={{ duration: 2, ease: "easeOut", delay: 0.4 }}
+                      />
+                      <span className="relative inline-flex items-center justify-center bg-white rounded-full">
+                        <CircleDot
+                          size={12}
+                          strokeWidth={2.5}
+                          className="text-[#3B6FFF]"
+                        />
+                      </span>
+                    </motion.span>
+
                     <div
-                      className="w-px h-[70%]"
-                      style={{
-                        background: "linear-gradient(to bottom, transparent, var(--brand-primary) 40%, var(--brand-primary) 60%, transparent)",
-                        opacity: 0.3
-                      }}
-                    />
-                  </div>
-                )}
-                <motion.div
-                  initial={{ opacity: 0, y: 28 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.7, delay: i * 0.13, ease: ease }}
-                  whileHover={{ y: -3 }}
-                  className="group flex flex-col items-center text-center px-6 lg:px-8 py-8 sm:border sm:border-white/[0.06] lg:border-0 sm:rounded-2xl lg:rounded-none transition-all duration-500 lg:col-span-1"
-                >
-                  {/* Index */}
-                  <span
-                    className="font-grotesk text-text-dim mb-5 group-hover:text-text-muted transition-colors duration-500 text-[12px] font-semibold letter-spacing-[0.1em]"
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-
-                  {/* Top accent line — animates on hover */}
-                  <div className="w-8 h-px bg-brand-primary/30 mb-6 transition-all duration-500 group-hover:w-14 group-hover:bg-brand-primary" />
-
-                  {/* Stat value */}
-                  <div
-                    className="font-syne text-text-primary leading-none group-hover:text-brand-primary transition-colors duration-300 text-[clamp(2rem,3.5vw,3.2rem)] font-extrabold tracking-[-0.04em]"
-                  >
-                    {s.v}
-                  </div>
-
-                  {/* Label */}
-                  <div
-                    className="font-grotesk mt-4 text-text-primary tracking-[0.1em] uppercase text-[12px] font-semibold"
-                  >
-                    {s.l}
-                  </div>
-
-                  {/* Sub-descriptor */}
-                  <p
-                    className="font-dm mt-2 text-text-muted group-hover:text-text-secondary transition-colors leading-relaxed text-[13px]"
-                  >
-                    {s.sub}
-                  </p>
-                </motion.div>
-              </div>
-            ))}
+                      className={[
+                        "ml-16 md:ml-0 md:w-[46%]",
+                        isRight ? "md:ml-auto md:pl-14" : "md:mr-auto md:pr-14",
+                      ].join(" ")}
+                    >
+                      <div>
+                        <p
+                          className="font-syne italic text-[#3B6FFF] mb-3"
+                          style={{ fontSize: "1.5rem", lineHeight: 1 }}
+                        >
+                          {m.yearCount ? <CountUp to={m.yearCount} durationMs={1000} /> : m.yearLabel}
+                        </p>
+                        <h3
+                          className="font-syne text-[#0B1426] mb-4"
+                          style={{ fontSize: "1.5rem", lineHeight: 1.25, fontWeight: 500 }}
+                        >
+                          {m.title}
+                        </h3>
+                        <p className="font-dm text-[#0B1426]/65 leading-relaxed text-[15px]">
+                          {m.body}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.li>
+                );
+              })}
+            </ol>
           </div>
-        </div>
-      </section>
 
-      {/* ── CTA ─────────────────────────────────────────────────────────── */}
-      <section className="py-28 text-center bg-bg-deep">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }} transition={{ duration: 0.8, ease: ease }}
-        >
-          <h2 className="font-syne text-text-primary text-[clamp(1.8rem, 3vw, 2.5rem)] font-bold tracking-[-0.03em]">
-            Discover What We’ve Built
-          </h2>
-          <div className="flex flex-wrap justify-center gap-4 mt-8">
+          <div className="flex flex-wrap justify-center gap-3 mt-20">
             <Link
               to="/portfolio"
-              className="font-grotesk group inline-flex items-center gap-2 px-8 py-4 bg-text-primary text-bg-deep rounded-full hover:scale-105 transition-all text-[14px] font-semibold shadow-xl"
+              className="font-dm group inline-flex items-center gap-2 px-7 h-12 bg-[#3B6FFF] hover:bg-[#14275C] text-white rounded-sm text-[14px] font-semibold transition-colors duration-300"
             >
-              Explore Portfolio <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+              Explore the Portfolio
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
             <Link
               to="/contact"
-              className="font-grotesk inline-flex items-center gap-2 px-8 py-4 border border-glass-border text-text-primary rounded-full hover:bg-glass-bg transition-all text-[14px] font-medium"
+              className="font-dm inline-flex items-center gap-2 px-7 h-12 border border-[#0B1426]/30 text-[#0B1426] hover:border-[#3B6FFF] hover:text-[#3B6FFF] rounded-sm text-[14px] font-medium transition-all duration-300"
             >
-              Get in Touch
+              Contact the House
             </Link>
           </div>
-        </motion.div>
+        </div>
       </section>
-
     </div>
   );
 }

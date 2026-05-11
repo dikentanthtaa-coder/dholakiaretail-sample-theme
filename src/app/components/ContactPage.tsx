@@ -1,355 +1,404 @@
-import { useState } from "react";
-import { Link } from "react-router";
-import { ArrowRight, Mail, Phone, MapPin, Clock, CheckCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router";
+import {
+  ArrowRight,
+  Mail,
+  MapPin,
+  Building2,
+  Hash,
+  Loader2,
+  CheckCircle2,
+  Briefcase,
+  Newspaper,
+  Handshake,
+  Sparkles,
+} from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { COMPANY } from "./constants";
 
-const ease = [0.76, 0, 0.24, 1] as const;
+/* P12-S04 — inquiry types per build spec */
+const INQUIRY_OPTIONS = [
+  { id: "business", label: "Business & Partnerships", icon: Handshake },
+  { id: "press", label: "Media & Press", icon: Newspaper },
+  { id: "careers", label: "Careers", icon: Briefcase },
+  { id: "brand", label: "Brand Inquiries", icon: Sparkles },
+] as const;
 
-const inquiryTypes = ["General Inquiry", "Business Partnership", "Investor Relations", "Press & Media", "Careers", "Brand-Specific"];
+/* P12-S02 — 4 routing cards · exact spec copy */
+const ROUTING_CARDS = [
+  {
+    type: "business",
+    title: "Business & Partnerships",
+    body: "Investor relations, strategic alliances, supplier partnerships, and joint ventures.",
+    email: "partnerships@dholakiaretail.com",
+  },
+  {
+    type: "press",
+    title: "Media & Press",
+    body: "Press inquiries, interview requests, and access to the press kit.",
+    email: "press@dholakiaretail.com",
+  },
+  {
+    type: "careers",
+    title: "Careers",
+    body: "Profile submissions, role inquiries, and recruitment partnerships.",
+    email: "careers@dholakiaretail.com",
+  },
+  {
+    type: "brand",
+    title: "Brand Inquiries",
+    body: "Mayavé private viewings, brand development inquiries, future-territory proposals.",
+    email: "Info@mayave.com",
+  },
+] as const;
 
-const quickContacts = [
-  { title: "Investor Relations", email: "ir@dholakiaretail.com", phone: "+91 63535 18935" },
-  { title: "Press & Media", email: "press@dholakiaretail.com", phone: "+91 63535 18935" },
-  { title: "Careers", email: "careers@dholakiaretail.com", phone: "+91 63535 18935" },
-  { title: "Brand Inquiries", email: "brands@dholakiaretail.com", phone: "+91 63535 18935" },
-];
-
-// Background image — luxury retail / editorial
-const BG_IMAGE = "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=90&w=2400&auto=format&fit=crop";
-
-const slideUp = {
-  hidden: { y: "110%", opacity: 0 },
-  visible: (i: number) => ({
-    y: 0,
-    opacity: 1,
-    transition: { delay: i * 0.12, duration: 1.1, ease },
-  }),
+const CONFIRMATIONS: Record<string, string> = {
+  business:
+    "The business development team will respond within 2 business days.",
+  press: "Our communications team will be in touch within 24 hours.",
+  careers: "The talent team will respond within 5 business days.",
+  brand: "A member of our brand team will follow up within 48 hours.",
 };
 
+const TYPE_ALIASES: Record<string, string> = {
+  partnership: "business",
+  partner: "business",
+  investor: "business",
+  appointment: "brand",
+  general: "business",
+};
+
+/**
+ * Page 12 — Contact
+ */
 export function ContactPage() {
+  const [params] = useSearchParams();
+  const queryType = params.get("type") ?? "business";
+  const initialType = TYPE_ALIASES[queryType] ?? queryType;
+
+  const [form, setForm] = useState({
+    fullName: "",
+    organisation: "",
+    email: "",
+    inquiryType: initialType,
+    message: "",
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
+  useEffect(() => {
+    setForm((f) => ({ ...f, inquiryType: initialType }));
+  }, [initialType]);
+
+  const validate = () => {
+    const e: Record<string, string> = {};
+    if (form.fullName.trim().length < 2) e.fullName = "Please share your full name.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = "A valid email is required.";
+    if (form.organisation.trim().length < 2) e.organisation = "Tell us where you're writing from.";
+    if (form.message.trim().length < 20) e.message = "Please share at least 20 characters.";
+    return e;
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const e = validate();
+    setErrors(e);
+    if (Object.keys(e).length) return;
+    setSubmitting(true);
+    await new Promise((r) => setTimeout(r, 900));
+    setSubmitting(false);
+    setSubmitted(true);
+  };
+
   return (
-    <div className="bg-bg-deep text-text-primary">
-
-      {/* ── Hero Section ───────────────────────────────────────────────────── */}
-      <section className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden">
-
-        {/* Background image */}
-        <div className="absolute inset-0 z-0">
-          <ImageWithFallback
-            src={BG_IMAGE}
-            alt=""
-            className="w-full h-full object-cover transition-opacity duration-700"
-          />
-          {/* Theme-aware overlays for depth */}
-          <div className="absolute inset-0 bg-gradient-to-b from-bg-deep via-bg-deep/80 to-bg-deep" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--bg-deep)_80%)]" />
-        </div>
-
-        {/* Ambient glow */}
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0"
-          style={{
-            width: "70vw",
-            height: "70vw",
-            background: "radial-gradient(circle, var(--brand-accent) 0%, transparent 65%)",
-            filter: "blur(80px)",
-          }}
-        />
-
-
-        {/* Content */}
-        <div className="relative z-10 flex flex-col items-center text-center px-6 py-32 max-w-[900px] mx-auto">
-
-          {/* Eyebrow badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25, duration: 0.8, ease }}
-            className="font-grotesk inline-flex items-center gap-2 px-5 py-2 rounded-full border border-brand-primary/35 bg-brand-primary/7 mb-10 text-[12px] font-semibold tracking-[0.18em] uppercase text-brand-primary"
-          >
-            Contact Us
-          </motion.div>
-
-          {/* Main headline */}
-          <div className="flex flex-col items-center gap-1">
-            <div className="overflow-hidden pb-2">
-              <motion.h1
-                custom={0}
-                initial="hidden"
-                animate="visible"
-                variants={slideUp}
-                className="font-syne tracking-tighter text-text-primary text-[clamp(2.8rem,5.5vw,6rem)] font-bold"
-              >
-                Let's Build Something
-              </motion.h1>
-            </div>
-            <div className="overflow-hidden pb-2">
-              <motion.h1
-                custom={1}
-                initial="hidden"
-                animate="visible"
-                variants={slideUp}
-                className="font-syne text-[clamp(2.8rem,5.5vw,6rem)] font-bold italic text-brand-primary tracking-[-0.02em]"
-              >
-                Extraordinary
-              </motion.h1>
-            </div>
-          </div>
-
-          {/* Sub-description */}
-          <div className="overflow-hidden mt-8">
-            <motion.p
-              custom={2}
-              initial="hidden"
-              animate="visible"
-              variants={slideUp}
-              className="font-dm text-[clamp(1rem,1.6vw,1.15rem)] leading-[1.75] text-text-secondary max-w-[54ch]"
-            >
-              Whether you're a partner, investor, journalist, or future colleague—we're ready for
-              the conversation. Step into the future of retail with us.
-            </motion.p>
-          </div>
-
-          {/* CTA buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.85, duration: 0.9, ease }}
-            className="flex flex-wrap items-center justify-center gap-4 mt-10"
-          >
-            <a
-              href="#contact-form"
-              className="font-grotesk group flex items-center gap-2 px-8 py-4 rounded-full transition-all text-[15px] font-bold shadow-xl"
-              style={{ backgroundColor: "var(--text-primary)", color: "var(--bg-deep)" }}
-            >
-              Contact Our Team
-              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-            </a>
-            <Link
-              to="/careers"
-              className="font-grotesk group flex items-center gap-2 px-8 py-4 rounded-full border border-glass-border text-text-secondary hover:text-text-primary transition-all hover:bg-glass-bg text-[15px] font-medium"
-            >
-              Explore Careers
-            </Link>
-          </motion.div>
-
-
+    <div className="bg-white text-[#0B1426]">
+      {/* P12-S01 — Hero */}
+      <section className="bg-white pt-40 lg:pt-52 pb-12 lg:pb-16">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+          <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-5">
+            Contact · Dholakia Retail
+          </p>
+          <h1 className="font-syne text-[#0B1426] font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(2.4rem,5.5vw,5rem)] max-w-[18ch]">
+            The next conversation begins here.
+          </h1>
+          <p className="font-dm text-[#0B1426]/65 max-w-[58ch] mt-6 text-[clamp(1rem,1.3vw,1.18rem)] leading-[1.7] font-light">
+            Partnership, press, careers, or future brand development — write to us, and the right
+            desk will respond.
+          </p>
         </div>
       </section>
 
-      {/* ── Form + Info ────────────────────────────────────────────────────── */}
-      <section id="contact-form" className="py-28 lg:py-40">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-10 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+      {/* P12-S02 — Inquiry Routing */}
+      <section className="bg-[#F5F5F7] py-20 border-y border-[#0B1426]/10">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+          <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-4">
+            Choose the right desk
+          </p>
+          <h2 className="font-syne text-[#0B1426] font-normal text-[clamp(1.6rem,2.6vw,2.2rem)] leading-[1.18] mb-10 max-w-[24ch]">
+            Each desk reads its own inbox.
+          </h2>
 
-          {/* Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <AnimatePresence mode="wait">
-              {submitted ? (
-                <motion.div
-                  key="success"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="p-14 rounded-3xl text-center bg-brand-primary/6 border border-brand-primary/18"
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#0B1426]/10">
+            {ROUTING_CARDS.map((c) => (
+              <a
+                key={c.type}
+                href={`mailto:${c.email}`}
+                className="bg-white p-8 lg:p-10 group hover:bg-[#3B6FFF] hover:text-white transition-colors duration-300"
+              >
+                <h3 className="font-syne text-[1.2rem] font-medium leading-[1.3]">{c.title}</h3>
+                <p className="font-dm text-[#0B1426]/65 group-hover:text-white/80 mt-3 text-[14px] leading-[1.65]">
+                  {c.body}
+                </p>
+                <p className="font-mono text-[#0B1426] group-hover:text-white mt-7 text-[12.5px] inline-flex items-center gap-2">
+                  <Mail size={13} /> {c.email}
+                </p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* P12-S03 — Corporate Identity + P12-S04 — Form */}
+      <section className="bg-white py-24 lg:py-32">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20">
+          <div>
+            <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-5">
+              Corporate identity
+            </p>
+            <h2 className="font-syne text-[#0B1426] font-normal text-[clamp(1.6rem,2.6vw,2.2rem)] leading-[1.18]">
+              The facts every desk needs.
+            </h2>
+            <dl className="mt-10 border-t border-[#0B1426]/10">
+              {[
+                { icon: Building2, label: "Legal name", value: COMPANY.legalName },
+                { icon: Hash, label: "CIN", value: COMPANY.cin, mono: true },
+                {
+                  icon: MapPin,
+                  label: "Registered Office",
+                  value:
+                    "Plot No. E-03, Gem & Jewellery Park, GHB, Ichhapore, Surat, Gujarat – 394510, India",
+                },
+                { icon: Mail, label: "Email", value: "Info@mayave.com", mailto: true, mono: true },
+              ].map((row) => (
+                <div
+                  key={row.label}
+                  className="flex flex-col md:flex-row md:items-start gap-3 md:gap-6 py-5 border-b border-[#0B1426]/10"
                 >
-                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", delay: 0.2 }}>
-                    <CheckCircle size={48} className="mx-auto text-brand-primary" />
-                  </motion.div>
-                  <h3 className="font-syne mt-6 text-text-primary text-[28px] font-bold">
-                    Thank You
-                  </h3>
-                  <p className="font-dm mt-4 text-text-muted text-[16px]">
-                    Your inquiry has been received. We'll respond within 2 business days.
-                  </p>
-                </motion.div>
-              ) : (
+                  <span className="hidden md:flex w-9 h-9 text-[#3B6FFF] items-center justify-center shrink-0">
+                    <row.icon size={18} strokeWidth={1.5} />
+                  </span>
+                  <dt className="font-dm text-[#0B1426]/55 text-[11px] font-medium tracking-[0.16em] uppercase md:w-[160px] shrink-0">
+                    {row.label}
+                  </dt>
+                  <dd className={`flex-1 ${row.mono ? "font-mono" : "font-dm"} text-[#0B1426] text-[15px] leading-[1.6]`}>
+                    {row.mailto ? (
+                      <a
+                        href={`mailto:${row.value}`}
+                        className="hover:text-[#3B6FFF] transition-colors underline-offset-4 hover:underline"
+                      >
+                        {row.value}
+                      </a>
+                    ) : (
+                      row.value
+                    )}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          {/* P12-S04 — Form */}
+          <div>
+            <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-5">
+              Write to us
+            </p>
+            <h2 className="font-syne text-[#0B1426] font-normal text-[clamp(1.6rem,2.6vw,2.2rem)] leading-[1.18]">
+              Send us a note.
+            </h2>
+
+            <AnimatePresence mode="wait">
+              {!submitted ? (
                 <motion.form
                   key="form"
-                  onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}
-                  className="space-y-6"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onSubmit={handleSubmit}
+                  className="mt-9 space-y-6"
                 >
-                  <div>
-                    <label className="font-grotesk block mb-2 text-[13px] font-medium text-text-muted tracking-[0.08em] uppercase">
-                      Reason for Inquiry
-                    </label>
-                    <select
-                      className="font-dm w-full px-5 py-3.5 rounded-xl outline-none transition-all bg-bg-surface-elevated border border-glass-border text-text-primary focus:border-brand-primary/40 focus:bg-bg-surface text-[15px] shadow-sm"
-                    >
-                      {inquiryTypes.map((t) => <option key={t} className="bg-bg-surface text-text-primary">{t}</option>)}
-                    </select>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {["First Name", "Last Name"].map((label) => (
-                      <div key={label}>
-                        <label className="font-grotesk block mb-2 text-[13px] font-medium text-text-muted tracking-[0.08em] uppercase">
-                          {label}
-                        </label>
-                        <input
-                          type="text"
-                          className="font-dm w-full px-5 py-3.5 rounded-xl outline-none transition-all bg-bg-surface-elevated border border-glass-border text-text-primary focus:border-brand-primary/40 focus:bg-bg-surface text-[15px] shadow-sm"
-                        />
-                      </div>
-                    ))}
-                  </div>
-
-                  {[{ label: "Email", type: "email" }, { label: "Organization", type: "text" }].map(({ label, type }) => (
-                    <div key={label}>
-                      <label className="font-grotesk block mb-2 text-[13px] font-medium text-text-muted tracking-[0.08em] uppercase">
-                        {label}
-                      </label>
+                  <Field
+                    label="Full Name"
+                    error={errors.fullName}
+                    input={
                       <input
-                        type={type}
-                        className="font-dm w-full px-5 py-3.5 rounded-xl outline-none transition-all bg-bg-surface-elevated border border-glass-border text-text-primary focus:border-brand-primary/40 focus:bg-bg-surface text-[15px] shadow-sm"
+                        type="text"
+                        value={form.fullName}
+                        onChange={(e) => setForm({ ...form, fullName: e.target.value })}
+                        className="w-full bg-transparent border-b border-[#0B1426]/25 focus:border-[#3B6FFF] outline-none py-3 font-dm text-[#0B1426] text-[16px] transition-colors"
+                        autoComplete="name"
                       />
-                    </div>
-                  ))}
+                    }
+                  />
+                  <Field
+                    label="Company / Organisation"
+                    error={errors.organisation}
+                    input={
+                      <input
+                        type="text"
+                        value={form.organisation}
+                        onChange={(e) => setForm({ ...form, organisation: e.target.value })}
+                        className="w-full bg-transparent border-b border-[#0B1426]/25 focus:border-[#3B6FFF] outline-none py-3 font-dm text-[#0B1426] text-[16px] transition-colors"
+                        autoComplete="organization"
+                      />
+                    }
+                  />
+                  <Field
+                    label="Email Address"
+                    error={errors.email}
+                    input={
+                      <input
+                        type="email"
+                        value={form.email}
+                        onChange={(e) => setForm({ ...form, email: e.target.value })}
+                        className="w-full bg-transparent border-b border-[#0B1426]/25 focus:border-[#3B6FFF] outline-none py-3 font-dm text-[#0B1426] text-[16px] transition-colors"
+                        autoComplete="email"
+                      />
+                    }
+                  />
+                  <Field
+                    label="Inquiry Type"
+                    input={
+                      <select
+                        value={form.inquiryType}
+                        onChange={(e) => setForm({ ...form, inquiryType: e.target.value })}
+                        className="w-full bg-transparent border-b border-[#0B1426]/25 focus:border-[#3B6FFF] outline-none py-3 font-dm text-[#0B1426] text-[16px] transition-colors"
+                      >
+                        {INQUIRY_OPTIONS.map((o) => (
+                          <option key={o.id} value={o.id}>
+                            {o.label}
+                          </option>
+                        ))}
+                      </select>
+                    }
+                  />
+                  <Field
+                    label="Message"
+                    error={errors.message}
+                    input={
+                      <textarea
+                        rows={4}
+                        value={form.message}
+                        onChange={(e) => setForm({ ...form, message: e.target.value })}
+                        className="w-full bg-transparent border-b border-[#0B1426]/25 focus:border-[#3B6FFF] outline-none py-3 font-dm text-[#0B1426] text-[16px] resize-none transition-colors"
+                      />
+                    }
+                  />
 
-                  <div>
-                    <label className="font-grotesk block mb-2 text-[13px] font-medium text-text-muted tracking-[0.08em] uppercase">
-                      Message
-                    </label>
-                    <textarea
-                      rows={5}
-                      className="font-dm w-full px-5 py-3.5 rounded-xl outline-none resize-none transition-all bg-bg-surface-elevated border border-glass-border text-text-primary focus:border-brand-primary/40 focus:bg-bg-surface text-[15px] shadow-sm"
-                    />
-                  </div>
+                  <p className="font-dm text-[#0B1426]/55 text-[12.5px] leading-[1.55]">
+                    Every message is read by a human within 2 business days.
+                  </p>
 
-                  <motion.button
-                    className="font-grotesk w-full py-4 rounded-full bg-black text-white dark:bg-white dark:text-black text-[15px] font-bold transition-all hover:scale-[1.01] active:scale-[0.99] shadow-xl"
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="font-dm group inline-flex items-center gap-2 px-7 h-12 bg-[#3B6FFF] hover:bg-[#14275C] disabled:bg-[#3B6FFF]/60 text-white rounded-sm text-[14px] font-semibold transition-colors duration-300"
                   >
-                    Submit Inquiry
-                  </motion.button>
+                    {submitting ? (
+                      <>
+                        <Loader2 size={16} className="animate-spin" /> Sending…
+                      </>
+                    ) : (
+                      <>
+                        Send inquiry
+                        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                      </>
+                    )}
+                  </button>
                 </motion.form>
+              ) : (
+                <motion.div
+                  key="ok"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-12 p-8 border border-[#3B6FFF]/30 bg-[#3B6FFF]/5"
+                >
+                  <CheckCircle2 size={36} className="text-[#3B6FFF]" />
+                  <h3 className="font-syne text-[#0B1426] mt-5 text-[clamp(1.4rem,2vw,1.8rem)] font-normal italic leading-[1.2]">
+                    Thank you.
+                  </h3>
+                  <p className="font-dm text-[#0B1426]/72 mt-3 text-[15px] leading-[1.7]">
+                    {CONFIRMATIONS[form.inquiryType] ?? CONFIRMATIONS.business}
+                  </p>
+                  <Link
+                    to="/"
+                    className="font-dm inline-flex items-center gap-2 mt-7 text-[#3B6FFF] text-[13px] font-semibold"
+                  >
+                    Back to home <ArrowRight size={14} />
+                  </Link>
+                </motion.div>
               )}
             </AnimatePresence>
-          </motion.div>
-
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="space-y-6"
-          >
-            {[
-              {
-                title: "Corporate Headquarters",
-                address: "Dholakia Retail Private Limited\nPlot No. E-03, Gem & Jewellery Park, GHB, Ichhapore\nSurat, Gujarat – 394510, India\nCIN: U32111GJ2024PTC155690",
-              },
-              {
-                title: "Mumbai Office",
-                address: "Dholakia Retail — Mumbai\nBandra Kurla Complex\nMumbai 400051, Maharashtra",
-              },
-            ].map((office) => (
-              <div
-                key={office.title}
-                className="p-8 rounded-2xl bg-bg-surface-elevated border border-glass-border shadow-sm"
-              >
-                <h3 className="font-syne text-text-primary text-[20px] font-bold">
-                  {office.title}
-                </h3>
-                <div className="mt-4 flex items-start gap-3">
-                  <MapPin size={16} className="mt-1 shrink-0 text-brand-primary" />
-                  <p className="font-dm whitespace-pre-line text-[15px] leading-[1.7] text-text-secondary">
-                    {office.address}
-                  </p>
-                </div>
-              </div>
-            ))}
-
-            <div
-              className="p-8 rounded-2xl bg-bg-surface-elevated border border-glass-border shadow-sm"
-            >
-              <h3 className="font-syne text-text-primary text-[20px] font-bold">
-                Reach Us
-              </h3>
-              <div className="mt-4 space-y-4">
-                {[
-                  { Icon: Mail, text: "info@dholakiaretail.com" },
-                  { Icon: Phone, text: "+91 63535 18935" },
-                  { Icon: Clock, text: "Mon – Sat, 9:00 AM – 6:00 PM IST" },
-                ].map(({ Icon, text }) => (
-                  <div key={text} className="flex items-center gap-3">
-                    <Icon size={16} className="shrink-0 text-brand-primary" />
-                    <p className="font-dm text-[15px] text-text-secondary">{text}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── Quick Contacts ─────────────────────────────────────────────────── */}
-      <section
-        className="py-24 bg-brand-primary/2 border-t border-text-primary/7"
-      >
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="text-center mb-12"
-          >
-            <span
-              className="font-grotesk text-[12px] font-semibold tracking-[0.18em] uppercase text-brand-primary"
-            >
-              Direct Pathways
-            </span>
-            <h3
-              className="font-syne mt-4 text-text-primary text-[clamp(1.6rem, 2.5vw, 2.4rem)] font-bold"
-            >
-              Connect with the Right Team
-            </h3>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {quickContacts.map((c, i) => (
-              <motion.div
-                key={c.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.09 }}
-                whileHover={{ y: -4 }}
-                className="p-6 rounded-2xl text-center cursor-pointer transition-all bg-bg-surface border border-glass-border hover:border-brand-primary/30 shadow-sm"
-              >
-                <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-4 bg-brand-primary/10"
-                >
-                  <Mail size={16} className="text-brand-primary" />
-                </div>
-                <h4 className="font-grotesk text-text-primary text-[14px] font-semibold">
-                  {c.title}
-                </h4>
-                <p className="font-dm mt-2 text-[13px] text-text-secondary">
-                  {c.email}
-                </p>
-                <p className="font-dm mt-1 text-[13px] text-text-muted">
-                  {c.phone}
-                </p>
-              </motion.div>
-            ))}
           </div>
         </div>
       </section>
 
-      {/* ── Footer note ───────────────────────────────────────────────────── */}
-      <section className="py-10 text-center border-t border-text-primary/7">
-        <p className="font-dm text-[15px] text-text-muted opacity-80">
-          We aim to respond to all inquiries within 2 business days.
-        </p>
+      {/* P12-S05 — Closing Statement */}
+      <section className="bg-[#F5F5F7] py-24 lg:py-32 border-t border-[#0B1426]/10">
+        <div className="max-w-[820px] mx-auto px-6 md:px-12 lg:px-20 text-center">
+          <h2 className="font-syne text-[#0B1426] font-normal text-[clamp(1.5rem,2.4vw,2rem)] leading-[1.2]">
+            Or write to us directly.
+          </h2>
+          <p className="font-dm text-[#0B1426]/65 mt-5 max-w-[58ch] mx-auto text-[1.05rem] leading-[1.7]">
+            Prefer email? Reach the right desk through the addresses below — every inbox is monitored
+            daily.
+          </p>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-8 mt-9 max-w-[640px] mx-auto text-left">
+            {[
+              ["Business", "partnerships@dholakiaretail.com"],
+              ["Press", "press@dholakiaretail.com"],
+              ["Careers", "careers@dholakiaretail.com"],
+              ["Brand", "Info@mayave.com"],
+            ].map(([label, email]) => (
+              <li key={email} className="flex items-center justify-between gap-3 border-b border-[#0B1426]/10 py-2">
+                <span className="font-dm text-[#0B1426]/55 text-[11px] font-medium tracking-[0.14em] uppercase">
+                  {label}
+                </span>
+                <a
+                  href={`mailto:${email}`}
+                  className="font-mono text-[#0B1426] hover:text-[#3B6FFF] underline-offset-4 hover:underline transition-colors text-[12.5px]"
+                >
+                  {email}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
+    </div>
+  );
+}
+
+function Field({
+  label,
+  input,
+  error,
+}: {
+  label: string;
+  input: React.ReactNode;
+  error?: string;
+}) {
+  return (
+    <div>
+      <label className="font-dm text-[#0B1426]/55 text-[11px] font-medium tracking-[0.16em] uppercase block">
+        {label}
+      </label>
+      {input}
+      {error && (
+        <p className="font-dm text-[#3B6FFF] mt-1.5 text-[12px]" role="alert">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

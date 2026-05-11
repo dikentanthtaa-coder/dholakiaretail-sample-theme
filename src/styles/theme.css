@@ -2,35 +2,53 @@
 
 :root {
   --font-size: 16px;
-  
-  /* Backgrounds */
-  --bg-deep: #050505;
-  --bg-surface: #0a0a0a;
-  --bg-surface-elevated: rgba(255, 255, 255, 0.04);
-  
-  /* Brand Colors */
-  --brand-primary: #3b82f6;
-  --brand-secondary: #2563eb;
-  --brand-accent: rgba(59, 130, 246, 0.1);
-  
-  /* Text */
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.55);
-  --text-muted: rgba(255, 255, 255, 0.3);
-  --text-dim: rgba(255, 255, 255, 0.15);
-  
-  /* Glass UI */
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-hover-border: rgba(59, 130, 246, 0.3);
-  --glass-blur: blur(12px);
+
+  /* ── Brand spec palette (Option A · Dholakia Retail) ──────────────── */
+  --color-bg-primary: #FFFFFF;
+  --color-bg-elevated: #F5F5F7;          /* Off-white */
+  --color-bg-deep: #08203D;              /* Sustainability deep navy / dark band */
+  --color-bg-footer: #0A0E1F;            /* Footer cool deep navy */
+  --color-midnight-navy: #0B1426;
+  --color-royal-blue: #14275C;
+  --color-electric-blue: #3B6FFF;
+  --color-soft-sky: #6B8AC9;
+
+  /* Operational tokens (light mode default = editorial) */
+  --bg-deep: #FFFFFF;                    /* Page canvas */
+  --bg-surface: #F5F5F7;                 /* Cards / mid-tone surface */
+  --bg-surface-elevated: #FFFFFF;
+  --bg-inverse: #0B1426;                 /* Inverted bands (closers, footer) */
+
+  --brand-primary: #3B6FFF;              /* Electric Blue */
+  --brand-secondary: #14275C;            /* Royal Blue (hover) */
+  --brand-accent: rgba(59, 111, 255, 0.10);
+  --brand-soft: #6B8AC9;                 /* Soft Sky chromatic accent */
+
+  --text-primary: #0B1426;               /* Midnight Navy */
+  --text-secondary: rgba(11, 20, 38, 0.72);
+  --text-muted: rgba(11, 20, 38, 0.48);
+  --text-dim: rgba(11, 20, 38, 0.30);
+
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(11, 20, 38, 0.12);
+  --glass-hover-border: rgba(59, 111, 255, 0.30);
+  --glass-blur: blur(16px);
+
+  /* Hairline rules */
+  --hairline: rgba(11, 20, 38, 0.12);
+  --hairline-soft: rgba(107, 138, 201, 0.35);
 
   /* Fonts */
-  --font-syne: 'Syne', sans-serif;
-  --font-grotesk: 'Space Grotesk', sans-serif;
-  --font-dm: 'DM Sans', sans-serif;
+  --font-syne: 'Syne', 'Space Grotesk', sans-serif;
+  --font-dm: 'DM Sans', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-grotesk: 'DM Sans', 'Space Grotesk', sans-serif;
 
-  /* Legacy Shade System (Mapping to new Noir theme) */
+  /* Easings */
+  --ease-standard: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-expo-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Legacy mappings retained for backward compatibility */
   --background: var(--bg-deep);
   --foreground: var(--text-primary);
   --card: var(--bg-surface);
@@ -38,7 +56,7 @@
   --popover: var(--bg-surface);
   --popover-foreground: var(--text-primary);
   --primary: var(--brand-primary);
-  --primary-foreground: #000000;
+  --primary-foreground: #FFFFFF;
   --secondary: var(--bg-surface-elevated);
   --secondary-foreground: var(--text-primary);
   --muted: var(--bg-surface);
@@ -48,45 +66,54 @@
   --border: var(--glass-border);
   --input: transparent;
   --input-background: var(--glass-bg);
-  --radius: 0.75rem;
+  --radius: 0.25rem;                     /* 2px-feel: editorial restraint */
 }
 
-/* Light Mode Overrides */
-.light {
-  --bg-deep: #ffffff;
-  --bg-surface: #fafafa;
-  --bg-surface-elevated: #f4f4f4;
-  
-  --brand-primary: #1a1a1a; /* Professional dark brand color in light mode */
-  --brand-secondary: #3b82f6;
-  --brand-accent: rgba(0, 0, 0, 0.05);
-  
-  --text-primary: #0a0a0a;
-  --text-secondary: #404040;
-  --text-muted: #737373;
-  --text-dim: #a3a3a3;
-  
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(0, 0, 0, 0.15);
-  --glass-hover-border: rgba(0, 0, 0, 0.2);
+/* ── Dark Mode (inverted bands · used only when .dark applied) ──────── */
+.dark {
+  --bg-deep: #0B1426;
+  --bg-surface: #08203D;
+  --bg-surface-elevated: rgba(255, 255, 255, 0.04);
+  --bg-inverse: #FFFFFF;
+
+  --brand-primary: #3B6FFF;
+  --brand-secondary: #6B8AC9;
+  --brand-accent: rgba(59, 111, 255, 0.18);
+
+  --text-primary: #FFFFFF;
+  --text-secondary: rgba(255, 255, 255, 0.72);
+  --text-muted: rgba(255, 255, 255, 0.45);
+  --text-dim: rgba(255, 255, 255, 0.20);
+
+  --glass-bg: rgba(11, 20, 38, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.10);
+  --glass-hover-border: rgba(59, 111, 255, 0.45);
+
+  --hairline: rgba(255, 255, 255, 0.10);
+  --hairline-soft: rgba(107, 138, 201, 0.30);
 }
 
 @theme inline {
-  /* Colors */
+  /* Color tokens exposed to Tailwind */
   --color-bg-deep: var(--bg-deep);
   --color-bg-surface: var(--bg-surface);
   --color-bg-elevated: var(--bg-surface-elevated);
+  --color-bg-inverse: var(--bg-inverse);
   --color-brand-primary: var(--brand-primary);
   --color-brand-secondary: var(--brand-secondary);
+  --color-brand-soft: var(--brand-soft);
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
+  --color-text-dim: var(--text-dim);
   --color-glass-border: var(--glass-border);
-  
-  /* Fonts */
+  --color-hairline: var(--hairline);
+  --color-hairline-soft: var(--hairline-soft);
+
   --font-syne: var(--font-syne);
-  --font-grotesk: var(--font-grotesk);
   --font-dm: var(--font-dm);
+  --font-mono: var(--font-mono);
+  --font-grotesk: var(--font-grotesk);
 
   /* Legacy Shadcn-like mappings */
   --color-background: var(--background);
@@ -97,7 +124,7 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
-  
+
   --radius-lg: var(--radius);
 }
 
@@ -109,10 +136,18 @@
   body {
     @apply bg-bg-deep text-text-primary;
     font-family: var(--font-dm);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   html {
     font-size: var(--font-size);
     scroll-behavior: smooth;
+  }
+
+  ::selection {
+    background: var(--brand-primary);
+    color: #FFFFFF;
   }
 }

@@ -1,41 +1,39 @@
 import { useMouseParallax } from "./home/Shared";
 import { Hero } from "./home/Hero";
-import { ValuesSection } from "./home/Values";
 import { AboutTeaserSection } from "./home/AboutTeaser";
-import { PortfolioPreviewSection } from "./home/PortfolioPreview";
+import { ValuesSection } from "./home/Values";
 import { StatsSection } from "./home/Stats";
+import { PortfolioPreviewSection } from "./home/PortfolioPreview";
 import { ManufacturingSustainabilitySection } from "./home/ManufacturingSustainability";
 import { NewsSection } from "./home/News";
 import { CTASection } from "./home/CTA";
 
+/**
+ * Page 1 — Home (per build spec §Part 2 · P01)
+ *
+ *  S01 Cinematic Hero
+ *  S02 Intro Statement
+ *  S03 Guiding Principles (4 cards)
+ *  S04 Corporate Snapshot (4 facts)
+ *  S05 Portfolio Preview · Mayavé spotlight
+ *  S06 Brand Film band
+ *  S07 Sustainability Teaser
+ *  S08 News / Press 3+1
+ *  S09 Final CTA
+ */
 export function HomePage() {
   const { smoothX, smoothY } = useMouseParallax();
 
   return (
-    <div className="bg-[#050505] text-neutral-200">
-      {/* ── HERO ── */}
+    <main className="bg-white text-[#0B1426]">
       <Hero smoothX={smoothX} smoothY={smoothY} />
-
-      {/* ── VALUES ── */}
-      <ValuesSection />
-
-      {/* ── ABOUT TEASER ── */}
       <AboutTeaserSection smoothX={smoothX} smoothY={smoothY} />
-
-      {/* ── PORTFOLIO PREVIEW ── */}
-      <PortfolioPreviewSection smoothX={smoothX} smoothY={smoothY} />
-
-      {/* ── STATS ── */}
+      <ValuesSection />
       <StatsSection />
-
-      {/* ── MANUFACTURING & SUSTAINABILITY ── */}
+      <PortfolioPreviewSection smoothX={smoothX} smoothY={smoothY} />
       <ManufacturingSustainabilitySection smoothX={smoothX} smoothY={smoothY} />
-
-      {/* ── NEWS ── */}
       <NewsSection />
-
-      {/* ── CTA ── */}
       <CTASection smoothX={smoothX} smoothY={smoothY} />
-    </div>
+    </main>
   );
 }

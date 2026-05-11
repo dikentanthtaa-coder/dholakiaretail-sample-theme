@@ -9,14 +9,17 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+/**
+ * Per build spec, the editorial canvas defaults to light/white. Dark mode is
+ * available as an opt-in inversion.
+ */
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window !== "undefined") {
-      const savedTheme = localStorage.getItem("theme") as Theme;
-      if (savedTheme) return savedTheme;
-      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      const savedTheme = localStorage.getItem("theme") as Theme | null;
+      if (savedTheme === "light" || savedTheme === "dark") return savedTheme;
     }
-    return "dark"; // Default to dark for "Modern Noir"
+    return "light";
   });
 
   useEffect(() => {
@@ -31,9 +34,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>
   );
 }
 

@@ -1,281 +1,206 @@
 import { Link } from "react-router";
-import { ArrowRight, Leaf, Users, ShieldCheck, Download } from "lucide-react";
-import { motion } from "motion/react";
+import { ArrowRight, Search, Sprout, Eye, Infinity as InfinityIcon, Download } from "lucide-react";
+import { motion, useScroll, useTransform } from "motion/react";
+import { useRef } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 
-const metrics = [
-  { value: "95%", label: "Ethical Sourcing" },
-  { value: "40MW", label: "Solar Capacity" },
-  { value: "1M+", label: "Trees Planted" },
-  { value: "50K+", label: "Lives Impacted" },
-  { value: "Zero", label: "Conflict Diamonds" },
-  { value: "30%", label: "Water Recycled" },
+const ease = [0.65, 0, 0.35, 1] as const;
+
+const PILLARS = [
+  {
+    icon: Search,
+    title: "Traceability",
+    body: "Every stone and material is tracked from origin through production, so each piece carries verifiable history.",
+  },
+  {
+    icon: Sprout,
+    title: "Responsible Creation",
+    body: "Lab-grown diamonds and ethically sourced materials reduce environmental and human cost without compromising beauty.",
+  },
+  {
+    icon: Eye,
+    title: "Transparency",
+    body: "Clear, accessible information on certifications, processes, and standards is part of the product, not a separate document.",
+  },
+  {
+    icon: InfinityIcon,
+    title: "Long-Term Value",
+    body: "Pieces are designed and made to outlast trends — durable, repairable, and built to be inherited.",
+  },
 ];
 
-const reports = [
-  { title: "Annual ESG Report 2025", type: "PDF", size: "4.2 MB", date: "Jan 2026" },
-  { title: "Ethical Sourcing Declaration", type: "PDF", size: "1.8 MB", date: "Dec 2025" },
-  { title: "Kimberley Process Certification", type: "PDF", size: "0.5 MB", date: "Nov 2025" },
-  { title: "Carbon Footprint Assessment", type: "PDF", size: "2.1 MB", date: "Oct 2025" },
-];
-
-const milestones = [
-  { year: "2018", desc: "Committed to 100% ethical sourcing across all operations." },
-  { year: "2020", desc: "Installed first 10MW solar plant at manufacturing hub." },
-  { year: "2022", desc: "Achieved 1 million trees through afforestation initiative." },
-  { year: "2024", desc: "Launched water recycling systems across all facilities." },
-  { year: "2026", desc: "Targeting 100% renewable energy in all manufacturing." },
-];
-
+/**
+ * Page 6 — Sustainability
+ */
 export function SustainabilityPage() {
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
+
   return (
-    <div className="bg-bg-deep text-text-primary">
-      {/* Hero */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <ImageWithFallback src="https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=2072&auto=format&fit=crop" alt="Sustainability - Solar Energy" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-bg-deep/30 dark:bg-black/50" />
-        </div>
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-10 text-center">
-          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: [0.25, 0.1, 0, 1] }}>
-            <span className="font-grotesk inline-block px-4 py-1.5 bg-brand-primary/20 backdrop-blur-sm text-brand-primary/80 rounded-full mb-6 text-[13px] font-medium tracking-wide">Sustainability & ESG</span>
-            <h1 className="font-syne text-text-primary max-w-3xl mx-auto text-[clamp(2.5rem,5vw,4.5rem)] font-bold leading-[1.05] tracking-[-0.03em]">
-              Crafting Impact Beyond Commerce
-            </h1>
-            <p className="font-dm mt-6 text-text-secondary max-w-lg mx-auto text-[17px] leading-[1.7]">
-              Responsible growth woven into every facet of our operations.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+    <div className="bg-white text-[#0B1426]">
+      {/* P06-S01 — Hero */}
+      <section
+        ref={heroRef}
+        data-header-theme="dark"
+        className="relative h-screen min-h-[600px] flex items-end overflow-hidden bg-[#08203D]"
+      >
+        <motion.div style={{ scale: heroScale }} className="absolute inset-0">
+          <ImageWithFallback
+            src="/assets/images/P06_S01_sustainability_hero_optA_image.png"
+            alt="Sustainability — environmental documentary"
+            className="w-full h-full object-cover opacity-80"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#08203D] via-[#08203D]/40 to-[#08203D]/30" />
+        </motion.div>
 
-      {/* Metrics */}
-      <section className="py-20 bg-bg-surface border-y border-glass-border">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {metrics.map((m, i) => (
-              <motion.div key={m.label} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="text-center p-6 bg-bg-surface-elevated rounded-2xl border border-glass-border backdrop-blur-sm shadow-sm"
-              >
-                <div className="font-syne text-[28px] font-extrabold text-brand-primary">{m.value}</div>
-                <p className="font-dm text-text-muted mt-2 text-[12px]">{m.label}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Three Pillars */}
-      <section className="py-28 lg:py-40 bg-bg-deep">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-10 space-y-24">
-          {[
-            { icon: <Leaf size={28} strokeWidth={1.5} />, title: "Environmental Stewardship", desc: "From our 40MW solar installations to water recycling systems, we minimize our environmental footprint. Our afforestation programme has planted over one million trees, targeting 100% renewable energy by 2027.", img: "https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=1200&auto=format&fit=crop" },
-            { icon: <Users size={28} strokeWidth={1.5} />, title: "Social Impact", desc: "Through education, healthcare, artisan welfare, and community development, we've impacted over 50,000 lives. Our commitment extends beyond our workforce to the broader communities where we operate.", img: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?q=80&w=1200&auto=format&fit=crop" },
-            { icon: <ShieldCheck size={28} strokeWidth={1.5} />, title: "Ethics & Traceability", desc: "Every diamond is ethically sourced, verified through Kimberley Process compliance and proprietary traceability systems. We maintain rigorous standards for conduct, audits, and governance.", img: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=1200&auto=format&fit=crop" },
-          ].map((p, i) => (
-            <motion.div key={p.title} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.7 }}
-              className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""}`}
-            >
-              <div>
-                <motion.div whileHover={{ scale: 1.05 }} className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-bg-surface-elevated border border-glass-border text-brand-primary mb-6 shadow-sm">
-                  {p.icon}
-                </motion.div>
-                <h2 className="font-syne text-text-primary text-[clamp(1.5rem,2.5vw,2rem)] font-bold tracking-[-0.02em]">{p.title}</h2>
-                <p className="font-dm mt-4 text-text-secondary leading-[1.8] text-[16px]">{p.desc}</p>
-              </div>
-              <div className="h-[320px] rounded-3xl overflow-hidden border border-glass-border relative group">
-                <ImageWithFallback src={p.img} alt={p.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-500" />
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Progress Roadmap */}
-      <section className="py-28 lg:py-40 bg-bg-deep text-text-primary relative overflow-hidden">
-        {/* Decorative background glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-primary/5 rounded-full blur-[120px] pointer-events-none" />
-
-        <div className="max-w-[1200px] mx-auto px-6 lg:px-10 relative">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-24"
+        <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 pb-20 lg:pb-32 w-full">
+          <p className="font-dm text-[#6B8AC9] text-[11px] font-medium tracking-[0.22em] uppercase mb-5">
+            Sustainability
+          </p>
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.3, ease }}
+            className="font-syne text-white font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(2.4rem,5.5vw,5rem)] max-w-[14ch]"
           >
-            <span className="font-grotesk text-text-muted tracking-[0.2em] uppercase mb-4 block text-[12px] font-semibold">Evolution</span>
-            <h2 className="font-syne text-[clamp(2rem,4vw,3.5rem)] font-bold tracking-[-0.03em]">Progress Roadmap</h2>
-          </motion.div>
-
-          <div className="relative">
-            {/* Centered vertical line */}
-            <div className="absolute left-4 lg:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-brand-primary/0 via-brand-primary/20 to-brand-primary/0 lg:-translate-x-1/2" />
-
-            <div className="space-y-12 lg:space-y-0">
-              {milestones.map((m, i) => (
-                <motion.div
-                  key={m.year}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.8, delay: i * 0.1 }}
-                  className={`relative flex items-center justify-start lg:justify-between w-full ${i % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
-                >
-                  {/* Content Card */}
-                  <div className="lg:w-[45%] pl-12 lg:pl-0">
-                    <motion.div
-                      whileHover={{ y: -5, borderColor: "var(--glass-hover-border)" }}
-                      className="p-8 rounded-[2rem] border border-glass-border bg-bg-surface backdrop-blur-md transition-all duration-500 group shadow-sm hover:shadow-xl"
-                    >
-                      <div className={`flex items-center gap-4 mb-4 ${i % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
-                        <span className="font-syne text-[32px] font-extrabold" style={{ color: i === milestones.length - 1 ? "var(--brand-primary)" : "var(--brand-primary)", opacity: i === milestones.length - 1 ? 1 : 0.6 }}>
-                          {m.year}
-                        </span>
-                        <div className={`h-px flex-1 bg-gradient-to-r ${i % 2 === 1 ? 'lg:from-transparent lg:to-brand-primary/40 from-brand-primary/40 to-transparent' : 'from-brand-primary/40 to-transparent'}`} />
-                      </div>
-                      <p className="font-dm text-text-secondary group-hover:text-text-primary transition-colors text-[16px] leading-[1.75]">
-                        {m.desc}
-                      </p>
-                    </motion.div>
-                  </div>
-
-                  {/* Centered Dot */}
-                  <div className="absolute left-4 lg:left-1/2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center lg:-translate-x-1/2 z-10">
-                    <div className={`w-3 h-3 rounded-full ${i === milestones.length - 1 ? 'bg-brand-primary' : 'bg-white/20'} relative`}>
-                      {i === milestones.length - 1 && (
-                        <span className="absolute inset-0 rounded-full bg-brand-primary animate-ping opacity-75" />
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Empty space for alternating layout */}
-                  <div className="hidden lg:block lg:w-[45%]" />
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Reports & Certifications */}
-      <section className="py-28 lg:py-40 bg-bg-surface border-t border-glass-border relative overflow-hidden">
-        {/* Subtle background gradient */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-primary/[0.02] rounded-full blur-[100px] pointer-events-none" />
-
-        <div className="max-w-[900px] mx-auto px-6 lg:px-10 relative">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-16"
-          >
-            <span className="font-grotesk text-text-muted tracking-[0.2em] uppercase mb-4 block text-[12px] font-semibold">Transparency</span>
-            <h2 className="font-syne text-text-primary text-[clamp(2rem,3.5vw,2.8rem)] font-bold tracking-[-0.02em]">Reports & Certifications</h2>
-          </motion.div>
-
-          <div className="space-y-4">
-            {reports.map((r, i) => (
-              <motion.div
-                key={r.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                whileHover={{ x: 10 }}
-                className="flex items-center justify-between p-6 lg:p-8 rounded-2xl bg-white/[0.03] border border-glass-border hover:bg-white/[0.06] hover:border-brand-primary/30 transition-all duration-500 group cursor-pointer backdrop-blur-sm"
-              >
-                <div className="flex items-center gap-6">
-                  {/* File Icon Circle */}
-                  <div className="hidden sm:flex items-center justify-center w-12 h-12 rounded-xl bg-bg-surface-elevated border border-glass-border group-hover:bg-brand-primary/10 group-hover:border-brand-primary/20 transition-colors duration-500">
-                    <div className="text-text-muted group-hover:text-brand-primary transition-colors duration-500">
-                      <Leaf size={20} strokeWidth={1.5} />
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="font-grotesk text-text-primary group-hover:text-brand-primary transition-colors text-[16px] font-semibold">{r.title}</h4>
-                    <div className="flex items-center gap-3 mt-1.5">
-                      <span className="font-grotesk px-2 py-0.5 rounded-md bg-glass-border/50 text-text-muted text-[10px] uppercase tracking-wider font-bold">{r.type}</span>
-                      <span className="w-1 h-1 rounded-full bg-glass-border" />
-                      <p className="font-dm text-text-muted text-[13px]">{r.size} · {r.date}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="text-text-secondary flex items-center justify-center w-10 h-10 rounded-full border border-glass-border group-hover:bg-text-primary group-hover:border-text-primary group-hover:text-bg-deep transition-all duration-500">
-                  <Download size={16} strokeWidth={2} />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
+            Luxury, Reconsidered
+          </motion.h1>
           <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
-            className="font-dm mt-12 text-text-muted text-center italic text-[14px]"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.6, ease }}
+            className="font-dm text-white/75 max-w-[58ch] mt-7 text-[clamp(1rem,1.3vw,1.18rem)] leading-[1.7] font-light"
           >
-            All certifications are independently audited and verified annually.
+            The future of jewellery must consider not only beauty, but how it is created, verified,
+            and carried forward.
           </motion.p>
         </div>
       </section>
 
-      {/* CTA — Cinematic Finale */}
-      <section className="relative py-32 lg:py-48 mt-12 overflow-hidden">
-        {/* Background Image with Fixed/Parallax feel */}
-        <div className="absolute inset-0 z-0">
-          <ImageWithFallback
-            src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop"
-            alt="Nature - Sustainable Future"
-            className="w-full h-full object-cover opacity-60"
-          />
-          {/* Theme-aware overlays for depth */}
-          <div className="absolute inset-0 bg-gradient-to-b from-bg-deep via-bg-deep/60 to-bg-deep" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--bg-deep)_80%)]" />
-        </div>
-
-        {/* Decorative glows */}
-        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-brand-primary/10 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-brand-primary/5 rounded-full blur-[120px] pointer-events-none" />
-
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-10 text-center">
+      {/* P06-S02 — Pillars */}
+      <section className="bg-white py-28 lg:py-36">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, ease: [0.25, 0.1, 0, 1] }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7 }}
+            className="mb-14 max-w-[820px]"
           >
-            <span className="font-grotesk text-brand-primary/60 tracking-[0.3em] uppercase mb-6 block text-[13px] font-bold">Our Eternal Commitment</span>
-
-            <h2 className="font-syne text-text-primary max-w-4xl mx-auto text-[clamp(2.5rem,5vw,4.2rem)] font-bold leading-1.1 tracking-[-0.04em]">
-              Sustainability is<br />
-              <span className="italic font-light opacity-70">Long-Term Value</span>
-            </h2>
-
-            <p className="font-dm mt-8 text-text-muted max-w-xl mx-auto text-[17px] leading-[1.7]">
-              We don't just build for the quarter; we build for the century. Every decision is a testament to our responsibility to the future.
+            <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-5">
+              Pillars
             </p>
-
-            <div className="flex flex-wrap justify-center gap-6 mt-12">
-              <Link
-                to="/investor-relations"
-                className="font-grotesk group relative overflow-hidden px-10 py-4 bg-text-primary text-bg-deep rounded-full transition-transform hover:scale-105 duration-300 text-[15px] font-bold shadow-xl"
-              >
-                <div className="absolute inset-0 bg-bg-deep/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.76, 0, 0.24, 1]" />
-                <span className="relative z-10 flex items-center gap-2">
-                  Investor Relations <ArrowRight size={18} strokeWidth={2.5} className="group-hover:translate-x-1 transition-transform" />
-                </span>
-              </Link>
-
-              <Link
-                to="/careers"
-                className="font-grotesk group flex items-center gap-2 px-8 py-4 rounded-full border border-glass-border text-text-secondary hover:text-text-primary transition-all hover:bg-bg-surface-elevated text-[15px] font-medium"
-              >
-                Explore Careers
-              </Link>
-            </div>
+            <h2 className="font-syne text-[#0B1426] font-normal text-[clamp(1.8rem,3vw,2.6rem)] leading-[1.15] tracking-[-0.01em]">
+              Four commitments held above expediency.
+            </h2>
           </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-[#0B1426]/10">
+            {PILLARS.map((p, i) => (
+              <motion.article
+                key={p.title}
+                initial={{ opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.7, delay: i * 0.08, ease }}
+                className="bg-white p-10 lg:p-12 group"
+              >
+                <p.icon size={28} strokeWidth={1.5} className="text-[#3B6FFF]" />
+                <h3 className="font-syne text-[#0B1426] mt-7 text-[1.4rem] font-medium leading-[1.3]">
+                  {p.title}
+                </h3>
+                <p className="font-dm text-[#0B1426]/65 mt-4 text-[15px] leading-[1.7]">{p.body}</p>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* P06-S03 — Wider Group Context · split */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 bg-[#F5F5F7]">
+        <div className="px-8 lg:px-20 py-20 lg:py-28 flex items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -16 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.9, ease }}
+            className="max-w-[520px]"
+          >
+            <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-5">
+              Wider Group
+            </p>
+            <h2 className="font-syne text-[#0B1426] font-normal text-[clamp(1.6rem,2.6vw,2.4rem)] leading-[1.18]">
+              A broader sustainability narrative.
+            </h2>
+            <p className="font-dm text-[#0B1426]/65 mt-5 text-[15px] leading-[1.75] font-light">
+              The wider Dholakia Group publicly describes its lab-grown diamond production as
+              solar-powered and certified under SCS 007, reinforcing a more accountable model of
+              diamond creation.
+            </p>
+          </motion.div>
+        </div>
+        <div className="relative aspect-[16/10] lg:aspect-auto lg:min-h-[560px] overflow-hidden">
+          <ImageWithFallback
+            src="/assets/images/P06_S03_sustainability_wider_group_context_optA_image.png"
+            alt="Wider Group context — solar-powered lab-grown diamond facility"
+            className="w-full h-full object-cover"
+          />
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster="/assets/images/P06_S03_sustainability_wider_group_context_optA_image.png"
+            preload="metadata"
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src="/assets/videos/P06_S03_sustainability_wider_group_context_optA_video.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </section>
+
+      {/* P06-S04 — Manifesto */}
+      <section
+        data-header-theme="dark"
+        className="bg-[#08203D] text-white py-32 lg:py-44"
+      >
+        <div className="max-w-[820px] mx-auto px-6 md:px-12 lg:px-20 text-center">
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.9, ease }}
+            className="font-syne font-normal italic text-[clamp(1.7rem,3vw,2.4rem)] leading-[1.2]"
+          >
+            Responsibility should feel precise, not performative.
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, delay: 0.3, ease }}
+            className="font-dm text-white/72 mt-8 text-[clamp(1rem,1.3vw,1.13rem)] leading-[1.7] font-light"
+          >
+            We measure what matters and report it plainly. Certifications, audited supply chains, and
+            verifiable processes are how we work — not how we market. The goal is a record that holds
+            up to inspection, year after year.
+          </motion.p>
+          <div className="flex flex-wrap justify-center gap-3 mt-10">
+            <Link
+              to="/contact?type=press"
+              className="font-dm group inline-flex items-center gap-2 px-7 h-12 bg-[#3B6FFF] hover:bg-[#14275C] text-white rounded-sm text-[14px] font-semibold transition-colors duration-300"
+            >
+              Request our ESG materials
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
+            </Link>
+            <a
+              href="/press-kit"
+              className="font-dm inline-flex items-center gap-2 px-7 h-12 border border-white/30 text-white hover:bg-white/10 rounded-sm text-[14px] font-medium transition-all duration-300"
+            >
+              <Download size={15} /> Press kit
+            </a>
+          </div>
         </div>
       </section>
     </div>

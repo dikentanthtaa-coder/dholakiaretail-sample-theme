@@ -1,175 +1,307 @@
 import { Link } from "react-router";
-import { ArrowRight, MapPin, Briefcase, Clock, ArrowUpRight } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Pencil,
+  Sparkles,
+  ShoppingBag,
+  Store,
+  Cog,
+  Building,
+} from "lucide-react";
 import { motion } from "motion/react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 
-const pillars = [
-  { title: "Excellence", desc: "We pursue mastery in every discipline—design, manufacturing, retail, and corporate.", emoji: "01" },
-  { title: "Growth", desc: "Continuous learning, mentorship, and career progression at every level.", emoji: "02" },
-  { title: "Innovation", desc: "Freedom to explore new ideas, technologies, and creative approaches.", emoji: "03" },
-  { title: "Belonging", desc: "A diverse, inclusive culture rooted in mutual respect and shared purpose.", emoji: "04" },
+const ease = [0.65, 0, 0.35, 1] as const;
+
+/* P10-S02 — 3 culture pillars per build spec */
+const PILLARS = [
+  {
+    n: "01",
+    title: "Ambition With Discipline",
+    body: "We set high standards and meet them through process, not heroics.",
+  },
+  {
+    n: "02",
+    title: "Craft With Modernity",
+    body: "We honour traditional jewellery craft while adopting precision technology where it improves outcomes.",
+  },
+  {
+    n: "03",
+    title: "Ownership With Integrity",
+    body: "We trust our teams with consequential decisions and hold them accountable for outcomes.",
+  },
 ];
 
-const roles = [
-  { title: "Senior Diamond Grader", dept: "Manufacturing", loc: "Surat", type: "Full-time" },
-  { title: "Brand Marketing Manager", dept: "Marketing", loc: "Mumbai", type: "Full-time" },
-  { title: "Retail Store Manager — Kisna", dept: "Retail", loc: "Delhi", type: "Full-time" },
-  { title: "CAD Jewelry Designer", dept: "Design", loc: "Surat", type: "Full-time" },
-  { title: "Financial Analyst", dept: "Finance", loc: "Mumbai", type: "Full-time" },
-  { title: "ESG & Sustainability Associate", dept: "Corporate", loc: "Surat", type: "Full-time" },
-  { title: "Digital Experience Designer", dept: "Technology", loc: "Mumbai", type: "Full-time" },
-  { title: "Export Sales Executive", dept: "Sales", loc: "Surat", type: "Full-time" },
+/* P10-S03 — 6 functions per build spec */
+const FUNCTIONS = [
+  { icon: Pencil, label: "Design", desc: "Jewellery, brand, and creative direction." },
+  { icon: Sparkles, label: "Brand", desc: "Editorial voice, communications, and positioning." },
+  { icon: ShoppingBag, label: "Merchandising", desc: "Collections, assortment, and product planning." },
+  { icon: Store, label: "Retail", desc: "Salon, client experience, and direct relationships." },
+  { icon: Cog, label: "Operations", desc: "Atelier, supply chain, and production discipline." },
+  { icon: Building, label: "Corporate Functions", desc: "Finance, governance, sustainability, and people." },
 ];
 
-const process = [
-  { step: "01", title: "Apply", desc: "Submit your profile through our careers portal." },
-  { step: "02", title: "Review", desc: "Our talent team evaluates every application carefully." },
-  { step: "03", title: "Interview", desc: "Meet with hiring managers and team leads." },
-  { step: "04", title: "Offer", desc: "Receive and review your personalized offer." },
+/* Live open roles — used by single role page */
+export const ROLES = [
+  {
+    slug: "senior-jewellery-designer",
+    function: "Design",
+    title: "Senior Jewellery Designer — Mayavé",
+    location: "Surat",
+    type: "Full-time",
+    posted: "Posted 2 March 2026",
+    closing: "Applications close 30 April 2026",
+    summary:
+      "Lead the next chapter of Mayavé's bridal and heritage collections, working alongside the master atelier in Surat.",
+  },
+  {
+    slug: "junior-jewellery-designer",
+    function: "Design",
+    title: "Junior Jewellery Designer — Mayavé",
+    location: "Surat",
+    type: "Full-time",
+    posted: "Posted 14 Feb 2026",
+    closing: "Applications close 30 April 2026",
+    summary:
+      "Support the senior design team across concept, CAD, and atelier handoff for Mayavé collections.",
+  },
+  {
+    slug: "cad-designer-mayave",
+    function: "Design",
+    title: "CAD Designer — Mayavé Atelier",
+    location: "Surat",
+    type: "Full-time",
+    posted: "Posted 22 Feb 2026",
+    closing: "Applications close 30 April 2026",
+    summary:
+      "Translate hand-drawn ideation into production-ready 3D models in close partnership with the master atelier.",
+  },
+  {
+    slug: "brand-designer-dholakia-retail",
+    function: "Brand",
+    title: "Brand Designer — Dholakia Retail",
+    location: "Surat",
+    type: "Full-time",
+    posted: "Posted 8 Mar 2026",
+    closing: "Applications close 30 April 2026",
+    summary:
+      "Steward the editorial voice across newsroom, journal, and corporate brand surfaces.",
+  },
 ];
 
+/**
+ * Page 10 — Careers
+ */
 export function CareersPage() {
   return (
-    <div className="bg-bg-deep text-text-primary">
-      {/* Hero — Full Screen */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <ImageWithFallback src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=2070&auto=format&fit=crop" alt="Team Collaboration" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-bg-deep/60 dark:bg-black/55" />
-        </div>
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-10 text-center">
-          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: [0.25, 0.1, 0, 1] }}>
-            <span className="font-grotesk inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm text-text-secondary rounded-full mb-6 text-[13px] font-medium tracking-[0.15em] uppercase">Talent & Culture</span>
-            <h1 className="font-syne text-text-primary max-w-3xl mx-auto text-[clamp(2.5rem,5vw,4.5rem)] font-bold leading-[1.05] tracking-[-0.03em]">
-              Build the Future of Luxury With Us
-            </h1>
-            <p className="font-dm mt-6 text-text-secondary max-w-lg mx-auto text-[17px] leading-[1.7]">
-              Where craftsmanship, innovation, and ambition converge.
-            </p>
-          </motion.div>
+    <div className="bg-white text-[#0B1426]">
+      {/* P10-S01 — Hero */}
+      <section
+        data-header-theme="dark"
+        className="relative h-[80vh] min-h-[560px] flex items-end overflow-hidden bg-[#0B1426]"
+      >
+        <ImageWithFallback
+          src="/assets/images/P10_S01_careers_hero_optA_image.png"
+          alt="Careers — team at work"
+          className="absolute inset-0 w-full h-full object-cover opacity-80"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1426] via-[#0B1426]/40 to-transparent" />
+        <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 pb-20 lg:pb-28 w-full">
+          <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-5">
+            Careers · Dholakia Retail
+          </p>
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.3, ease }}
+            className="font-syne text-white font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(2.8rem,6vw,5.4rem)]"
+          >
+            Build with us.
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.6, ease }}
+            className="font-dm text-white/75 max-w-[58ch] mt-7 text-[clamp(1rem,1.3vw,1.18rem)] leading-[1.7] font-light"
+          >
+            We hire people who care about craft, who think clearly, and who treat the discipline of
+            luxury as a long-term commitment — not a short-term aesthetic.
+          </motion.p>
+          <div className="flex flex-wrap gap-3 mt-9">
+            <a
+              href="#open-roles"
+              className="font-dm group inline-flex items-center gap-2 px-7 h-12 bg-[#3B6FFF] hover:bg-[#14275C] text-white rounded-sm text-[14px] font-semibold transition-colors duration-300"
+            >
+              View open roles
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </a>
+            <Link
+              to="/contact?type=careers"
+              className="font-dm inline-flex items-center gap-2 px-7 h-12 border border-white/30 text-white hover:bg-white/10 rounded-sm text-[14px] font-medium transition-all duration-300"
+            >
+              Submit your profile
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Why Join */}
-      <section className="py-28 lg:py-40 bg-bg-deep">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-10 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-          <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8 }}>
-            <span className="font-grotesk text-text-muted tracking-[0.2em] uppercase text-[12px] font-semibold">Why Join Us</span>
-            <h2 className="font-syne mt-4 text-text-primary text-[clamp(1.8rem, 3vw, 2.5rem)] font-bold leading-[1.15] tracking-[-0.03em]">
-              A Culture of Craftsmanship & Ambition
+      {/* P10-S02 — Culture Pillars */}
+      <section className="bg-white py-28 lg:py-36">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+          <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-5">
+            Culture
+          </p>
+          <h2 className="font-syne text-[#0B1426] font-normal text-[clamp(1.7rem,2.8vw,2.4rem)] leading-[1.2] max-w-[20ch] mb-14">
+            How we operate together.
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#0B1426]/10">
+            {PILLARS.map((p, i) => (
+              <motion.article
+                key={p.n}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.7, delay: i * 0.08, ease }}
+                className="bg-white p-10 lg:p-14"
+              >
+                <p className="font-syne italic text-[#3B6FFF] text-[2.4rem] leading-none">{p.n}</p>
+                <h3 className="font-syne text-[#0B1426] mt-6 text-[1.4rem] font-medium leading-[1.3]">
+                  {p.title}
+                </h3>
+                <p className="font-dm text-[#0B1426]/65 mt-4 text-[15px] leading-[1.7]">{p.body}</p>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* P10-S03 — Roles & Functions */}
+      <section id="open-roles" className="bg-[#F5F5F7] py-28 lg:py-36 border-y border-[#0B1426]/10">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7, ease }}
+            className="mb-12 max-w-[820px]"
+          >
+            <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-4">
+              Functions
+            </p>
+            <h2 className="font-syne text-[#0B1426] font-normal text-[clamp(1.7rem,2.8vw,2.4rem)] leading-[1.18]">
+              Where you might fit
             </h2>
-            <p className="font-dm mt-6 text-text-secondary leading-[1.8] text-[16px]">
-              At Dholakia Retail, you join 10,000+ professionals across design, manufacturing, retail, marketing, finance, and technology. Our culture celebrates mastery, rewards innovation, and invests deeply in growth.
-            </p>
           </motion.div>
-          <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8 }} className="rounded-3xl overflow-hidden border border-glass-border">
-            <ImageWithFallback src="https://images.unsplash.com/photo-1624639949703-1d8e58184691?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaWFtb25kJTIwY3V0dGluZyUyMHBvbGlzaGluZyUyMGZhY3Rvcnl8ZW58MXx8fHwxNzc1Njk5MDE3fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Craftsmanship" className="w-full h-[400px] lg:h-[480px] object-cover" />
-          </motion.div>
-        </div>
-      </section>
 
-      {/* Culture Pillars */}
-      <section className="py-28 lg:py-40 bg-bg-surface border-y border-glass-border">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-            <span className="font-grotesk text-text-muted tracking-[0.2em] uppercase mb-4 block text-[12px] font-semibold">Values</span>
-            <h2 className="font-syne text-text-primary text-[clamp(1.8rem, 3vw, 2.5rem)] font-bold tracking-[-0.03em]">Our Culture</h2>
-          </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {pillars.map((p, i) => (
-              <motion.div key={p.title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ y: -4, borderColor: "var(--color-brand-primary)" }}
-                className="p-8 rounded-2xl bg-bg-surface-elevated border-[1px] backdrop-blur-sm transition-all text-center shadow-sm hover:shadow-xl dark:border-white/10 light:border-black/15"
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-px bg-[#0B1426]/10 mb-16">
+            {FUNCTIONS.map((f, i) => (
+              <motion.div
+                key={f.label}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.6, delay: i * 0.06, ease }}
+                className="bg-[#F5F5F7] hover:bg-white p-6 lg:p-7 transition-colors"
               >
-                <span className="font-syne text-brand-primary/20 text-[40px] font-extrabold">{p.emoji}</span>
-                <h3 className="font-syne mt-2 text-text-primary text-[22px] font-bold">{p.title}</h3>
-                <p className="font-dm mt-4 text-text-secondary leading-[1.7] text-[14px]">{p.desc}</p>
+                <f.icon size={22} strokeWidth={1.5} className="text-[#3B6FFF]" />
+                <p className="font-syne text-[#0B1426] mt-5 text-[15px] font-medium leading-[1.3]">
+                  {f.label}
+                </p>
+                <p className="font-dm text-[#0B1426]/55 mt-2 text-[12.5px] leading-[1.55]">
+                  {f.desc}
+                </p>
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* Open Roles */}
-      <section className="py-28 lg:py-40 bg-bg-deep">
-        <div className="max-w-[900px] mx-auto px-6 lg:px-10">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
-            <div>
-              <span className="font-grotesk text-text-muted tracking-[0.2em] uppercase text-[12px] font-semibold">Opportunities</span>
-              <h2 className="font-syne mt-3 text-text-primary text-[clamp(1.8rem, 3vw, 2.5rem)] font-bold tracking-[-0.03em]">Open Roles</h2>
-            </div>
-            <div className="hidden md:flex gap-2 mt-4 md:mt-0">
-              {["All", "Manufacturing", "Design", "Retail", "Corporate"].map((f, i) => (
-                <button key={f} className={`font-grotesk px-4 py-2 rounded-full transition-colors text-[13px] font-medium ${i === 0 ? "bg-text-primary text-bg-deep shadow-md" : "border border-glass-border text-text-secondary hover:text-text-primary hover:border-text-muted"}`}>
-                  {f}
-                </button>
-              ))}
-            </div>
+          <div className="flex flex-wrap items-center gap-3 mb-8">
+            <h3 className="font-syne text-[#0B1426] font-medium text-[clamp(1.2rem,1.8vw,1.5rem)]">
+              Currently hiring
+            </h3>
+            <span className="font-dm text-[#0B1426]/55 text-[12px]">
+              {ROLES.length} open roles
+            </span>
           </div>
-          <div className="space-y-4">
-            {roles.map((r, i) => (
-              <motion.div key={r.title} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.05 }}
-                whileHover={{ x: 10 }}
-                className="flex flex-col md:flex-row md:items-center justify-between p-6 lg:p-8 rounded-2xl bg-bg-surface-elevated border border-glass-border hover:bg-bg-surface hover:border-brand-primary/30 transition-all duration-500 group cursor-pointer backdrop-blur-sm shadow-sm hover:shadow-lg"
+
+          <ul className="border-t border-[#0B1426]/10">
+            {ROLES.map((r, i) => (
+              <motion.li
+                key={r.slug}
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ duration: 0.5, delay: i * 0.06, ease }}
+                className="border-b border-[#0B1426]/10"
               >
-                <div>
-                  <h4 className="font-syne text-text-primary group-hover:text-brand-primary transition-colors text-[16px] font-bold">{r.title}</h4>
-                  <div className="flex flex-wrap gap-4 mt-2">
-                    <span className="font-dm flex items-center gap-1.5 text-text-secondary opacity-60 text-[13px]"><Briefcase size={13} /> {r.dept}</span>
-                    <span className="font-dm flex items-center gap-1.5 text-text-secondary opacity-60 text-[13px]"><MapPin size={13} /> {r.loc}</span>
-                    <span className="font-dm flex items-center gap-1.5 text-text-secondary opacity-60 text-[13px]"><Clock size={13} /> {r.type}</span>
+                <Link
+                  to={`/careers/${r.slug}`}
+                  className="group flex flex-col md:flex-row md:items-center gap-3 md:gap-6 py-6 px-2 hover:bg-white/60 hover:pl-4 transition-all duration-300"
+                >
+                  <div className="md:w-1/2">
+                    <p className="font-dm text-[#3B6FFF] text-[10px] font-medium tracking-[0.16em] uppercase">
+                      {r.function} · {r.location} · {r.type}
+                    </p>
+                    <h3 className="font-syne text-[#0B1426] mt-2 text-[clamp(1.1rem,1.5vw,1.3rem)] font-medium leading-[1.3] group-hover:text-[#3B6FFF] transition-colors">
+                      {r.title}
+                    </h3>
+                    <p className="font-dm text-[#0B1426]/55 mt-2 text-[14px]">{r.summary}</p>
                   </div>
-                </div>
-                <div className="flex items-center justify-center w-10 h-10 rounded-full border border-glass-border group-hover:bg-white group-hover:border-white group-hover:text-black transition-all duration-500 mt-3 md:mt-0">
-                  <ArrowUpRight size={16} strokeWidth={2} />
-                </div>
-              </motion.div>
+                  <p className="md:flex-1 font-dm text-[#0B1426]/60 text-[13px]">{r.posted}</p>
+                  <ArrowUpRight
+                    size={20}
+                    className="text-[#0B1426]/40 group-hover:text-[#3B6FFF] group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-300"
+                  />
+                </Link>
+              </motion.li>
             ))}
+          </ul>
+
+          <div className="flex flex-wrap gap-3 mt-12">
+            <Link
+              to="/contact?type=careers"
+              className="font-dm group inline-flex items-center gap-2 px-7 h-12 bg-[#3B6FFF] hover:bg-[#14275C] text-white rounded-sm text-[14px] font-semibold transition-colors duration-300"
+            >
+              Share your profile
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <a
+              href="#open-roles"
+              className="font-dm inline-flex items-center gap-2 px-7 h-12 border border-[#0B1426]/30 text-[#0B1426] hover:border-[#3B6FFF] hover:text-[#3B6FFF] rounded-sm text-[14px] font-medium transition-all duration-300"
+            >
+              View all open roles
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Process */}
-      <section className="py-28 lg:py-40 bg-bg-surface border-t border-glass-border">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-            <span className="font-grotesk text-text-muted tracking-[0.2em] uppercase mb-4 block text-[12px] font-semibold">Process</span>
-            <h2 className="font-syne text-text-primary text-[clamp(1.8rem, 3vw, 2.5rem)] font-bold tracking-[-0.03em]">Hiring Process</h2>
-          </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {process.map((p, i) => (
-              <motion.div 
-                key={p.step} 
-                initial={{ opacity: 0, y: 20 }} 
-                whileInView={{ opacity: 1, y: 0 }} 
-                viewport={{ once: true }} 
-                transition={{ duration: 0.5, delay: i * 0.1 }} 
-                className="text-center group"
-              >
-                <div className="font-syne text-[56px] font-extrabold text-brand-primary/50 dark:text-brand-primary/30 group-hover:text-brand-primary transition-colors duration-500 mt-2">
-                  {p.step}
-                </div>
-                <div className="w-8 h-[2px] bg-brand-primary/20 mx-auto my-5 transition-all duration-500 group-hover:w-16 group-hover:bg-brand-primary" />
-                <h4 className="font-syne text-text-primary text-[19px] font-bold">{p.title}</h4>
-                <p className="font-dm mt-3 text-text-secondary leading-[1.65] text-[15px]">{p.desc}</p>
-              </motion.div>
-            ))}
+      {/* P10-S04 — Closing Statement */}
+      <section className="bg-white py-32 lg:py-40">
+        <div className="max-w-[820px] mx-auto px-6 md:px-12 lg:px-20 text-center">
+          <h2 className="font-syne text-[#0B1426] font-normal text-[clamp(1.7rem,2.8vw,2.4rem)] leading-[1.2]">
+            Speak to us about a career.
+          </h2>
+          <p className="font-dm text-[#0B1426]/65 mt-5 max-w-[58ch] mx-auto text-[1.05rem] leading-[1.7]">
+            Send your profile, your portfolio, or simply a note. Every serious application is read by
+            a human.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3 mt-9">
+            <Link
+              to="/contact?type=careers"
+              className="font-dm group inline-flex items-center gap-2 px-8 h-12 bg-[#3B6FFF] hover:bg-[#14275C] text-white rounded-sm text-[14px] font-semibold transition-colors duration-300"
+            >
+              Share your profile
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link
+              to="/contact"
+              className="font-dm inline-flex items-center gap-2 px-8 h-12 border border-[#0B1426]/30 text-[#0B1426] hover:border-[#3B6FFF] hover:text-[#3B6FFF] rounded-sm text-[14px] font-medium transition-all duration-300"
+            >
+              Visit Contact
+            </Link>
           </div>
         </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-28 bg-bg-deep text-center relative overflow-hidden">
-        {/* Decorative glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-primary/5 rounded-full blur-[120px] pointer-events-none" />
-        
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="relative z-10">
-          <h2 className="font-syne text-text-primary text-[clamp(1.8rem, 3vw, 2.5rem)] font-bold tracking-[-0.03em]">Ready to Shape the Future?</h2>
-          <p className="font-dm mt-4 text-text-muted text-[16px]">careers@dholakiaretail.com</p>
-          <Link to="/contact" className="font-grotesk group inline-flex items-center gap-2 mt-8 px-8 py-4 bg-text-primary text-bg-deep rounded-full hover:scale-105 transition-transform duration-300 text-[14px] font-semibold shadow-xl">
-            Apply Now <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-          </Link>
-        </motion.div>
       </section>
     </div>
   );

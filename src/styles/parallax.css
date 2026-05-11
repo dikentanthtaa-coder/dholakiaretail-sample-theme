@@ -4,8 +4,8 @@
  * Supplements Tailwind — import after tailwind.css
  */
 
-/* ── Custom cursor ─────────────────────────────────────────────────────────── */
-* { cursor: none !important; }
+/* ── Custom cursor (only when explicit class is present, default = system) ─── */
+.cursor-none, .cursor-none * { cursor: none !important; }
 
 /* ── Perspective utility ───────────────────────────────────────────────────── */
 .perspective-800  { perspective: 800px; }
@@ -159,12 +159,7 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-/* ── Body font smoothing ───────────────────────────────────────────────────── */
-body {
-  font-family: 'Inter', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+/* ── Body font smoothing handled by theme.css ─────────────────────────────── */
 
 /* ── Reduced motion overrides ───────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {

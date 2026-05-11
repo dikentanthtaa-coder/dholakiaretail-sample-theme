@@ -1,33 +1,56 @@
 import { motion } from "motion/react";
 import { useTilt } from "./Shared";
-import { ease, valuesData } from "./constants";
+import { ease, PRINCIPLES } from "./constants";
 
+/**
+ * P01-S03 — Guiding Principles · 4 cards on white
+ */
 export function ValuesSection() {
   return (
-    <section className="py-20 md:py-32 lg:py-40 relative z-20 bg-bg-deep">
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, ease: ease }}
-          className="text-center mb-24"
+    <section className="bg-white py-32 lg:py-40">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7, ease }}
+          className="max-w-[820px] mb-20 lg:mb-24"
         >
-          <span className="font-grotesk text-text-secondary tracking-[0.22em] uppercase text-[12px] font-semibold">Our Foundation</span>
+          <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-5">
+            Guiding Principles
+          </p>
+          <h2 className="font-syne text-[#0B1426] font-normal leading-[1.08] tracking-[-0.02em] text-[clamp(1.9rem,3.4vw,3.2rem)]">
+            The standards behind every brand we build.
+          </h2>
         </motion.div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {valuesData.map((v, i) => {
-            const { ref, springRotX, springRotY, onMouseMove, onMouseLeave } = useTilt(8);
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#0B1426]/10">
+          {PRINCIPLES.map((p, i) => {
+            const { ref, springRotX, springRotY, onMouseMove, onMouseLeave } = useTilt(2);
             return (
-              <motion.div key={v.title} ref={ref} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}
-                style={{ rotateX: springRotX, rotateY: springRotY, transformPerspective: 800 }}
-                initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 1, delay: i * 0.15, ease: ease }}
-                className="group relative p-6 md:p-8 lg:p-12 rounded-3xl bg-bg-surface border border-glass-border hover:bg-glass-bg hover:border-glass-hover-border transition-colors duration-500 overflow-hidden"
+              <motion.article
+                key={p.title}
+                ref={ref}
+                onMouseMove={onMouseMove}
+                onMouseLeave={onMouseLeave}
+                style={{ rotateX: springRotX, rotateY: springRotY, transformPerspective: 1200 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.7, delay: i * 0.08, ease }}
+                whileHover={{ y: -6 }}
+                className="group relative bg-white p-10 lg:p-12 transition-all duration-500 hover:bg-[#F5F5F7]"
               >
-                <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <motion.div whileHover={{ scale: 1.08 }} className="relative z-10 inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-glass-bg text-text-primary mb-8 border border-glass-border">{v.icon}</motion.div>
-                <h3 className="font-syne relative z-10 text-text-primary tracking-tight text-[clamp(1.25rem,3vw,1.75rem)] font-bold">{v.title}</h3>
-                <p className="font-dm relative z-10 mt-4 text-text-secondary text-[16px] leading-[1.75]">{v.desc}</p>
-              </motion.div>
+                <span className="font-mono text-[#3B6FFF] text-[11px] tracking-[0.18em] block mb-8">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div className="text-[#3B6FFF] mb-6 inline-flex">{p.icon}</div>
+                <h3 className="font-syne text-[#0B1426] font-medium text-[1.4rem] leading-[1.3]">
+                  {p.title}
+                </h3>
+                <p className="font-dm mt-4 text-[#0B1426]/70 text-[15px] leading-[1.7]">{p.body}</p>
+                <div className="absolute inset-x-10 bottom-10 h-px bg-[#3B6FFF] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+              </motion.article>
             );
           })}
         </div>
