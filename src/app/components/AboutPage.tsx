@@ -1,7 +1,7 @@
 "use client";
 
 import { Link } from "react-router";
-import { ArrowRight, Building2, Hash, MapPin, Calendar, Linkedin, CircleDot } from "lucide-react";
+import { ArrowRight, Building2, Hash, MapPin, Calendar, CircleDot } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
@@ -84,34 +84,37 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-const LEADERSHIP_IMG = "/assets/web/P02_S03_the_group_leadership_optA_image.jpg";
 const ABOUT_HERO_IMG = "/assets/images/P02_S05_the_group_timeline_optA_image.png";
 const TIMELINE_IMG = "/assets/images/P02_S05_the_group_timeline_optA_image.png";
 
 const LEADERS = [
   {
-    name: "Director Name",
-    role: "Founder · Chair",
-    bio: "Director information will be populated from public records or client-approved internal materials.",
-    img: LEADERSHIP_IMG,
+    name: "Dravya Savjibhai Dholakia",
+    role: "Director, Dholakia Retail Private Limited",
+    bio: "Appointed at incorporation in October 2024. Stewards brand strategy and the Mayavé portfolio house. Second-generation Dholakia.",
+    meta: "DIN · 08897843 · Appointed 11 Oct 2024",
+    img: "/assets/images/Dravya%20Dholakia.jpg",
   },
   {
-    name: "Director Name",
-    role: "Managing Director",
-    bio: "Director information will be populated from public records or client-approved internal materials.",
-    img: LEADERSHIP_IMG,
+    name: "Rajesh Himmat Dholakia",
+    role: "Director, Dholakia Retail Private Limited",
+    bio: "Appointed at incorporation in October 2024. Stewards operations, governance, and partner-network growth across the retail entity.",
+    meta: "DIN · 02173366 · Appointed 11 Oct 2024",
+    img: "/assets/images/Rajesh%20Himmat%20Dholakia.jpg",
   },
   {
-    name: "Director Name",
-    role: "Chief Operating Officer",
-    bio: "Director information will be populated from public records or client-approved internal materials.",
-    img: LEADERSHIP_IMG,
+    name: "Shri Savji Dholakia",
+    role: "Founder, Hari Krishna Group",
+    bio: "Padma Shri awardee. The originating voice in the founding family — three decades of building a diamond manufacturing institution from Surat outwards. Featured in the RJC's 20 Stories of Impact (2026).",
+    meta: "",
+    img: "/assets/images/Shri%20Savji%20Dholakia.jpg",
   },
   {
-    name: "Director Name",
-    role: "Head of Sustainability",
-    bio: "Director information will be populated from public records or client-approved internal materials.",
-    img: LEADERSHIP_IMG,
+    name: "Shri Himmat Dholakia",
+    role: "Co-Founder, Hari Krishna Group",
+    bio: "Co-founder of the Group. Owns the operational discipline and family-stewardship culture that defines the Surat manufacturing institution.",
+    meta: "",
+    img: "/assets/images/Shri%20Himmat%20Dholakia.jpg",
   },
 ];
 
@@ -279,7 +282,7 @@ export function AboutPage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#0B1426]/10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {LEADERS.map((p, i) => (
               <motion.article
                 key={i}
@@ -287,24 +290,30 @@ export function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.7, delay: i * 0.08, ease }}
-                className="bg-white group"
+                className="bg-white group rounded-2xl overflow-hidden border border-[#0B1426]/8 flex flex-col"
               >
                 <div className="aspect-[4/5] overflow-hidden bg-[#F5F5F7]">
                   <ImageWithFallback
                     src={p.img}
                     alt={p.name}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                 </div>
-                <div className="p-6">
-                  <h3 className="font-syne text-[#0B1426] text-[18px] font-medium">{p.name}</h3>
-                  <p className="font-dm text-[#0B1426]/55 text-[11px] font-medium tracking-[0.16em] uppercase mt-1.5">
+                <div className="p-6 flex flex-col flex-1">
+                  <h3 className="font-syne text-[#0B1426] text-[18px] font-medium leading-[1.3]">
+                    {p.name}
+                  </h3>
+                  <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.16em] uppercase mt-2">
                     {p.role}
                   </p>
-                  <p className="font-dm text-[#0B1426]/70 text-[13px] leading-[1.6] mt-4">{p.bio}</p>
-                  <span className="inline-flex items-center gap-1 mt-5 text-[#3B6FFF] text-[12px] font-medium">
-                    <Linkedin size={14} strokeWidth={1.6} /> Profile
-                  </span>
+                  <p className="font-dm text-[#0B1426]/72 text-[13px] leading-[1.65] mt-4 flex-1">
+                    {p.bio}
+                  </p>
+                  {p.meta && (
+                    <p className="font-mono text-[#0B1426]/55 text-[11px] tracking-[0.04em] mt-5">
+                      {p.meta}
+                    </p>
+                  )}
                 </div>
               </motion.article>
             ))}
@@ -362,30 +371,32 @@ export function AboutPage() {
       {/* P02-S05 — Timeline */}
       <section ref={timelineSectionRef} className="bg-white" style={{ paddingTop: "120px", paddingBottom: "120px" }}>
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
-          <div className="max-w-2xl mb-16 md:mb-24">
-            <motion.p
-              className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-5"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.5 }}
-            >
-              Timeline
-            </motion.p>
-            <motion.h2
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.6, ease: EASE_STANDARD }}
-              style={{
-                fontSize: "clamp(1.875rem, 3.4vw, 3rem)",
-                lineHeight: 1.15,
-                letterSpacing: "-0.015em",
-              }}
-              className="font-syne text-[#0B1426] font-normal"
-            >
-              From incorporation to future portfolio growth
-            </motion.h2>
+          <div className=" mb-16 md:mb-24 flex justify-center">
+            <div className="max-w-2xl text-center">
+              <motion.p
+                className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-5"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.5 }}
+              >
+                Timeline
+              </motion.p>
+              <motion.h2
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.6, ease: EASE_STANDARD }}
+                style={{
+                  fontSize: "clamp(1.875rem, 3.4vw, 3rem)",
+                  lineHeight: 1.15,
+                  letterSpacing: "-0.015em",
+                }}
+                className="font-syne text-[#0B1426] font-normal"
+              >
+                From incorporation to future portfolio growth
+              </motion.h2>
+            </div>
           </div>
 
           <motion.div
@@ -393,7 +404,7 @@ export function AboutPage() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.9, ease }}
-            className="aspect-[3/4] sm:aspect-[16/9] overflow-hidden bg-[#F5F5F7] mb-16 max-w-[680px] mx-auto"
+            className="aspect-[3/4] sm:aspect-[16/9] overflow-hidden bg-[#F5F5F7] mb-16 max-w-[680px] mx-auto rounded-2xl"
           >
             <ImageWithFallback
               src={TIMELINE_IMG}

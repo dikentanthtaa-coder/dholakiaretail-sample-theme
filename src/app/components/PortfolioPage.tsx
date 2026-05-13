@@ -242,7 +242,7 @@ export function PortfolioPage() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 1, ease }}
-            className="aspect-[4/5] overflow-hidden bg-[#F5F5F7]"
+            className="aspect-[4/5] overflow-hidden bg-[#F5F5F7] rounded-2xl"
           >
             <ImageWithFallback
               src="/assets/images/P01_S05_home_portfolio_preview_optB_image.png"

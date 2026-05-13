@@ -35,7 +35,7 @@ export function PortfolioPreviewSection({ smoothX, smoothY }: Props) {
         data-header-theme="dark"
         className="relative h-[70vh] min-h-[480px] overflow-hidden bg-[#0B1426]"
       >
-        <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 w-full h-[120%] -top-[10%]">
+        <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 w-full h-[120%] -top-[8%]">
           <motion.div style={{ x: mx, y: my }} className="w-full h-full">
             <ImageWithFallback
               src={IMG.mayave}
@@ -71,7 +71,7 @@ export function PortfolioPreviewSection({ smoothX, smoothY }: Props) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.9, ease }}
-            className="font-syne text-white font-normal italic leading-[1.05] tracking-[-0.02em] text-[clamp(2.4rem,5vw,4.6rem)]"
+            className="font-syne text-white font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(2.4rem,5vw,4.6rem)]"
           >
             Mayavé
           </motion.h2>

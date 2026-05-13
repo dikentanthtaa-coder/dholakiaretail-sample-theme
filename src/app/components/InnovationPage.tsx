@@ -114,7 +114,7 @@ export function InnovationPage() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.9, ease }}
-            className="aspect-[16/10] overflow-hidden bg-white"
+            className="aspect-[16/10] overflow-hidden bg-white rounded-2xl"
           >
             <ImageWithFallback
               src="/assets/images/P07_S02_innovation_lab_grown_diamond_story_optA_image.png"
@@ -148,7 +148,7 @@ export function InnovationPage() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.9, ease }}
-            className="aspect-[16/9] overflow-hidden bg-[#F5F5F7] mb-14"
+            className="aspect-[16/9] overflow-hidden bg-[#F5F5F7] mb-14 rounded-2xl"
           >
             <ImageWithFallback
               src="/assets/images/P07_S03_innovation_process_explainer_optA_image.png"
@@ -194,7 +194,7 @@ export function InnovationPage() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.9, ease }}
-            className="aspect-[16/10] overflow-hidden bg-white order-2 lg:order-1"
+            className="aspect-[16/10] overflow-hidden bg-white order-2 lg:order-1 rounded-2xl"
           >
             <ImageWithFallback
               src="/assets/images/P07_S04_innovation_quality_relevance_optA_image.png"

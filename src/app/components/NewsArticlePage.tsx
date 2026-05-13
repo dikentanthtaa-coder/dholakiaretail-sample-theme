@@ -35,7 +35,7 @@ const FEATURED_ARTICLE = {
   authorRole: "Dholakia Retail",
   authorBio:
     "The Sustainability Desk publishes the company's annual ESG report and quarterly programme updates.",
-  img: "/assets/web/P13_S01_news_article_single_article_hero_optA_image.jpg",
+  img: "https://images.unsplash.com/photo-1437482078695-73f5ca6c96e2?auto=format&fit=crop&w=1920&q=80",
   body: {
     lead:
       "When Dholakia Retail's water-restoration programme launched in 2021, the brief was deliberately narrow: revive one neglected water body in a single district, document everything, and only scale once the model proved it could be measured.",
@@ -65,19 +65,19 @@ const FEATURED_ARTICLE = {
       slug: "rjc-assurance-programme",
       title: "Dholakia Retail joins the Responsible Jewellery Council assurance programme",
       meta: "Press Release · 8 February 2026",
-      img: "/assets/web/P13_S04_news_article_single_related_articles_optA_image.jpg",
+      img: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=1600&q=80",
     },
     {
       slug: "inside-the-audit",
       title: "Inside the audit: how the water programme is verified each quarter",
       meta: "Sustainability · 22 January 2026",
-      img: "/assets/web/P13_S04_news_article_single_related_articles_optA_image.jpg",
+      img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1600&q=80",
     },
     {
       slug: "open-letter-esg-investors",
       title: "The case for measured impact: an open letter to ESG investors",
       meta: "Leadership · 11 December 2025",
-      img: "/assets/web/P13_S04_news_article_single_related_articles_optA_image.jpg",
+      img: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1600&q=80",
     },
   ],
 };
@@ -89,8 +89,10 @@ export function NewsArticlePage() {
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
 
   // If the URL slug matches an item in the news archive, render that header data.
+  // Otherwise fall back to related-article metadata, then to the spec sample article.
   // The body always uses the spec sample article (richest copy available).
   const indexed = NEWS_ARCHIVE.find((n) => n.slug === id);
+  const relatedMatch = FEATURED_ARTICLE.related.find((r) => r.slug === id);
   const headline = indexed
     ? {
         title: indexed.title,
@@ -98,6 +100,14 @@ export function NewsArticlePage() {
         category: indexed.cat,
         publishedDate: indexed.date,
         img: indexed.img,
+      }
+    : relatedMatch
+    ? {
+        title: relatedMatch.title,
+        subtitle: FEATURED_ARTICLE.subtitle,
+        category: relatedMatch.meta.split(" · ")[0],
+        publishedDate: relatedMatch.meta.split(" · ")[1] ?? FEATURED_ARTICLE.publishedDate,
+        img: relatedMatch.img,
       }
     : {
         title: FEATURED_ARTICLE.title,
@@ -126,6 +136,7 @@ export function NewsArticlePage() {
             src={headline.img}
             alt={headline.title}
             className="w-full h-full object-cover opacity-80"
+            loading="eager"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0B1426] via-[#0B1426]/40 to-[#0B1426]/40" />
         </motion.div>
@@ -173,9 +184,10 @@ export function NewsArticlePage() {
             </p>
             <figure className="my-10">
               <ImageWithFallback
-                src="/assets/web/P13_S02_news_article_single_article_body_optA_image.jpg"
+                src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=80"
                 alt="Editorial inline — water restoration site"
-                className="w-full aspect-[3/4] object-cover bg-[#F5F5F7]"
+                className="w-full aspect-[3/4] object-cover bg-[#F5F5F7] rounded-2xl"
+                loading="lazy"
               />
               <figcaption className="font-dm text-[#0B1426]/55 text-[12.5px] mt-3 italic">
                 Field photography · audited site, Q1 2026.
@@ -294,13 +306,14 @@ export function NewsArticlePage() {
               <Link
                 key={r.slug}
                 to={`/news/${r.slug}`}
-                className="bg-white group flex flex-col"
+                className="bg-white group flex flex-col overflow-hidden"
               >
                 <div className="aspect-[16/9] overflow-hidden">
                   <ImageWithFallback
                     src={r.img}
                     alt={r.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    loading="lazy"
                   />
                 </div>
                 <div className="p-7">

@@ -58,7 +58,7 @@ export function CraftsmanshipPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3, ease }}
-            className="font-syne text-white font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(2.4rem,5.5vw,5rem)] max-w-[16ch]"
+            className="font-syne text-white font-normal leading-[1.05] text-[clamp(2.4rem,5.5vw,5rem)] max-w-[16ch]"
           >
             The Hand Behind the Brilliance
           </motion.h1>
@@ -81,7 +81,7 @@ export function CraftsmanshipPage() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.9, ease }}
-            className="aspect-[4/3] overflow-hidden bg-white mb-14 max-w-[640px] mx-auto"
+            className="aspect-[4/3] overflow-hidden bg-white mb-14 max-w-[640px] mx-auto rounded-2xl"
           >
             <ImageWithFallback
               src="/assets/images/P05_S02_craftsmanship_craft_philosophy_optA_image.png"
@@ -117,7 +117,7 @@ export function CraftsmanshipPage() {
       <section className="grid grid-cols-1 lg:grid-cols-2">
         <div className="relative aspect-[16/10] lg:aspect-auto lg:min-h-[640px] overflow-hidden bg-[#0B1426]">
           <ImageWithFallback
-            src="/assets/web/P05_S03_craftsmanship_making_ecosystem_optA_image.jpg"
+            src="/assets/images/P05_S01_craftsmanship_hero_optA_image.png"
             alt="Surat manufacturing facility"
             className="w-full h-full object-cover opacity-90"
           />
@@ -175,7 +175,7 @@ export function CraftsmanshipPage() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.9, ease }}
-            className="aspect-[16/9] overflow-hidden bg-[#F5F5F7] mb-14"
+            className="aspect-[16/9] overflow-hidden bg-[#F5F5F7] mb-14 rounded-2xl"
           >
             <ImageWithFallback
               src="/assets/images/P05_S04_craftsmanship_process_timeline_optA_image.png"

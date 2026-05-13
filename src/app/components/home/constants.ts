@@ -9,13 +9,13 @@ import React from "react";
 export const IMG = {
   // P01-S01 — Cinematic Hero
   heroPoster: "/assets/images/P01_S01_home_hero_optA_image.png",
-  heroVideo: "/assets/videos/P01_S01_home_hero_optA_video.mp4",
+  heroVideo: "/assets/videos/P01_S01_Hero_Video_idea_360.mp4",
   // P01-S04 — Corporate Snapshot
   snapshot: "/assets/images/P01_S04_home_corporate_snapshot_optA_image.png",
   snapshotVideo: "/assets/videos/P01_S04_home_corporate_snapshot_optA_video.mp4",
   // P01-S05 — Portfolio / Mayavé spotlight
   mayave: "/assets/images/P01_S05_home_portfolio_preview_optA_image.png",
-  mayaveVideo: "/assets/videos/P01_S05_home_portfolio_preview_optA_video.mp4",
+  mayaveVideo: "/assets/videos/P01_S01_home_hero_optA_video.mp4",
   // P01-S06 — Brand Film
   filmPoster: "/assets/images/P01_S06_home_brand_film_optA_image.png",
   filmVideo: "/assets/videos/P01_S06_home_brand_film_optA_video.mp4",

@@ -46,7 +46,7 @@ export function NewsSection() {
             >
               <Link
                 to={`/news/${n.slug}`}
-                className="group flex flex-col h-full border border-[#0B1426]/10 hover:border-[#3B6FFF] transition-all duration-300 bg-white"
+                className="group flex flex-col h-full border border-[#0B1426]/10 hover:border-[#3B6FFF] transition-all duration-300 bg-white rounded-2xl overflow-hidden"
               >
                 <div className="aspect-[16/9] overflow-hidden">
                   <ImageWithFallback
@@ -86,7 +86,7 @@ export function NewsSection() {
           >
             <Link
               to="/news"
-              className="group flex flex-col h-full border border-[#0B1426]/10 hover:border-[#3B6FFF] bg-[#F5F5F7] hover:bg-white transition-all duration-300 p-8"
+              className="group flex flex-col h-full border border-[#0B1426]/10 hover:border-[#3B6FFF] bg-[#F5F5F7] hover:bg-white transition-all duration-300 p-8 rounded-2xl"
             >
               <ArrowUpRight
                 size={28}

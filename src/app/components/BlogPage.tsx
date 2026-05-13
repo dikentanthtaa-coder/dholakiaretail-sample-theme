@@ -183,7 +183,7 @@ export function BlogPage() {
               to={`/blog/${featured.slug}`}
               className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center group"
             >
-              <div className="aspect-[4/3] overflow-hidden bg-[#F5F5F7]">
+              <div className="aspect-[4/3] overflow-hidden bg-[#F5F5F7] rounded-2xl">
                 <ImageWithFallback
                   src={featured.img}
                   alt={featured.title}
@@ -229,7 +229,7 @@ export function BlogPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ duration: 0.6, delay: i * 0.06, ease }}
-                  className="bg-white"
+                  className="bg-white rounded-2xl overflow-hidden"
                 >
                   <Link to={`/blog/${p.slug}`} className="group flex flex-col h-full">
                     <div className="aspect-[16/9] overflow-hidden">

@@ -120,7 +120,7 @@ export function BlogPostPage() {
               <ImageWithFallback
                 src="/assets/images/P19_S02_single_blog_post_article_body_optA_image.png"
                 alt="Atelier macro · polishing detail"
-                className="w-full aspect-[3/4] object-cover bg-[#F5F5F7]"
+                className="w-full aspect-[3/4] object-cover bg-[#F5F5F7] rounded-2xl"
               />
               <figcaption className="font-dm text-[#0B1426]/55 text-[12.5px] mt-3 italic">
                 Hand-finishing at hour seven · Surat atelier.
@@ -242,7 +242,7 @@ export function BlogPostPage() {
               <Link
                 key={p.slug}
                 to={`/blog/${p.slug}`}
-                className="bg-white group flex flex-col"
+                className="bg-white group flex flex-col rounded-2xl overflow-hidden"
               >
                 <div className="aspect-[16/9] overflow-hidden">
                   <ImageWithFallback

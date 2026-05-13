@@ -36,7 +36,7 @@ export function GlobalPresencePage() {
       {/* P08-S01 — Hero */}
       <section
         data-header-theme="dark"
-        className="relative h-[80vh] min-h-[560px] flex items-end overflow-hidden bg-[#0B1426]"
+        className="relative h-screen flex items-end overflow-hidden bg-[#0B1426]"
       >
         <ImageWithFallback
           src="/assets/images/P08_S01_global_presence_partnerships_hero_optA_image.png"
@@ -44,6 +44,7 @@ export function GlobalPresencePage() {
           className="absolute inset-0 w-full h-full object-cover opacity-80"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0B1426] via-[#0B1426]/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0B1426] via-[#0B1426]/40 to-transparent" />
 
         <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 pb-20 lg:pb-28 w-full">
           <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-5">

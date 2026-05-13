@@ -54,7 +54,7 @@ export function ManufacturingSustainabilitySection({ smoothX, smoothY }: Props) 
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 1, ease }}
-            className="relative aspect-[16/9] overflow-hidden border border-white/10 group"
+            className="relative aspect-[16/9] overflow-hidden border border-white/10 rounded-2xl group"
           >
             <ImageWithFallback
               src={IMG.filmPoster}
@@ -135,7 +135,7 @@ export function ManufacturingSustainabilitySection({ smoothX, smoothY }: Props) 
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.96, opacity: 0 }}
                 transition={{ duration: 0.3, ease }}
-                className="w-full max-w-[1280px] aspect-video"
+                className="w-full max-w-[1280px] aspect-video rounded-2xl overflow-hidden"
                 onClick={(e) => e.stopPropagation()}
               >
                 <video
@@ -189,7 +189,7 @@ export function ManufacturingSustainabilitySection({ smoothX, smoothY }: Props) 
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6 }}
-            className="font-dm text-[#6B8AC9] text-[11px] font-medium tracking-[0.22em] uppercase mb-5"
+            className="font-dm text-[#ffffff] font-bold text-[11px] tracking-[0.22em] uppercase mb-5"
           >
             Responsibility
           </motion.p>

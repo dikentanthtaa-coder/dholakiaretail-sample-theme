@@ -25,7 +25,7 @@ export const NEWS_ARCHIVE = [
     title: "Building the Future of Luxury Retail",
     excerpt:
       "How Dholakia Retail is establishing the corporate foundation for a new generation of jewellery brands.",
-    img: "/assets/web/P09_S04_newsroom_article_grid_optA_image.jpg",
+    img: "/assets/images/building-the-future-of-luxury-retail.png",
     featured: true,
   },
   {
@@ -35,7 +35,7 @@ export const NEWS_ARCHIVE = [
     title: "Mayavé: A New Chapter in Bespoke Luxury",
     excerpt:
       "An editorial introduction to Mayavé — the first house in Dholakia Retail's curated portfolio.",
-    img: "/assets/web/P09_S04_newsroom_article_grid_optA_image.jpg",
+    img: "https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&w=1600&q=80",
   },
   {
     slug: "why-responsibility-matters-in-modern-jewellery",
@@ -44,7 +44,7 @@ export const NEWS_ARCHIVE = [
     title: "Why Responsibility Matters in Modern Jewellery",
     excerpt:
       "Notes on traceability, certifications, and the discipline of measuring what matters in a luxury house.",
-    img: "/assets/web/P09_S04_newsroom_article_grid_optA_image.jpg",
+    img: "https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&w=1600&q=80",
   },
   {
     slug: "what-defines-a-house-of-brands",
@@ -53,17 +53,8 @@ export const NEWS_ARCHIVE = [
     title: "What Defines a House of Brands",
     excerpt:
       "How a curated portfolio differs from a multi-brand retailer — and why that distinction matters.",
-    img: "/assets/web/P09_S04_newsroom_article_grid_optA_image.jpg",
-  },
-  {
-    slug: "craft-systems-and-long-term-value",
-    cat: "Press Resources",
-    date: "1 February 2026",
-    title: "Craft, Systems, and Long-Term Value",
-    excerpt:
-      "An overview of how Dholakia Retail balances traditional craftsmanship with modern operating systems.",
-    img: "/assets/web/P09_S04_newsroom_article_grid_optA_image.jpg",
-  },
+    img: "/assets/images/what-defines-a-house-of-brands.png",
+  }
 ];
 
 /**
@@ -124,11 +115,12 @@ export function NewsPage() {
               to={`/news/${featured.slug}`}
               className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 group"
             >
-              <div className="aspect-[16/10] overflow-hidden bg-[#F5F5F7]">
+              <div className="aspect-[16/10] overflow-hidden bg-[#F5F5F7] rounded-2xl">
                 <ImageWithFallback
                   src={featured.img}
                   alt={featured.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  loading="eager"
                 />
               </div>
               <div className="flex flex-col justify-center">
@@ -160,7 +152,7 @@ export function NewsPage() {
               No articles in this category yet.
             </p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#0B1426]/10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px">
               {grid.map((n, i) => (
                 <motion.div
                   key={n.slug}
@@ -168,7 +160,7 @@ export function NewsPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ duration: 0.6, delay: i * 0.06, ease }}
-                  className="bg-white"
+                  className="bg-white overflow-hidden"
                 >
                   <Link to={`/news/${n.slug}`} className="group flex flex-col h-full">
                     <div className="aspect-[16/9] overflow-hidden">
@@ -176,6 +168,7 @@ export function NewsPage() {
                         src={n.img}
                         alt={n.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        loading="lazy"
                       />
                     </div>
                     <div className="p-7 flex flex-col flex-1">

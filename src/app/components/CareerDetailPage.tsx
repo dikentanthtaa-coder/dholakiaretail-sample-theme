@@ -263,7 +263,7 @@ export function CareerDetailPage() {
 
           {/* P11-S03 + S04 — Sidebar */}
           <aside className="space-y-10">
-            <div className="border border-[#0B1426]/10 bg-[#F5F5F7] overflow-hidden">
+            <div className="border border-[#0B1426]/10 bg-[#F5F5F7] overflow-hidden rounded-2xl">
               <div className="aspect-[3/4] overflow-hidden">
                 <ImageWithFallback
                   src="/assets/web/P11_S03_single_career_role_detail_about_the_team_optA_image.jpg"

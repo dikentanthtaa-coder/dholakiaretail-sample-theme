@@ -50,6 +50,7 @@ export function Hero({ smoothX, smoothY }: HeroProps) {
           poster={IMG.heroPoster}
           preload="metadata"
           className="absolute inset-0 w-full h-full object-cover"
+          style={{ transform: "scale(1.15)" }}
         >
           <source src={IMG.heroVideo} type="video/mp4" />
         </video>

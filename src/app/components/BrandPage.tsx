@@ -7,7 +7,7 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 const ease = [0.65, 0, 0.35, 1] as const;
 
 const MAYAVE = {
-  hero: "/assets/web/P04_S01_mayave_hero_optA_image.jpg",
+  hero: "/assets/images/P01_S05_home_portfolio_preview_optA_image.png",
   lookbookHero: "/assets/web/P04_S04_mayave_lookbook_optA_image.jpg",
   relatedBlog: "/assets/images/P04_S05_mayave_related_blog_optA_image.png",
   relatedNews: "/assets/images/P04_S06_mayave_related_news_optA_image.png",
@@ -19,32 +19,32 @@ const MAYAVE = {
   ],
   lookbook: [
     {
-      src: "/assets/web/P04_S04_mayave_lookbook_optA_image.jpg",
+      src: "/assets/mayave/lookbook_01_stillness.jpg",
       caption: "Stillness in detail",
       ratio: "aspect-[4/5]",
     },
     {
-      src: "/assets/web/P04_S04_mayave_lookbook_optA_image.jpg",
+      src: "/assets/mayave/lookbook_02_proportion.jpg",
       caption: "Light in proportion",
       ratio: "aspect-[1/1]",
     },
     {
-      src: "/assets/web/P03_S03_portfolio_featured_brand_mayave_optA_image.jpg",
+      src: "/assets/mayave/lookbook_03_surface.jpg",
       caption: "The private surface",
       ratio: "aspect-[4/5]",
     },
     {
-      src: "/assets/web/P04_S01_mayave_hero_optA_image.jpg",
+      src: "/assets/mayave/lookbook_04_whisper.jpg",
       caption: "Jewellery as whisper",
       ratio: "aspect-[1/1]",
     },
     {
-      src: "/assets/web/P04_S04_mayave_lookbook_optA_image.jpg",
+      src: "/assets/mayave/lookbook_05_chain.jpg",
       caption: "Polished restraint",
       ratio: "aspect-[16/9]",
     },
     {
-      src: "/assets/web/P03_S03_portfolio_featured_brand_mayave_optA_image.jpg",
+      src: "/assets/mayave/lookbook_06_bench.jpg",
       caption: "Material as memory",
       ratio: "aspect-[4/5]",
     },
@@ -55,21 +55,21 @@ const MAYAVE = {
       cat: "Craft",
       title: "On the tension between restraint and embellishment",
       meta: "Craft · 8 min read · 3 April 2026",
-      img: "/assets/images/P04_S05_mayave_related_blog_optA_image.png",
+      img: "/assets/mayave/journal_01_restraint.jpg",
     },
     {
       slug: "why-we-polish-for-nine-hours",
       cat: "Atelier",
       title: "Why we polish for nine hours when six would suffice",
       meta: "Atelier · 6 min read · 12 March 2026",
-      img: "/assets/images/P04_S05_mayave_related_blog_optA_image.png",
+      img: "/assets/mayave/journal_02_polish.jpg",
     },
     {
       slug: "asha-collection-diamond-cutter",
       cat: "Conversations",
       title: "A dialogue with the diamond cutter behind the Asha collection",
       meta: "Conversations · 12 min read · 24 February 2026",
-      img: "/assets/images/P04_S05_mayave_related_blog_optA_image.png",
+      img: "/assets/mayave/journal_03_cutter.jpg",
     },
   ],
   news: [
@@ -78,21 +78,21 @@ const MAYAVE = {
       cat: "Awards",
       title: "Mayavé awarded the 2026 Couture Design Prize for the Asha collection",
       meta: "Awards · 18 March 2026",
-      img: "/assets/images/P04_S06_mayave_related_news_optA_image.png",
+      img: "/assets/mayave/lookbook_03_surface.jpg",
     },
     {
       slug: "mayave-a-new-chapter-in-bespoke-luxury",
       cat: "Brand Launch",
       title: "Mayavé opens its first private salon outside Surat",
       meta: "Brand Launch · 5 February 2026",
-      img: "/assets/images/P04_S06_mayave_related_news_optA_image.png",
+      img: "/assets/mayave/lookbook_06_bench.jpg",
     },
     {
       slug: "mayave-a-new-chapter-in-bespoke-luxury",
       cat: "Press",
       title: "Mayavé featured in Vogue India's Heritage Houses 2026 issue",
       meta: "Press · 22 January 2026",
-      img: "/assets/images/P04_S06_mayave_related_news_optA_image.png",
+      img: "/assets/mayave/lookbook_04_whisper.jpg",
     },
   ],
 };
@@ -159,6 +159,9 @@ export function BrandPage() {
             className="w-full h-full object-cover opacity-80"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0B1426] via-[#0B1426]/40 to-[#0B1426]/30" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0B1426] via-[#0B1426]/40 to-[#0B1426]/30" />
+          {/* <div className="absolute inset-0 bg-gradient-to-l from-[#0B1426] via-[#0B1426]/40 to-[#0B1426]/30" /> */}
+          {/* <div className="absolute inset-0 bg-gradient-to-r from-[#0B1426] via-[#0B1426]/40 to-[#0B1426]/30" /> */}
         </motion.div>
 
         <motion.div
@@ -298,13 +301,15 @@ export function BrandPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.6, delay: i * 0.06, ease }}
-                className={`group block w-full text-left ${shot.ratio} overflow-hidden bg-white relative`}
+                className={`group block w-full text-left ${shot.ratio} overflow-hidden bg-white relative rounded-2xl`}
               >
                 <ImageWithFallback
                   src={shot.src}
                   alt={shot.caption}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
+                <span className="absolute inset-0 bg-gradient-to-t from-[#0B1426] via-[#0B1426]/10 to-[#0B1426]/10 pointer-events-none" />
+                <span className="absolute inset-0 bg-gradient-to-b from-[#0B1426] via-[#0B1426]/10 to-[#0B1426]/10 pointer-events-none" />
                 <span className="absolute inset-0 bg-[#0B1426]/0 group-hover:bg-[#0B1426]/15 transition-colors duration-500" />
                 <span className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/85 backdrop-blur text-[#3B6FFF] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <Expand size={14} />
@@ -334,7 +339,7 @@ export function BrandPage() {
               <img
                 src={MAYAVE.lookbook[lightbox].src}
                 alt=""
-                className="max-w-[1100px] w-full max-h-[80vh] object-contain"
+                className="max-w-[1100px] w-full max-h-[80vh] object-contain rounded-2xl"
               />
               <p className="absolute bottom-8 left-1/2 -translate-x-1/2 font-syne italic text-white text-[16px]">
                 {MAYAVE.lookbook[lightbox].caption}
@@ -367,12 +372,14 @@ export function BrandPage() {
                 className="bg-white"
               >
                 <Link to={`/blog/${post.slug}`} className="group block">
-                  <div className="aspect-[16/9] overflow-hidden">
+                  <div className="relative aspect-[16/9] overflow-hidden">
                     <ImageWithFallback
                       src={post.img}
                       alt={post.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
+                    <span className="absolute inset-0 bg-gradient-to-t from-[#0B1426] via-[#0B1426]/10 to-[#0B1426]/10 pointer-events-none" />
+                    <span className="absolute inset-0 bg-gradient-to-b from-[#0B1426] via-[#0B1426]/10 to-[#0B1426]/10 pointer-events-none" />
                   </div>
                   <div className="p-7">
                     <p className="font-dm text-[#3B6FFF] text-[10px] font-medium tracking-[0.16em] uppercase">
@@ -430,12 +437,14 @@ export function BrandPage() {
                   to={`/news/${n.slug}`}
                   className="group flex items-center gap-5 lg:gap-8 py-5 hover:bg-white/50 transition-colors px-2"
                 >
-                  <div className="w-24 h-14 lg:w-32 lg:h-20 overflow-hidden bg-white shrink-0">
+                  <div className="relative w-24 h-14 lg:w-32 lg:h-20 overflow-hidden bg-white shrink-0">
                     <ImageWithFallback
                       src={n.img}
                       alt={n.title}
                       className="w-full h-full object-cover"
                     />
+                    <span className="absolute inset-0 bg-gradient-to-t from-[#0B1426] via-[#0B1426]/10 to-[#0B1426]/10 pointer-events-none" />
+                    <span className="absolute inset-0 bg-gradient-to-b from-[#0B1426] via-[#0B1426]/10 to-[#0B1426]/10 pointer-events-none" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-dm text-[#3B6FFF] text-[10px] font-medium tracking-[0.16em] uppercase">
