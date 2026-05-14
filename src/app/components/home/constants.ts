@@ -60,7 +60,7 @@ export const SNAPSHOT = [
   {
     value: "Surat, Gujarat – 394510",
     label: "Registered Office",
-    sub: "Plot No. E-03, Gem & Jewellery Park, GHB, Ichhapore, India",
+    sub: "Dholakia Ventures, Plot No. D-02 and D-11, Gem & Jewellery Park, GHB, Ichchhapor, Surat, Gujarat 394510, India",
   },
   {
     value: "Luxury Retail & Jewellery",

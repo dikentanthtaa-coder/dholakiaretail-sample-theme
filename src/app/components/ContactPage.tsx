@@ -177,7 +177,7 @@ export function ContactPage() {
                   icon: MapPin,
                   label: "Registered Office",
                   value:
-                    "Plot No. E-03, Gem & Jewellery Park, GHB, Ichhapore, Surat, Gujarat – 394510, India",
+                    "Dholakia Ventures, Plot No. D-02 and D-11, Gem & Jewellery Park, GHB, Ichchhapor, Surat, Gujarat 394510, India",
                 },
                 { icon: Mail, label: "Email", value: "Info@mayave.com", mailto: true, mono: true },
               ].map((row) => (

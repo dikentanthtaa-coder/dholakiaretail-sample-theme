@@ -27,7 +27,7 @@ export const COMPANY = {
   cin: "U32111GJ2024PTC155690",
   roc: "Ahmedabad",
   established: "2024",
-  registeredOffice: "Plot No. E-03, Gem & Jewellery Park, GHB, Ichhapore, Surat, Gujarat – 394510",
+  registeredOffice: "Dholakia Ventures, Plot No. D-02 and D-11, Gem & Jewellery Park, GHB, Ichchhapor, Surat, Gujarat 394510, India",
   email: {
     general: "hello@dholakiaretail.com",
     press: "press@dholakiaretail.com",

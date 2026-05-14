@@ -45,7 +45,7 @@ const LEGAL: Record<string, LegalDoc> = {
       {
         heading: "6. Contact",
         body:
-          "Data Protection Officer · Dholakia Retail Private Limited · Plot No. E-03, Gem & Jewellery Park, GHB, Ichhapore, Surat, Gujarat – 394510 · privacy@dholakiaretail.com",
+          "Data Protection Officer · Dholakia Retail Private Limited · Dholakia Ventures, Plot No. D-02 and D-11, Gem & Jewellery Park, GHB, Ichchhapor, Surat, Gujarat 394510, India · privacy@dholakiaretail.com",
       },
     ],
     closer: {
