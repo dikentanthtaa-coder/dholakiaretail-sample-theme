@@ -35,19 +35,19 @@ export function Hero({ smoothX, smoothY }: HeroProps) {
     >
       {/* Layer 1 — background video (P01-S01 video) over poster image (P01-S01 image) */}
       <motion.div style={{ x: bgX, y: bgY, scale: heroScale }} className="absolute inset-0">
-        <img
+        {/* <img
           src={IMG.heroPoster}
           alt="Dholakia Retail editorial cover"
           className="absolute inset-0 w-full h-full object-cover"
           loading="eager"
           decoding="async"
-        />
+        /> */}
         <video
           autoPlay
           muted
           loop
           playsInline
-          poster={IMG.heroPoster}
+          // poster={IMG.heroPoster}
           preload="metadata"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ transform: "scale(1.15)" }}
