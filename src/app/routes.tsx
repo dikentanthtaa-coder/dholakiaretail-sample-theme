@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { createBrowserRouter, Navigate } from "react-router";
 import { Layout } from "./components/Layout";
 import { RouteLoader } from "./components/ui/RouteLoader";
+import { BootSignal } from "./components/ui/BootSignal";
 
 /*
  * Route-level code-splitting.
@@ -34,6 +35,12 @@ const NotFoundPage = lazy(() => import("./components/NotFound").then(m => ({ def
 function withSuspense(Component: React.ComponentType) {
   return (
     <Suspense fallback={<RouteLoader />}>
+      {/*
+        BootSignal mounts only after the Suspense fallback resolves — at
+        that point the lazy chunk has loaded and the real page is in the
+        DOM. It tells the inline boot loader it's safe to fade out.
+      */}
+      <BootSignal />
       <Component />
     </Suspense>
   );
