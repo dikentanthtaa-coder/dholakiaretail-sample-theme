@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { motion } from "motion/react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { CTASection } from "./home/CTA";
 
 const ease = [0.65, 0, 0.35, 1] as const;
 
@@ -277,32 +278,13 @@ export function CareersPage() {
       </section>
 
       {/* P10-S04 — Closing Statement */}
-      <section className="bg-white py-32 lg:py-40">
-        <div className="max-w-[820px] mx-auto px-6 md:px-12 lg:px-20 text-center">
-          <h2 className="font-syne text-[#0B1426] font-normal text-[clamp(1.7rem,2.8vw,2.4rem)] leading-[1.2]">
-            Speak to us about a career.
-          </h2>
-          <p className="font-dm text-[#0B1426]/65 mt-5 max-w-[58ch] mx-auto text-[1.05rem] leading-[1.7]">
-            Send your profile, your portfolio, or simply a note. Every serious application is read by
-            a human.
-          </p>
-          <div className="flex flex-wrap justify-center gap-3 mt-9">
-            <Link
-              to="/contact?type=careers"
-              className="font-dm group inline-flex items-center gap-2 px-8 h-12 bg-[#3B6FFF] hover:bg-[#14275C] text-white rounded-sm text-[14px] font-semibold transition-colors duration-300"
-            >
-              Share your profile
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </Link>
-            <Link
-              to="/contact"
-              className="font-dm inline-flex items-center gap-2 px-8 h-12 border border-[#0B1426]/30 text-[#0B1426] hover:border-[#3B6FFF] hover:text-[#3B6FFF] rounded-sm text-[14px] font-medium transition-all duration-300"
-            >
-              Visit Contact
-            </Link>
-          </div>
-        </div>
-      </section>
+      <CTASection
+        eyebrow="Careers"
+        heading="Speak to us about a career."
+        body="Send your profile, your portfolio, or simply a note. Every serious application is read by a human."
+        primary={{ label: "Share your profile", to: "/contact?type=careers" }}
+        secondary={{ label: "Visit Contact", to: "/contact" }}
+      />
     </div>
   );
 }

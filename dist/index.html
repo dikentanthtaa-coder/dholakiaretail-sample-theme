@@ -2,23 +2,74 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0B1426" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Primary -->
+    <title>Dholakia Retail Private Limited · A corporate house for modern luxury</title>
     <meta
       name="description"
       content="Dholakia Retail Private Limited — a corporate house for modern luxury jewellery brands, beginning with Mayavé. Built on restraint, governance, and long-term thinking."
     />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="author" content="Dholakia Retail Private Limited" />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Dholakia Retail" />
     <meta property="og:title" content="Dholakia Retail Private Limited" />
     <meta
       property="og:description"
       content="A corporate house for modern luxury jewellery brands, beginning with Mayavé."
     />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://dholakiaretail.com/" />
+    <meta property="og:image" content="https://dholakiaretail.com/assets/images/P01_S01_home_hero_optA_image.png" />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <title>Dholakia Retail Private Limited · A corporate house for modern luxury</title>
+    <meta name="twitter:site" content="@dholakiaretail" />
+    <meta name="twitter:title" content="Dholakia Retail Private Limited" />
+    <meta
+      name="twitter:description"
+      content="A corporate house for modern luxury jewellery brands, beginning with Mayavé."
+    />
+    <meta
+      name="twitter:image"
+      content="https://dholakiaretail.com/assets/images/P01_S01_home_hero_optA_image.png"
+    />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://dholakiaretail.com/" />
+
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="/fevicon.png" />
+    <link rel="apple-touch-icon" href="/fevicon.png" />
+
+    <!-- Resource hints -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+
+    <!-- Critical asset preloads (LCP candidates) -->
+    <link
+      rel="preload"
+      as="image"
+      type="image/avif"
+      href="/assets/images/P01_S01_home_hero_optA_image.avif"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      as="video"
+      href="/assets/videos/P01_S01_Hero_Video_idea_360.mp4"
+      type="video/mp4"
+    />
+
+    <!-- Inline critical styles to avoid FOUC on the very first paint -->
     <style>
       html,
       body {
@@ -29,12 +80,55 @@
       #root {
         min-height: 100%;
       }
+      /* Initial paint backdrop matches hero, so the first frame doesn't flash white. */
+      .__boot {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        background: #0b1426;
+        pointer-events: none;
+        opacity: 1;
+        transition: opacity 600ms cubic-bezier(0.65, 0, 0.35, 1);
+      }
+      .__boot.is-ready {
+        opacity: 0;
+      }
     </style>
-    <script type="module" crossorigin src="/assets/index-BTzNxc8j.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-BcOVqoPb.css">
+    <script type="module" crossorigin src="/assets/index-BF-NBIiL.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-Dexugp3e.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-router-ccGH3MKK.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-motion-AnuPi0qm.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-icons-BWa5gMPd.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-CVwayueg.css">
   </head>
 
   <body>
     <div id="root"></div>
+    <!--
+      The boot backdrop sits behind React's first paint, then fades away.
+      This eliminates the white→colour flicker on slow connections.
+    -->
+    <div class="__boot" id="__boot" aria-hidden="true"></div>
+    <script>
+      // Mark "ready" after first paint of the React tree so the backdrop fades.
+      window.addEventListener("DOMContentLoaded", function () {
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            var el = document.getElementById("__boot");
+            if (!el) return;
+            el.classList.add("is-ready");
+            window.setTimeout(function () {
+              el.parentNode && el.parentNode.removeChild(el);
+            }, 700);
+          });
+        });
+      });
+    </script>
+    <noscript>
+      <div style="padding:24px;font-family:system-ui,sans-serif;color:#0B1426;background:#fff">
+        <h1 style="margin:0 0 12px;font-weight:500">Dholakia Retail Private Limited</h1>
+        <p>This site requires JavaScript to be enabled in your browser.</p>
+      </div>
+    </noscript>
   </body>
 </html>

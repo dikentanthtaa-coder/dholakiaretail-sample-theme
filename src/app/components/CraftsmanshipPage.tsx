@@ -3,6 +3,7 @@ import { ArrowRight, Pencil, Gem, Grid3x3, Wrench, Package } from "lucide-react"
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { OptimizedVideo } from "./ui/OptimizedVideo";
 
 const ease = [0.65, 0, 0.35, 1] as const;
 
@@ -30,23 +31,15 @@ export function CraftsmanshipPage() {
         data-header-theme="dark"
         className="relative h-screen min-h-[600px] flex items-end overflow-hidden bg-[#0B1426]"
       >
-        <motion.div style={{ scale: heroScale }} className="absolute inset-0">
-          <ImageWithFallback
-            src="/assets/images/P05_S01_craftsmanship_hero_optA_image.png"
-            alt="Artisan hands at work"
-            className="w-full h-full object-cover opacity-85"
-          />
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
+        <motion.div data-gpu style={{ scale: heroScale }} className="absolute inset-0">
+          <OptimizedVideo
+            src="/assets/videos/P05_S01_craftsmanship_hero_optA_video_1.mp4"
             poster="/assets/images/P05_S01_craftsmanship_hero_optA_image.png"
-            preload="metadata"
-            className="absolute inset-0 w-full h-full object-cover opacity-85"
-          >
-            <source src="/assets/videos/P05_S01_craftsmanship_hero_optA_video.mp4" type="video/mp4" />
-          </video>
+            posterAlt="Artisan hands at work"
+            eager
+            preload="auto"
+            className="absolute inset-0 w-full h-full"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0B1426] via-[#0B1426]/30 to-transparent" />
         </motion.div>
 
@@ -185,27 +178,54 @@ export function CraftsmanshipPage() {
           </motion.div>
 
           <div className="relative">
-            <div className="hidden lg:block absolute top-9 left-12 right-12 h-px bg-[#3B6FFF]/30" />
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-px lg:gap-0">
+            {/* Connecting flow line behind cards (desktop) */}
+            <div
+              aria-hidden
+              className="hidden lg:block absolute top-[68px] left-[8%] right-[8%] h-px bg-gradient-to-r from-transparent via-[#3B6FFF]/35 to-transparent"
+            />
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 lg:gap-5">
               {PROCESS.map((step, i) => (
                 <motion.div
                   key={step.n}
-                  initial={{ opacity: 0, y: 16 }}
+                  initial={{ opacity: 0, y: 28 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.6, delay: i * 0.08, ease }}
-                  className="relative bg-white px-4 py-6 text-center"
+                  transition={{ duration: 0.7, delay: i * 0.1, ease }}
+                  className="group relative bg-white rounded-2xl p-7 lg:p-6 border border-[#0B1426]/8 hover:border-[#3B6FFF]/40 hover:shadow-[0_28px_60px_-22px_rgba(59,111,255,0.28)] hover:-translate-y-1.5 transition-all duration-500 overflow-hidden"
                 >
-                  <div className="w-12 h-12 mx-auto rounded-full bg-[#F5F5F7] border border-[#3B6FFF] text-[#3B6FFF] flex items-center justify-center relative z-10">
-                    <step.icon size={20} strokeWidth={1.5} />
+                  {/* Decorative watermark numeral */}
+                  {/* <span
+                    aria-hidden
+                    className="font-syne italic text-[#3B6FFF]/[0.06] group-hover:text-[#3B6FFF]/[0.14] absolute -top-6 -right-3 text-[7.5rem] leading-none select-none pointer-events-none transition-colors duration-700"
+                  >
+                    {step.n}
+                  </span> */}
+
+                  <div className="relative z-10">
+                    {/* Gradient icon badge */}
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#3B6FFF] to-[#14275C] text-white flex items-center justify-center shadow-[0_10px_24px_-8px_rgba(59,111,255,0.55)] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">
+                      <step.icon size={22} strokeWidth={1.75} />
+                    </div>
+
+                    <p className="font-mono text-[#3B6FFF] text-[10.5px] tracking-[0.22em] uppercase mt-7">
+                      Step · {step.n}
+                    </p>
+
+                    <h3 className="font-syne text-[#0B1426] text-[17px] font-medium leading-[1.25] mt-2 tracking-[-0.005em]">
+                      {step.label}
+                    </h3>
+
+                    <p className="font-dm text-[#0B1426]/65 mt-3 text-[13.5px] leading-[1.65] font-light">
+                      {step.desc}
+                    </p>
                   </div>
-                  <p className="font-syne italic text-[#3B6FFF] text-[14px] mt-4">{step.n}</p>
-                  <h3 className="font-syne text-[#0B1426] text-[16px] font-medium mt-1.5">
-                    {step.label}
-                  </h3>
-                  <p className="font-dm text-[#0B1426]/55 mt-2 text-[13px] leading-[1.6] max-w-[28ch] mx-auto">
-                    {step.desc}
-                  </p>
+
+                  {/* Animated bottom accent on hover */}
+                  <span
+                    aria-hidden
+                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#3B6FFF] to-transparent scale-x-0 group-hover:scale-x-100 origin-center transition-transform duration-700"
+                  />
                 </motion.div>
               ))}
             </div>

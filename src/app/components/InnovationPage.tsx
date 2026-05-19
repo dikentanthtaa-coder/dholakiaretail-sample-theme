@@ -1,8 +1,8 @@
-import { Link } from "react-router";
-import { ArrowRight, Sparkles, Layers, Gem, Scissors, Box } from "lucide-react";
+import { Sparkles, Layers, Gem, Scissors, Box } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { CTASection } from "./home/CTA";
 
 const ease = [0.65, 0, 0.35, 1] as const;
 
@@ -57,7 +57,7 @@ export function InnovationPage() {
       >
         <motion.div style={{ scale: heroScale }} className="absolute inset-0">
           <ImageWithFallback
-            src="/assets/images/P07_S01_innovation_hero_optA_image.png"
+            src="/assets/images/P04_S05_mayave_related_blog_optA_image.png"
             alt="Innovation — precision technology"
             className="w-full h-full object-cover opacity-80"
           />
@@ -158,27 +158,54 @@ export function InnovationPage() {
           </motion.div>
 
           <div className="relative">
-            <div className="hidden lg:block absolute top-9 left-12 right-12 h-px bg-[#3B6FFF]/30" />
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-px lg:gap-0">
+            {/* Connecting flow line behind cards (desktop) */}
+            <div
+              aria-hidden
+              className="hidden lg:block absolute top-[68px] left-[8%] right-[8%] h-px bg-gradient-to-r from-transparent via-[#3B6FFF]/35 to-transparent"
+            />
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 lg:gap-5">
               {PROCESS_STEPS.map((step, i) => (
                 <motion.div
                   key={step.n}
-                  initial={{ opacity: 0, y: 18 }}
+                  initial={{ opacity: 0, y: 28 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.6, delay: i * 0.08, ease }}
-                  className="relative bg-white px-4 py-6 text-center"
+                  transition={{ duration: 0.7, delay: i * 0.1, ease }}
+                  className="group relative bg-white rounded-2xl p-7 lg:p-6 border border-[#0B1426]/8 hover:border-[#3B6FFF]/40 hover:shadow-[0_28px_60px_-22px_rgba(59,111,255,0.28)] hover:-translate-y-1.5 transition-all duration-500 overflow-hidden"
                 >
-                  <div className="w-12 h-12 mx-auto rounded-full bg-[#F5F5F7] border border-[#3B6FFF] text-[#3B6FFF] flex items-center justify-center relative z-10">
-                    <step.icon size={20} strokeWidth={1.5} />
+                  {/* Decorative watermark numeral */}
+                  {/* <span
+                    aria-hidden
+                    className="font-syne italic text-[#3B6FFF]/[0.06] group-hover:text-[#3B6FFF]/[0.14] absolute -top-6 -right-3 text-[7.5rem] leading-none select-none pointer-events-none transition-colors duration-700"
+                  >
+                    {step.n}
+                  </span> */}
+
+                  <div className="relative z-10">
+                    {/* Gradient icon badge */}
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#3B6FFF] to-[#14275C] text-white flex items-center justify-center shadow-[0_10px_24px_-8px_rgba(59,111,255,0.55)] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">
+                      <step.icon size={22} strokeWidth={1.75} />
+                    </div>
+
+                    <p className="font-mono text-[#3B6FFF] text-[10.5px] tracking-[0.22em] uppercase mt-7">
+                      Step · {step.n}
+                    </p>
+
+                    <h3 className="font-syne text-[#0B1426] text-[17px] font-medium leading-[1.25] mt-2 tracking-[-0.005em]">
+                      {step.title}
+                    </h3>
+
+                    <p className="font-dm text-[#0B1426]/65 mt-3 text-[13.5px] leading-[1.65] font-light">
+                      {step.body}
+                    </p>
                   </div>
-                  <p className="font-syne italic text-[#3B6FFF] text-[14px] mt-4">{step.n}</p>
-                  <h3 className="font-syne text-[#0B1426] text-[16px] font-medium mt-1.5">
-                    {step.title}
-                  </h3>
-                  <p className="font-dm text-[#0B1426]/55 mt-2 text-[13px] leading-[1.6] max-w-[28ch] mx-auto">
-                    {step.body}
-                  </p>
+
+                  {/* Animated bottom accent on hover */}
+                  <span
+                    aria-hidden
+                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#3B6FFF] to-transparent scale-x-0 group-hover:scale-x-100 origin-center transition-transform duration-700"
+                  />
                 </motion.div>
               ))}
             </div>
@@ -224,17 +251,13 @@ export function InnovationPage() {
       </section>
 
       {/* P07-S05 — CTA */}
-      <section className="bg-white py-28 lg:py-36">
-        <div className="max-w-[820px] mx-auto px-6 md:px-12 lg:px-20 text-center">
-          <Link
-            to="/contact?type=partnership"
-            className="font-dm group inline-flex items-center gap-2 px-8 h-13 bg-[#3B6FFF] hover:bg-[#14275C] text-white rounded-sm text-[14px] font-semibold transition-colors duration-300"
-          >
-            Explore the wider approach
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-      </section>
+      <CTASection
+        eyebrow="Innovation"
+        heading="Precision, made repeatable."
+        body="Technology strengthens control, consistency, and credibility — the qualities that build enduring luxury houses. Speak with us about the wider approach."
+        primary={{ label: "Explore the wider approach", to: "/contact?type=partnership" }}
+        secondary={{ label: "Visit Craftsmanship", to: "/craftsmanship" }}
+      />
     </div>
   );
 }

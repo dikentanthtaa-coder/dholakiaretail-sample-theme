@@ -139,11 +139,63 @@
     font-feature-settings: "ss01", "cv11";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* GPU-accelerate scroll-driven transforms */
+    text-rendering: optimizeLegibility;
   }
 
   html {
     font-size: var(--font-size);
     scroll-behavior: smooth;
+  }
+
+  /* Respect user motion preference: kill non-essential animation. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Force GPU compositing on the elements we frequently animate. */
+  [data-gpu] {
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  /* Reusable skeleton shimmer (used by RouteLoader and image fallbacks). */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.04);
+    isolation: isolate;
+  }
+  .shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent 0,
+      rgba(255, 255, 255, 0.06) 50%,
+      transparent 100%
+    );
+    animation: shimmer 1.6s infinite cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Image fade-in helper used outside ImageWithFallback. */
+  .img-fade {
+    transition: opacity 600ms cubic-bezier(0.65, 0, 0.35, 1);
   }
 
   ::selection {

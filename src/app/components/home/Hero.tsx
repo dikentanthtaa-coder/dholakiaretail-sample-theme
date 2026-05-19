@@ -4,6 +4,7 @@ import { ArrowRight, ChevronDown } from "lucide-react";
 import { useRef } from "react";
 import { ease } from "./constants";
 import { IMG } from "./constants";
+import { OptimizedVideo } from "../ui/OptimizedVideo";
 
 interface HeroProps {
   smoothX: MotionValue<number>;
@@ -33,27 +34,21 @@ export function Hero({ smoothX, smoothY }: HeroProps) {
       data-header-theme="dark"
       className="relative h-screen min-h-[640px] overflow-hidden bg-[#0B1426]"
     >
-      {/* Layer 1 — background video (P01-S01 video) over poster image (P01-S01 image) */}
-      <motion.div style={{ x: bgX, y: bgY, scale: heroScale }} className="absolute inset-0">
-        {/* <img
-          src={IMG.heroPoster}
-          alt="Dholakia Retail editorial cover"
-          className="absolute inset-0 w-full h-full object-cover"
-          loading="eager"
-          decoding="async"
-        /> */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          // poster={IMG.heroPoster}
-          preload="metadata"
-          className="absolute inset-0 w-full h-full object-cover"
+      {/* Layer 1 — background video over LQIP poster image (P01-S01) */}
+      <motion.div
+        data-gpu
+        style={{ x: bgX, y: bgY, scale: heroScale }}
+        className="absolute inset-0"
+      >
+        <OptimizedVideo
+          src={IMG.heroVideo}
+          poster={IMG.heroPoster}
+          posterAlt="Dholakia Retail editorial cover"
+          eager
+          preload="auto"
+          className="absolute inset-0 w-full h-full"
           style={{ transform: "scale(1.15)" }}
-        >
-          <source src={IMG.heroVideo} type="video/mp4" />
-        </video>
+        />
       </motion.div>
 
       {/* Layer 2 — gradient overlay */}

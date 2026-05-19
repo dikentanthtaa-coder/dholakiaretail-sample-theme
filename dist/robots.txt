@@ -1,0 +1,11 @@
+# Dholakia Retail Private Limited
+# robots.txt
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /*?type=*
+
+# Block legacy / placeholder paths
+Disallow: /investor-relations
+
+Sitemap: https://dholakiaretail.com/sitemap.xml

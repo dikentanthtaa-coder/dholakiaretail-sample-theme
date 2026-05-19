@@ -1,7 +1,7 @@
-import { Link } from "react-router";
-import { Building2, Briefcase, Globe2, ArrowRight } from "lucide-react";
+import { Building2, Briefcase, Globe2 } from "lucide-react";
 import { motion } from "motion/react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { CTASection } from "./home/CTA";
 
 const ease = [0.65, 0, 0.35, 1] as const;
 
@@ -138,20 +138,13 @@ export function GlobalPresencePage() {
       </section>
 
       {/* P08-S04 — CTA */}
-      <section className="bg-white py-28 lg:py-36">
-        <div className="max-w-[820px] mx-auto px-6 md:px-12 lg:px-20 text-center">
-          <h2 className="font-syne text-[#0B1426] font-normal text-[clamp(1.6rem,2.6vw,2.2rem)] leading-[1.2]">
-            Open to partners with the right ambition.
-          </h2>
-          <Link
-            to="/contact?type=partnership"
-            className="font-dm group inline-flex items-center gap-2 mt-8 px-8 h-13 bg-[#3B6FFF] hover:bg-[#14275C] text-white rounded-sm text-[14px] font-semibold transition-colors duration-300"
-          >
-            Partner with the House
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
-          </Link>
-        </div>
-      </section>
+      <CTASection
+        eyebrow="Global Presence"
+        heading="Open to partners with the right ambition."
+        body="We work with stockists, ateliers, and partners whose values align with the long-term stewardship of luxury jewellery houses."
+        primary={{ label: "Partner with the House", to: "/contact?type=partnership" }}
+        secondary={{ label: "Explore Careers", to: "/careers" }}
+      />
     </div>
   );
 }

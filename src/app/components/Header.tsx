@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { Link, useLocation } from "react-router";
 import { Menu, X, ChevronDown, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
@@ -29,15 +29,15 @@ function useHeaderSurface(routeKey: string) {
   const [surface, setSurface] = useState<HeaderSurface>("light");
   const [scrolled, setScrolled] = useState(false);
 
+  const rafRef = useRef<number | null>(null);
+
   const compute = useCallback(() => {
     setScrolled(window.scrollY > SCROLL_BREAK);
 
-    const probe = HEADER_HEIGHT / 2; // sample line through the header band
+    const probe = HEADER_HEIGHT / 2;
     const targets = document.querySelectorAll<HTMLElement>("[data-header-theme]");
     let active: HeaderSurface = "light";
 
-    // Iterate in document order; the LAST section whose top has crossed the probe
-    // and whose bottom is still below it is the one currently under the header.
     targets.forEach((el) => {
       const rect = el.getBoundingClientRect();
       if (rect.top <= probe && rect.bottom > probe) {
@@ -49,18 +49,31 @@ function useHeaderSurface(routeKey: string) {
     setSurface(active);
   }, []);
 
+  /**
+   * rAF-throttled scroll/resize handler. Without this, the section-aware
+   * theme detection runs once per scroll event (~ once per pixel) — burning
+   * main-thread time for a state we only need to refresh once per frame.
+   */
+  const scheduleCompute = useCallback(() => {
+    if (rafRef.current != null) return;
+    rafRef.current = window.requestAnimationFrame(() => {
+      rafRef.current = null;
+      compute();
+    });
+  }, [compute]);
+
   useEffect(() => {
-    // Recompute after route mounts (DOM has changed).
     const t = window.setTimeout(compute, 30);
     compute();
-    window.addEventListener("scroll", compute, { passive: true });
-    window.addEventListener("resize", compute);
+    window.addEventListener("scroll", scheduleCompute, { passive: true });
+    window.addEventListener("resize", scheduleCompute);
     return () => {
       window.clearTimeout(t);
-      window.removeEventListener("scroll", compute);
-      window.removeEventListener("resize", compute);
+      window.removeEventListener("scroll", scheduleCompute);
+      window.removeEventListener("resize", scheduleCompute);
+      if (rafRef.current != null) window.cancelAnimationFrame(rafRef.current);
     };
-  }, [compute, routeKey]);
+  }, [compute, scheduleCompute, routeKey]);
 
   return { surface, scrolled };
 }
@@ -133,6 +146,11 @@ export function Header(_props: HeaderProps = {}) {
               <img
                 src={LOGO_URL}
                 alt="Dholakia Retail"
+                width={140}
+                height={28}
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
                 className="h-6 sm:h-7 w-auto object-contain transition-[filter] duration-300"
                 style={{ filter: logoFilter }}
               />

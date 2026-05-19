@@ -1,8 +1,9 @@
 import { Link } from "react-router";
-import { ArrowRight, ArrowUpRight, Download } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 import { useMemo, useState } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { CTASection } from "./home/CTA";
 
 const ease = [0.65, 0, 0.35, 1] as const;
 
@@ -192,32 +193,13 @@ export function NewsPage() {
       </section>
 
       {/* P09-S05 — Press Kit CTA */}
-      <section className="bg-white py-28 lg:py-36">
-        <div className="max-w-[820px] mx-auto px-6 md:px-12 lg:px-20 text-center">
-          <h2 className="font-syne text-[#0B1426] font-normal text-[clamp(1.6rem,2.6vw,2.2rem)] leading-[1.2]">
-            Need corporate information or brand assets?
-          </h2>
-          <p className="font-dm text-[#0B1426]/65 mt-5 max-w-[58ch] mx-auto text-[1.05rem] leading-[1.7]">
-            Logos, fact sheet, leadership portraits — everything press teams require, in a single
-            download.
-          </p>
-          <div className="flex flex-wrap justify-center gap-3 mt-8">
-            <Link
-              to="/press-kit"
-              className="font-dm group inline-flex items-center gap-2 px-8 h-12 bg-[#3B6FFF] hover:bg-[#14275C] text-white rounded-sm text-[14px] font-semibold transition-colors duration-300"
-            >
-              <Download size={15} /> Request the Press Kit
-            </Link>
-            <Link
-              to="/contact?type=press"
-              className="font-dm inline-flex items-center gap-2 px-8 h-12 border border-[#0B1426]/30 text-[#0B1426] hover:border-[#3B6FFF] hover:text-[#3B6FFF] rounded-sm text-[14px] font-medium transition-all duration-300"
-            >
-              Press inquiries
-              <ArrowUpRight size={14} />
-            </Link>
-          </div>
-        </div>
-      </section>
+      <CTASection
+        eyebrow="Press"
+        heading="Need corporate information or brand assets?"
+        body="Logos, fact sheet, leadership portraits — everything press teams require, in a single download."
+        primary={{ label: "Request the Press Kit", to: "/press-kit" }}
+        secondary={{ label: "Press inquiries", to: "/contact?type=press" }}
+      />
     </div>
   );
 }

@@ -1,1 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+/*
+ * Slim font load — only the weights we actually render.
+ *   Syne: 400 + 500 (h1/headline) and 700 for press-kit numerals.
+ *   DM Sans: 300 / 400 / 500 / 600 plus italic 300/400.
+ *   JetBrains Mono: 400 only (CIN strings).
+ * font-display: swap → text paints with system fallback while web font streams in.
+ * Removed Space Grotesk (was unused besides --font-grotesk fallback chain).
+ */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400&display=swap');
+

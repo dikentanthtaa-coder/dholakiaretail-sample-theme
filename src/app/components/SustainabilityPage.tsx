@@ -3,6 +3,7 @@ import { ArrowRight, Search, Sprout, Eye, Infinity as InfinityIcon, Download } f
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { OptimizedVideo } from "./ui/OptimizedVideo";
 
 const ease = [0.65, 0, 0.35, 1] as const;
 
@@ -141,22 +142,12 @@ export function SustainabilityPage() {
           </motion.div>
         </div>
         <div className="relative aspect-[16/10] lg:aspect-auto lg:min-h-[560px] overflow-hidden">
-          <ImageWithFallback
-            src="/assets/images/P06_S03_sustainability_wider_group_context_optA_image.png"
-            alt="Wider Group context — solar-powered lab-grown diamond facility"
-            className="w-full h-full object-cover"
-          />
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
+          <OptimizedVideo
+            src="/assets/videos/P06_S03_sustainability_wider_group_context_optA_video.mp4"
             poster="/assets/images/P06_S03_sustainability_wider_group_context_optA_image.png"
-            preload="metadata"
-            className="absolute inset-0 w-full h-full object-cover"
-          >
-            <source src="/assets/videos/P06_S03_sustainability_wider_group_context_optA_video.mp4" type="video/mp4" />
-          </video>
+            posterAlt="Wider Group context — solar-powered lab-grown diamond facility"
+            className="absolute inset-0 w-full h-full"
+          />
         </div>
       </section>
 

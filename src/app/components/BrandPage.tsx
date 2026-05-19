@@ -3,11 +3,14 @@ import { ArrowRight, ArrowUpRight, ChevronRight, Expand } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef, useState } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { OptimizedVideo } from "./ui/OptimizedVideo";
+import { CTASection } from "./home/CTA";
 
 const ease = [0.65, 0, 0.35, 1] as const;
 
 const MAYAVE = {
   hero: "/assets/images/P01_S05_home_portfolio_preview_optA_image.png",
+  heroVideo: "/assets/videos/MAYAVE_4K.mp4",
   lookbookHero: "/assets/web/P04_S04_mayave_lookbook_optA_image.jpg",
   relatedBlog: "/assets/images/P04_S05_mayave_related_blog_optA_image.png",
   relatedNews: "/assets/images/P04_S06_mayave_related_news_optA_image.png",
@@ -152,16 +155,15 @@ export function BrandPage() {
         data-header-theme="dark"
         className="relative h-screen min-h-[640px] overflow-hidden bg-[#0B1426]"
       >
-        <motion.div style={{ scale: heroScale }} className="absolute inset-0">
-          <ImageWithFallback
-            src={MAYAVE.hero}
-            alt="Mayavé signature"
-            className="w-full h-full object-cover opacity-80"
+        <motion.div data-gpu style={{ scale: heroScale }} className="absolute inset-0">
+          <OptimizedVideo
+            src={MAYAVE.heroVideo}
+            poster={MAYAVE.hero}
+            posterAlt="Mayavé brand hero"
+            eager
+            preload="auto"
+            className="absolute inset-0 w-full h-full opacity-80"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0B1426] via-[#0B1426]/40 to-[#0B1426]/30" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0B1426] via-[#0B1426]/40 to-[#0B1426]/30" />
-          {/* <div className="absolute inset-0 bg-gradient-to-l from-[#0B1426] via-[#0B1426]/40 to-[#0B1426]/30" /> */}
-          {/* <div className="absolute inset-0 bg-gradient-to-r from-[#0B1426] via-[#0B1426]/40 to-[#0B1426]/30" /> */}
         </motion.div>
 
         <motion.div
@@ -292,8 +294,19 @@ export function BrandPage() {
             </div>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-            {MAYAVE.lookbook.map((shot, i) => (
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 auto-rows-[160px] sm:auto-rows-[200px] lg:auto-rows-[220px]">
+            {MAYAVE.lookbook.map((shot, i) => {
+              const bentoClass =
+                [
+                  "row-span-2 lg:col-span-1 lg:row-span-2", // 0 tall left
+                  "col-span-2 row-span-1 lg:col-span-2 lg:row-span-1", // 1 wide top
+                  "row-span-2 lg:col-span-1 lg:row-span-2", // 2 tall right
+                  "col-span-1 row-span-1", // 3 square
+                  "col-span-1 row-span-1", // 4 square
+                  "col-span-2 row-span-1 lg:col-span-4 lg:row-span-1", // 5 full banner
+                ][i] || "col-span-1 row-span-1";
+
+              return (
               <motion.button
                 key={i}
                 onClick={() => setLightbox(i)}
@@ -301,7 +314,7 @@ export function BrandPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.6, delay: i * 0.06, ease }}
-                className={`group block w-full text-left ${shot.ratio} overflow-hidden bg-white relative rounded-2xl`}
+                className={`group block w-full h-full text-left ${bentoClass} overflow-hidden bg-white relative rounded-2xl`}
               >
                 <ImageWithFallback
                   src={shot.src}
@@ -318,7 +331,8 @@ export function BrandPage() {
                   {shot.caption}
                 </span>
               </motion.button>
-            ))}
+              );
+            })}
           </div>
 
           {/* Lightbox modal */}
@@ -350,7 +364,7 @@ export function BrandPage() {
       </section>
 
       {/* P04-S05 — Related Blog */}
-      <section className="bg-white py-24 lg:py-32">
+      {/* <section className="bg-white py-24 lg:py-32">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
           <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6">
             <h2 className="font-syne text-[#0B1426] font-normal text-[clamp(1.6rem,2.6vw,2.2rem)] leading-[1.18]">
@@ -405,7 +419,7 @@ export function BrandPage() {
             </Link>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* P04-S06 — Related News */}
       <section className="bg-[#F5F5F7] py-20 lg:py-28 border-y border-[#0B1426]/10">
@@ -467,36 +481,13 @@ export function BrandPage() {
       </section>
 
       {/* P04-S07 — Appointment CTA */}
-      <section className="bg-white py-32 lg:py-44">
-        <div className="max-w-[820px] mx-auto px-6 md:px-12 lg:px-20 text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.9, ease }}
-            className="font-syne text-[#0B1426] font-normal italic text-[clamp(1.8rem,3.4vw,2.8rem)] leading-[1.15]"
-          >
-            By appointment, by intention.
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8, delay: 0.3, ease }}
-            className="font-dm text-[#0B1426]/65 max-w-[58ch] mx-auto mt-6 text-[clamp(1rem,1.3vw,1.13rem)] leading-[1.7] font-light"
-          >
-            For private consultations, bespoke discussions, and brand inquiries, connect with Mayavé
-            directly through Dholakia Retail.
-          </motion.p>
-          <Link
-            to="/contact?type=appointment"
-            className="font-dm group inline-flex mt-9 items-center gap-2 px-8 h-13 bg-[#3B6FFF] hover:bg-[#14275C] text-white rounded-sm text-[14px] font-semibold transition-colors duration-300"
-          >
-            Arrange a Viewing
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
-          </Link>
-        </div>
-      </section>
+      <CTASection
+        eyebrow="Mayavé"
+        heading="By appointment, by intention."
+        body="For private consultations, bespoke discussions, and brand inquiries, connect with Mayavé directly through Dholakia Retail."
+        primary={{ label: "Arrange a Viewing", to: "/contact?type=appointment" }}
+        secondary={{ label: "Explore the Portfolio", to: "/portfolio" }}
+      />
     </div>
   );
 }

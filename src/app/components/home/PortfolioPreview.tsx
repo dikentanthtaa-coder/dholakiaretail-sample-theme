@@ -2,7 +2,7 @@ import { motion, useScroll, useTransform, MotionValue } from "motion/react";
 import { Link } from "react-router";
 import { ArrowRight, Award, ShieldCheck, Gem } from "lucide-react";
 import { useRef } from "react";
-import { ImageWithFallback } from "../figma/ImageWithFallback";
+import { OptimizedVideo } from "../ui/OptimizedVideo";
 import { ease, IMG } from "./constants";
 
 interface Props {
@@ -35,24 +35,14 @@ export function PortfolioPreviewSection({ smoothX, smoothY }: Props) {
         data-header-theme="dark"
         className="relative h-[70vh] min-h-[480px] overflow-hidden bg-[#0B1426]"
       >
-        <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 w-full h-[120%] -top-[8%]">
-          <motion.div style={{ x: mx, y: my }} className="w-full h-full">
-            <ImageWithFallback
-              src={IMG.mayave}
-              alt="Mayavé signature piece"
-              className="w-full h-full object-cover opacity-90"
-            />
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
+        <motion.div data-gpu style={{ y: imgY, scale: imgScale }} className="absolute inset-0 w-full h-[120%] -top-[8%]">
+          <motion.div style={{ x: mx, y: my }} className="w-full h-full relative">
+            <OptimizedVideo
+              src={IMG.mayaveVideo}
               poster={IMG.mayave}
-              preload="metadata"
-              className="absolute inset-0 w-full h-full object-cover opacity-90"
-            >
-              <source src={IMG.mayaveVideo} type="video/mp4" />
-            </video>
+              posterAlt="Mayavé signature piece"
+              className="absolute inset-0 w-full h-full opacity-90"
+            />
           </motion.div>
         </motion.div>
         <div className="absolute inset-0 bg-gradient-to-b from-[#0B1426]/30 via-[#0B1426]/10 to-[#0B1426]/40" />

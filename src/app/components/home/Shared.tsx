@@ -1,6 +1,25 @@
 import { motion, useMotionValue, useSpring, useTransform, useScroll, MotionValue } from "motion/react";
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, useState } from "react";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
+
+/**
+ * Hook: detect "I'm on a touch device or a mouse-free screen" so we can
+ * skip mouse-driven parallax (saves an event listener firing 60 Hz).
+ */
+function useHasFineMouse() {
+  const [fine, setFine] = useState(() =>
+    typeof window === "undefined"
+      ? true
+      : window.matchMedia("(pointer: fine)").matches
+  );
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: fine)");
+    const handle = () => setFine(mq.matches);
+    mq.addEventListener?.("change", handle);
+    return () => mq.removeEventListener?.("change", handle);
+  }, []);
+  return fine;
+}
 
 // ─── Global mouse parallax hook ───────────────────────────────────────────────
 export function useMouseParallax() {
@@ -8,14 +27,29 @@ export function useMouseParallax() {
   const rawY = useMotionValue(0);
   const smoothX = useSpring(rawX, { damping: 60, stiffness: 350 });
   const smoothY = useSpring(rawY, { damping: 60, stiffness: 350 });
+  const hasFineMouse = useHasFineMouse();
   useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      rawX.set((e.clientX / window.innerWidth) * 2 - 1);
-      rawY.set((e.clientY / window.innerHeight) * 2 - 1);
+    if (!hasFineMouse) return;
+    let raf = 0;
+    let nextX = 0;
+    let nextY = 0;
+    const apply = () => {
+      raf = 0;
+      rawX.set(nextX);
+      rawY.set(nextY);
     };
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
-  }, [rawX, rawY]);
+    const onMove = (e: MouseEvent) => {
+      nextX = (e.clientX / window.innerWidth) * 2 - 1;
+      nextY = (e.clientY / window.innerHeight) * 2 - 1;
+      // Coalesce to one update per animation frame.
+      if (!raf) raf = window.requestAnimationFrame(apply);
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      if (raf) window.cancelAnimationFrame(raf);
+    };
+  }, [rawX, rawY, hasFineMouse]);
   return { smoothX, smoothY };
 }
 
@@ -82,7 +116,7 @@ export function ParallaxImage({
 }
 
 // ─── Floating particles ────────────────────────────────────────────────────────
-const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
+const PARTICLES = Array.from({ length: 10 }, (_, i) => ({
   id: i,
   x: Math.random() * 100,
   y: Math.random() * 100,
@@ -92,23 +126,73 @@ const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
   duration: 6 + Math.random() * 6,
 }));
 
-export function FloatingParticles({ smoothX, smoothY }: { smoothX: MotionValue<number>; smoothY: MotionValue<number> }) {
+/**
+ * Per-particle wrapper. We must NOT call useTransform inside .map() because
+ * the parent re-renders would change hook order. Each particle owns its
+ * hooks in its own component instance.
+ */
+function Particle({
+  p,
+  smoothX,
+  smoothY,
+}: {
+  p: (typeof PARTICLES)[number];
+  smoothX: MotionValue<number>;
+  smoothY: MotionValue<number>;
+}) {
+  const px = useTransform(smoothX, [-1, 1], [`${p.depth * 3}%`, `${-p.depth * 3}%`]);
+  const py = useTransform(smoothY, [-1, 1], [`${p.depth * 3}%`, `${-p.depth * 3}%`]);
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      {PARTICLES.map(p => {
-        const px = useTransform(smoothX, [-1, 1], [`${p.depth * 3}%`, `${-p.depth * 3}%`]);
-        const py = useTransform(smoothY, [-1, 1], [`${p.depth * 3}%`, `${-p.depth * 3}%`]);
-        return (
-          <motion.div key={p.id} style={{ x: px, y: py, left: `${p.x}%`, top: `${p.y}%`, position: "absolute" }}>
-            <motion.div
-              animate={{ y: ["-8px", "8px", "-8px"], rotate: [0, 45, 90, 135, 180], opacity: [0.15, 0.35, 0.15] }}
-              transition={{ duration: p.duration, delay: p.delay, repeat: Infinity, ease: "easeInOut" }}
-              style={{ width: p.size, height: p.size }}
-              className="bg-white" aria-hidden
-            />
-          </motion.div>
-        );
-      })}
+    <motion.div
+      style={{
+        x: px,
+        y: py,
+        left: `${p.x}%`,
+        top: `${p.y}%`,
+        position: "absolute",
+        willChange: "transform",
+      }}
+    >
+      <motion.div
+        animate={{
+          y: ["-8px", "8px", "-8px"],
+          opacity: [0.15, 0.35, 0.15],
+        }}
+        transition={{
+          duration: p.duration,
+          delay: p.delay,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        style={{ width: p.size, height: p.size, willChange: "transform" }}
+        className="bg-white"
+        aria-hidden
+      />
+    </motion.div>
+  );
+}
+
+export function FloatingParticles({
+  smoothX,
+  smoothY,
+}: {
+  smoothX: MotionValue<number>;
+  smoothY: MotionValue<number>;
+}) {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mq.matches);
+    const onChange = () => setReduced(mq.matches);
+    mq.addEventListener?.("change", onChange);
+    return () => mq.removeEventListener?.("change", onChange);
+  }, []);
+  if (reduced) return null;
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
+      {PARTICLES.map((p) => (
+        <Particle key={p.id} p={p} smoothX={smoothX} smoothY={smoothY} />
+      ))}
     </div>
   );
 }

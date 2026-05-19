@@ -1,23 +1,43 @@
+import { lazy, Suspense } from "react";
 import { createBrowserRouter, Navigate } from "react-router";
 import { Layout } from "./components/Layout";
-import { HomePage } from "./components/HomePage";
-import { AboutPage } from "./components/AboutPage";
-import { PortfolioPage } from "./components/PortfolioPage";
-import { BrandPage } from "./components/BrandPage";
-import { CraftsmanshipPage } from "./components/CraftsmanshipPage";
-import { SustainabilityPage } from "./components/SustainabilityPage";
-import { InnovationPage } from "./components/InnovationPage";
-import { GlobalPresencePage } from "./components/GlobalPresencePage";
-import { NewsPage } from "./components/NewsPage";
-import { NewsArticlePage } from "./components/NewsArticlePage";
-import { CareersPage } from "./components/CareersPage";
-import { CareerDetailPage } from "./components/CareerDetailPage";
-import { ContactPage } from "./components/ContactPage";
-import { LegalPage } from "./components/LegalPage";
-import { BlogPage } from "./components/BlogPage";
-import { BlogPostPage } from "./components/BlogPostPage";
-import { PressKitPage } from "./components/PressKitPage";
-import { NotFound } from "./components/NotFound";
+import { RouteLoader } from "./components/ui/RouteLoader";
+
+/*
+ * Route-level code-splitting.
+ *
+ * Each page is bundled into its own chunk and only fetched on navigation.
+ * `Suspense` shows the editorial RouteLoader skeleton during chunk load so
+ * the user never sees a blank screen.
+ *
+ * Lazy modules expect default exports — adapt named exports inline.
+ */
+const Home = lazy(() => import("./components/HomePage").then(m => ({ default: m.HomePage })));
+const About = lazy(() => import("./components/AboutPage").then(m => ({ default: m.AboutPage })));
+const Portfolio = lazy(() => import("./components/PortfolioPage").then(m => ({ default: m.PortfolioPage })));
+const Brand = lazy(() => import("./components/BrandPage").then(m => ({ default: m.BrandPage })));
+const Craftsmanship = lazy(() => import("./components/CraftsmanshipPage").then(m => ({ default: m.CraftsmanshipPage })));
+const Sustainability = lazy(() => import("./components/SustainabilityPage").then(m => ({ default: m.SustainabilityPage })));
+const Innovation = lazy(() => import("./components/InnovationPage").then(m => ({ default: m.InnovationPage })));
+const GlobalPresence = lazy(() => import("./components/GlobalPresencePage").then(m => ({ default: m.GlobalPresencePage })));
+const News = lazy(() => import("./components/NewsPage").then(m => ({ default: m.NewsPage })));
+const NewsArticle = lazy(() => import("./components/NewsArticlePage").then(m => ({ default: m.NewsArticlePage })));
+const Careers = lazy(() => import("./components/CareersPage").then(m => ({ default: m.CareersPage })));
+const CareerDetail = lazy(() => import("./components/CareerDetailPage").then(m => ({ default: m.CareerDetailPage })));
+const Contact = lazy(() => import("./components/ContactPage").then(m => ({ default: m.ContactPage })));
+const Legal = lazy(() => import("./components/LegalPage").then(m => ({ default: m.LegalPage })));
+const Blog = lazy(() => import("./components/BlogPage").then(m => ({ default: m.BlogPage })));
+const BlogPost = lazy(() => import("./components/BlogPostPage").then(m => ({ default: m.BlogPostPage })));
+const PressKit = lazy(() => import("./components/PressKitPage").then(m => ({ default: m.PressKitPage })));
+const NotFoundPage = lazy(() => import("./components/NotFound").then(m => ({ default: m.NotFound })));
+
+function withSuspense(Component: React.ComponentType) {
+  return (
+    <Suspense fallback={<RouteLoader />}>
+      <Component />
+    </Suspense>
+  );
+}
 
 /**
  * Routes per build spec §1.13.
@@ -28,49 +48,49 @@ export const router = createBrowserRouter([
     path: "/",
     Component: Layout,
     children: [
-      { index: true, Component: HomePage },
+      { index: true, element: withSuspense(Home) },
 
       // The Group
-      { path: "the-group", Component: AboutPage },
+      { path: "the-group", element: withSuspense(About) },
       { path: "about", element: <Navigate to="/the-group" replace /> },
 
       // Portfolio
-      { path: "portfolio", Component: PortfolioPage },
-      { path: "portfolio/:slug", Component: BrandPage },
+      { path: "portfolio", element: withSuspense(Portfolio) },
+      { path: "portfolio/:slug", element: withSuspense(Brand) },
 
       // Editorial / responsibility / innovation
-      { path: "craftsmanship", Component: CraftsmanshipPage },
-      { path: "sustainability", Component: SustainabilityPage },
-      { path: "innovation", Component: InnovationPage },
-      { path: "global-presence", Component: GlobalPresencePage },
+      { path: "craftsmanship", element: withSuspense(Craftsmanship) },
+      { path: "sustainability", element: withSuspense(Sustainability) },
+      { path: "innovation", element: withSuspense(Innovation) },
+      { path: "global-presence", element: withSuspense(GlobalPresence) },
 
       // News
-      { path: "news", Component: NewsPage },
-      { path: "news/:id", Component: NewsArticlePage },
+      { path: "news", element: withSuspense(News) },
+      { path: "news/:id", element: withSuspense(NewsArticle) },
 
       // Blog (Journal)
-      { path: "blog", Component: BlogPage },
-      { path: "blog/:slug", Component: BlogPostPage },
+      { path: "blog", element: withSuspense(Blog) },
+      { path: "blog/:slug", element: withSuspense(BlogPost) },
 
       // Careers
-      { path: "careers", Component: CareersPage },
-      { path: "careers/:slug", Component: CareerDetailPage },
+      { path: "careers", element: withSuspense(Careers) },
+      { path: "careers/:slug", element: withSuspense(CareerDetail) },
 
       // Contact
-      { path: "contact", Component: ContactPage },
+      { path: "contact", element: withSuspense(Contact) },
 
       // Press kit
-      { path: "press-kit", Component: PressKitPage },
+      { path: "press-kit", element: withSuspense(PressKit) },
 
       // Legal
-      { path: "legal/:slug", Component: LegalPage },
+      { path: "legal/:slug", element: withSuspense(Legal) },
       { path: "legal", element: <Navigate to="/legal/privacy" replace /> },
 
       // Compatibility — old IR route → contact
       { path: "investor-relations", element: <Navigate to="/contact?type=investor" replace /> },
 
       // 404
-      { path: "*", Component: NotFound },
+      { path: "*", element: withSuspense(NotFoundPage) },
     ],
   },
 ]);

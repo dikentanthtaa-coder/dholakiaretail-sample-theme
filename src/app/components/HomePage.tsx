@@ -33,7 +33,7 @@ export function HomePage() {
       <PortfolioPreviewSection smoothX={smoothX} smoothY={smoothY} />
       <ManufacturingSustainabilitySection smoothX={smoothX} smoothY={smoothY} />
       <NewsSection />
-      <CTASection smoothX={smoothX} smoothY={smoothY} />
+      <CTASection />
     </main>
   );
 }

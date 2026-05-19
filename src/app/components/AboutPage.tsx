@@ -2,10 +2,8 @@
 
 import { Link } from "react-router";
 import { ArrowRight, Building2, Hash, MapPin, Calendar, CircleDot } from "lucide-react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform, useMotionValueEvent } from "motion/react";
 import { useRef, useEffect, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { COMPANY } from "./constants";
 
@@ -80,42 +78,31 @@ function CountUp({ to, durationMs = 1000 }: { to: number; durationMs?: number })
   return <span ref={ref}>{value}</span>;
 }
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
 const ABOUT_HERO_IMG = "/assets/images/P02_S05_the_group_timeline_optA_image.png";
 const TIMELINE_IMG = "/assets/images/P02_S05_the_group_timeline_optA_image.png";
 
 const LEADERS = [
   {
-    name: "Dravya Savjibhai Dholakia",
-    role: "Director, Dholakia Retail Private Limited",
-    bio: "Appointed at incorporation in October 2024. Stewards brand strategy and the Mayavé portfolio house. Second-generation Dholakia.",
-    meta: "DIN · 08897843 · Appointed 11 Oct 2024",
-    img: "/assets/images/Dravya%20Dholakia.jpg",
+    name: "Mr. Hasmukh Himmatbhai Dholakia",
+    role: "Founder, Dholakia Lab Grown Diamond",
+    bio: "Founding figure of the Group's manufacturing institution in Surat. Brings multigenerational continuity and the family-stewardship culture that defines the Group's craftsmanship discipline.",
+    img: "/assets/images/Hasu_Dholakia.png",
   },
   {
-    name: "Rajesh Himmat Dholakia",
+    name: "Mr. Rajesh Himmatbhai Dholakia",
     role: "Director, Dholakia Retail Private Limited",
     bio: "Appointed at incorporation in October 2024. Stewards operations, governance, and partner-network growth across the retail entity.",
     meta: "DIN · 02173366 · Appointed 11 Oct 2024",
-    img: "/assets/images/Rajesh%20Himmat%20Dholakia.jpg",
+    img: "/assets/images/Rajesh_Dholakia.png",
   },
   {
-    name: "Shri Savji Dholakia",
-    role: "Founder, Hari Krishna Group",
-    bio: "Padma Shri awardee. The originating voice in the founding family — three decades of building a diamond manufacturing institution from Surat outwards. Featured in the RJC's 20 Stories of Impact (2026).",
-    meta: "",
-    img: "/assets/images/Shri%20Savji%20Dholakia.jpg",
-  },
-  {
-    name: "Shri Himmat Dholakia",
-    role: "Co-Founder, Hari Krishna Group",
-    bio: "Co-founder of the Group. Owns the operational discipline and family-stewardship culture that defines the Surat manufacturing institution.",
-    meta: "",
-    img: "/assets/images/Shri%20Himmat%20Dholakia.jpg",
-  },
+    name: "Mr. Dravya Savjibhai Dholakia",
+    role: "Director, Dholakia Retail Private Limited",
+    bio: "Appointed at incorporation in October 2024. Stewards brand strategy and the Mayavé portfolio house. Second-generation Dholakia.",
+    meta: "DIN · 08897843 · Appointed 11 Oct 2024",
+    img: "/assets/images/Dravya_Dholakia.png",
+  }
+
 ];
 
 const IDENTITY = [
@@ -145,32 +132,28 @@ export function AboutPage() {
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
   const heroOp = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
+  /**
+   * Timeline rail progress.
+   *
+   * Replaces gsap.ScrollTrigger (209 KB) with motion/react's useScroll —
+   * already in the bundle, ~0 extra bytes. Maps section-scroll progress
+   * (0→1 between "top 70%" and "bottom 30%") onto the SVG dash-offset.
+   */
+  const { scrollYProgress: railProgress } = useScroll({
+    target: timelineSectionRef,
+    offset: ["start 70%", "end 30%"],
+  });
+
   useEffect(() => {
-    const fill = railFillRef.current;
-    const section = timelineSectionRef.current;
-    if (!fill || !section) return;
-
-    if (reduced) {
-      fill.setAttribute("stroke-dashoffset", "0");
-      return;
+    if (reduced && railFillRef.current) {
+      railFillRef.current.setAttribute("stroke-dashoffset", "0");
     }
-
-    gsap.set(fill, { attr: { "stroke-dashoffset": 1 } });
-
-    const trigger = ScrollTrigger.create({
-      trigger: section,
-      start: "top 70%",
-      end: "bottom 30%",
-      scrub: 0.6,
-      onUpdate: (self) => {
-        gsap.set(fill, { attr: { "stroke-dashoffset": 1 - self.progress } });
-      },
-    });
-
-    return () => {
-      trigger.kill();
-    };
   }, [reduced]);
+
+  useMotionValueEvent(railProgress, "change", (p) => {
+    if (reduced || !railFillRef.current) return;
+    railFillRef.current.setAttribute("stroke-dashoffset", String(1 - p));
+  });
 
   return (
     <div className="bg-white text-[#0B1426]">
@@ -282,7 +265,7 @@ export function AboutPage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {LEADERS.map((p, i) => (
               <motion.article
                 key={i}
@@ -290,27 +273,27 @@ export function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.7, delay: i * 0.08, ease }}
-                className="bg-white group rounded-2xl overflow-hidden border border-[#0B1426]/8 flex flex-col"
+                className="bg-white group rounded-2xl overflow-hidden flex flex-col shadow-[0_1px_2px_rgba(11,20,38,0.04),0_8px_24px_rgba(11,20,38,0.06)] hover:shadow-[0_2px_4px_rgba(11,20,38,0.06),0_16px_40px_rgba(11,20,38,0.10)] transition-shadow duration-500"
               >
-                <div className="aspect-[4/5] overflow-hidden bg-[#F5F5F7]">
+                <div className="aspect-[4/5] overflow-hidden bg-[#0B1426]">
                   <ImageWithFallback
                     src={p.img}
                     alt={p.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700"
                   />
                 </div>
-                <div className="p-6 flex flex-col flex-1">
-                  <h3 className="font-syne text-[#0B1426] text-[18px] font-medium leading-[1.3]">
+                <div className="p-8 flex flex-col flex-1">
+                  <h3 className="font-syne text-[#0B1426] text-[clamp(1.25rem,1.55vw,1.6rem)] font-medium leading-[1.2] tracking-[-0.01em]">
                     {p.name}
                   </h3>
-                  <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.16em] uppercase mt-2">
+                  <p className="font-dm text-[#3B6FFF] text-[12px] font-semibold tracking-[0.18em] uppercase mt-4">
                     {p.role}
                   </p>
-                  <p className="font-dm text-[#0B1426]/72 text-[13px] leading-[1.65] mt-4 flex-1">
+                  <p className="font-dm text-[#0B1426]/75 text-[15px] leading-[1.7] mt-5 flex-1 font-light">
                     {p.bio}
                   </p>
                   {p.meta && (
-                    <p className="font-mono text-[#0B1426]/55 text-[11px] tracking-[0.04em] mt-5">
+                    <p className="font-mono text-[#3B6FFF] text-[12px] tracking-[0.04em] mt-7">
                       {p.meta}
                     </p>
                   )}

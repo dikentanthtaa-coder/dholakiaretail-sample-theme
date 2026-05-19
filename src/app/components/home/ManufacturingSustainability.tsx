@@ -2,7 +2,7 @@ import { motion, MotionValue, useScroll, useTransform, AnimatePresence } from "m
 import { Link } from "react-router";
 import { ArrowRight, Play, X } from "lucide-react";
 import { useRef, useState } from "react";
-import { ImageWithFallback } from "../figma/ImageWithFallback";
+import { OptimizedVideo } from "../ui/OptimizedVideo";
 import { ease, IMG } from "./constants";
 
 interface Props {
@@ -56,22 +56,12 @@ export function ManufacturingSustainabilitySection({ smoothX, smoothY }: Props) 
             transition={{ duration: 1, ease }}
             className="relative aspect-[16/9] overflow-hidden border border-white/10 rounded-2xl group"
           >
-            <ImageWithFallback
-              src={IMG.filmPoster}
-              alt="Brand film poster"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
-            />
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
+            <OptimizedVideo
+              src={IMG.filmVideo}
               poster={IMG.filmPoster}
-              preload="metadata"
-              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
-            >
-              <source src={IMG.filmVideo} type="video/mp4" />
-            </video>
+              posterAlt="Brand film poster"
+              className="absolute inset-0 w-full h-full group-hover:scale-105 transition-transform duration-1000"
+            />
             <div className="absolute inset-0 bg-gradient-to-b from-[#0B1426]/30 via-transparent to-[#0B1426]/40" />
 
             <button
@@ -92,7 +82,7 @@ export function ManufacturingSustainabilitySection({ smoothX, smoothY }: Props) 
             </p>
           </motion.div>
 
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -106,7 +96,7 @@ export function ManufacturingSustainabilitySection({ smoothX, smoothY }: Props) 
               Watch the film
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
             </button>
-          </motion.div>
+          </motion.div> */}
         </div>
 
         {/* Film modal */}
@@ -162,22 +152,12 @@ export function ManufacturingSustainabilitySection({ smoothX, smoothY }: Props) 
           className="absolute inset-0 w-full h-[120%] -top-[10%]"
         >
           <motion.div style={{ y: sustMy }} className="w-full h-full">
-            <ImageWithFallback
-              src={IMG.sustainability}
-              alt="Solar field at blue hour"
-              className="w-full h-full object-cover opacity-65"
-            />
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
+            <OptimizedVideo
+              src={IMG.sustainabilityVideo}
               poster={IMG.sustainability}
-              preload="metadata"
-              className="absolute inset-0 w-full h-full object-cover opacity-70"
-            >
-              <source src={IMG.sustainabilityVideo} type="video/mp4" />
-            </video>
+              posterAlt="Solar field at blue hour"
+              className="absolute inset-0 w-full h-full opacity-70"
+            />
           </motion.div>
         </motion.div>
 

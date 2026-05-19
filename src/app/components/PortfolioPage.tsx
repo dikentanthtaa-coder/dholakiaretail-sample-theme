@@ -3,6 +3,7 @@ import { ArrowRight, Award, ShieldCheck, Gem, Clock } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { CTASection } from "./home/CTA";
 
 const ease = [0.65, 0, 0.35, 1] as const;
 
@@ -43,55 +44,62 @@ const FUTURE_TERRITORIES = [
  *  S05 Closing CTA
  */
 export function PortfolioPage() {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start end", "end start"] });
-  const mayaveImgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
-  const mayaveImgScale = useTransform(scrollYProgress, [0, 1], [1.06, 1]);
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
+  const heroOp = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
+  const brandRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: brandScrollY } = useScroll({ target: brandRef, offset: ["start end", "end start"] });
+  const mayaveImgY = useTransform(brandScrollY, [0, 1], ["-8%", "8%"]);
+  const mayaveImgScale = useTransform(brandScrollY, [0, 1], [1.06, 1]);
 
   return (
     <div className="bg-white text-[#0B1426]">
-      {/* P03-S01 — Typographic Hero with subtle backdrop */}
-      <section className="relative bg-white pt-40 lg:pt-52 pb-24 lg:pb-32 overflow-hidden">
-        <div
-          aria-hidden
-          className="absolute inset-0 pointer-events-none opacity-[0.06]"
-          style={{
-            backgroundImage: "url('/assets/images/P03_S01_portfolio_hero_optA_image.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <div className="relative max-w-[1100px] mx-auto px-6 md:px-12 lg:px-20 text-center">
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-6"
-          >
+      {/* P03-S01 — Full-screen Hero */}
+      <section
+        ref={heroRef}
+        data-header-theme="dark"
+        className="relative h-screen min-h-[600px] flex items-end overflow-hidden bg-[#0B1426]"
+      >
+        <motion.div style={{ scale: heroScale }} className="absolute inset-0">
+          <ImageWithFallback
+            src="/assets/images/P03_S01_portfolio_hero_optB_image.png"
+            alt="Portfolio hero — brand expressions"
+            className="w-full h-full object-cover opacity-80"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0B1426] via-[#0B1426]/30 to-[#0B1426]/40" />
+        </motion.div>
+
+        <motion.div
+          style={{ opacity: heroOp }}
+          className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 pb-20 lg:pb-32 w-full"
+        >
+          <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-5">
             Portfolio
-          </motion.p>
+          </p>
           <motion.h1
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.4, ease }}
-            className="font-syne text-[#0B1426] font-normal leading-[1.06] tracking-[-0.025em] text-[clamp(2.4rem,5.5vw,5rem)] max-w-[20ch] mx-auto"
+            transition={{ duration: 1, ease, delay: 0.3 }}
+            className="font-syne text-white font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(2.4rem,5.5vw,5rem)] max-w-[20ch]"
           >
             A House of Distinct Brand Expressions
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 14 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.7, ease }}
-            className="font-dm text-[#0B1426]/65 mx-auto max-w-[58ch] mt-7 text-[clamp(1rem,1.4vw,1.18rem)] leading-[1.7] font-light"
+            transition={{ duration: 0.9, ease, delay: 0.6 }}
+            className="font-dm text-white/75 max-w-[58ch] mt-7 text-[clamp(1rem,1.4vw,1.18rem)] leading-[1.7] font-light"
           >
             Each brand is designed to serve a specific audience and emotional territory while
             benefiting from a shared standard of quality and trust.
           </motion.p>
-        </div>
+        </motion.div>
       </section>
 
       {/* P03-S02 — Brand Matrix · feature card on top */}
-      <section ref={heroRef} className="bg-white pt-24 lg:pt-32">
+      <section ref={brandRef} className="bg-white pt-24 lg:pt-32">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -103,7 +111,7 @@ export function PortfolioPage() {
           >
             <motion.div style={{ y: mayaveImgY, scale: mayaveImgScale }} className="absolute inset-0 w-full h-[120%] -top-[10%]">
               <ImageWithFallback
-                src="/assets/images/P03_S01_portfolio_hero_optB_image.png"
+                src="/assets/mayave/mayave_banner.png"
                 alt="Mayavé feature"
                 className="w-full h-full object-cover opacity-90"
               />
@@ -254,34 +262,13 @@ export function PortfolioPage() {
       </section>
 
       {/* P03-S05 — Closing CTA */}
-      <section className="bg-[#F5F5F7] py-32 lg:py-40 border-t border-[#0B1426]/10">
-        <div className="max-w-[820px] mx-auto px-6 md:px-12 lg:px-20 text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.9, ease }}
-            className="font-syne text-[#0B1426] font-normal text-[clamp(1.8rem,3vw,2.5rem)] leading-[1.2] tracking-[-0.01em]"
-          >
-            Interested in partnerships or future brand development?
-          </motion.h2>
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7, delay: 0.3, ease }}
-            className="mt-10"
-          >
-            <Link
-              to="/contact?type=partnership"
-              className="font-dm group inline-flex items-center gap-2 px-8 h-13 border-2 border-[#3B6FFF] text-[#3B6FFF] hover:bg-[#3B6FFF] hover:text-white rounded-sm text-[14px] font-semibold transition-all duration-300"
-            >
-              Start a conversation
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
-            </Link>
-          </motion.div>
-        </div>
-      </section>
+      <CTASection
+        eyebrow="Portfolio"
+        heading="Interested in partnerships or future brand development?"
+        body="We build with patience. If your ambition aligns with the long-term stewardship of luxury jewellery houses, we would welcome the conversation."
+        primary={{ label: "Start a conversation", to: "/contact?type=partnership" }}
+        secondary={{ label: "Meet The Group", to: "/the-group" }}
+      />
     </div>
   );
 }
