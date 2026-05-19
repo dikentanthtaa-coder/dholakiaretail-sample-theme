@@ -1,5 +1,23 @@
 @import 'tailwindcss' source(none);
-@source '../**/*.{js,ts,jsx,tsx}';
+
+/*
+ * Tailwind v4 source scan.
+ *
+ * We deliberately exclude src/app/components/ui/ — that folder is a
+ * shadcn starter kit that is NOT currently rendered by any page. Letting
+ * Tailwind scan it inflates the production CSS by tens of KBs of utility
+ * classes that never actually mount. Re-add the path here the moment a
+ * page imports from `components/ui/`.
+ */
+@source '../app/App.tsx';
+@source '../app/routes.tsx';
+@source '../app/context/**/*.{ts,tsx}';
+@source '../app/hooks/**/*.{ts,tsx}';
+@source '../app/components/*.{ts,tsx}';
+@source '../app/components/home/**/*.{ts,tsx}';
+@source '../app/components/layout/**/*.{ts,tsx}';
+@source '../app/components/figma/**/*.{ts,tsx}';
+@source '../main.tsx';
 
 @import 'tw-animate-css';
 

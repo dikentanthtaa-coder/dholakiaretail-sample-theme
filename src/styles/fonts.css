@@ -1,10 +1,84 @@
 /*
- * Slim font load — only the weights we actually render.
- *   Syne: 400 + 500 (h1/headline) and 700 for press-kit numerals.
- *   DM Sans: 300 / 400 / 500 / 600 plus italic 300/400.
- *   JetBrains Mono: 400 only (CIN strings).
- * font-display: swap → text paints with system fallback while web font streams in.
- * Removed Space Grotesk (was unused besides --font-grotesk fallback chain).
+ * Self-hosted fonts.
+ *
+ * Previously imported from fonts.googleapis.com → cost a separate
+ * preconnect, DNS, TLS, CSS fetch, plus 4 woff2 downloads from a
+ * cross-origin host. On Slow 3G that's 5–10 seconds of blocking before
+ * the first real paint.
+ *
+ * Now served from /assets/fonts/ on the same origin, cached by the
+ * service worker, and preloaded for the two most critical weights
+ * (Syne 500 for headlines, DM Sans 400 for body) directly from <head>.
+ *
+ * font-display: swap → text always paints with the system fallback
+ * while the web font streams in.
+ *
+ * size-adjust + the brand fallback chain minimises CLS when the swap
+ * happens (typical glyph-metric drift is ~6%).
  */
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400&display=swap');
 
+@font-face {
+  font-family: "Syne";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/fonts/Syne-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Syne";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/fonts/Syne-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Syne";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/assets/fonts/Syne-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("/assets/fonts/DM_Sans-300.woff2") format("woff2");
+}
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/fonts/DM_Sans-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "DM Sans";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/fonts/DM_Sans-400i.woff2") format("woff2");
+}
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/fonts/DM_Sans-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/fonts/DM_Sans-600.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/fonts/JetBrains_Mono-400.woff2") format("woff2");
+}

@@ -1,31 +1,34 @@
 import { useEffect, useRef, useState } from "react";
 import { getOptimized } from "@/lib/imageManifest";
+import { useNetworkProfile, whenIdle } from "@/lib/network";
 
 type Props = React.VideoHTMLAttributes<HTMLVideoElement> & {
-  /** mp4 source. */
   src: string;
-  /** Poster path — if it's a managed asset we'll use the LQIP + avif/webp. */
   poster?: string;
   /** Eagerly load even when off-screen (hero usage). */
   eager?: boolean;
-  /** Alt text used for the poster image when the video is offscreen. */
   posterAlt?: string;
   className?: string;
-  /** Optional callback when the underlying video element finishes its first
-   *  frame paint. Useful for fading out skeletons. */
+  /** Optional callback when the first frame is decoded. */
   onReady?: () => void;
 };
 
 /**
- * Performance-aware <video>:
- *   - eager=false → renders only a poster image until the section enters
- *     the viewport, then attaches the <video>. Saves bandwidth on every
- *     below-the-fold autoplay loop.
- *   - eager=true  → mounts immediately with preload=metadata for the hero.
- *   - LQIP blur backdrop is rendered until the first frame is decoded so
- *     dark squares never appear during loading.
- *   - Respects `prefers-reduced-motion`: a still poster is shown instead
- *     of the looping video.
+ * Network/device-aware autoplay video.
+ *
+ * Decision matrix (per useNetworkProfile()):
+ *
+ *   - saveData OR slow-2g/2g/3g → never load video, render the AVIF poster
+ *     instead. The user gets the brand still-frame in <100 ms; we don't
+ *     burn their data plan on a loop they can't even buffer.
+ *   - 4g + good downlink → autoplay as before.
+ *   - prefers-reduced-motion → poster only.
+ *   - Off-screen (not eager) → poster, then mount video when the section
+ *     enters the viewport AND the network is good.
+ *   - Off-screen offline → poster + freeze (no buffer spin).
+ *
+ * The video is paused when it scrolls out of the viewport to free the
+ * decoder and battery on low-end mobile.
  */
 export function OptimizedVideo({
   src,
@@ -47,6 +50,7 @@ export function OptimizedVideo({
   const [inView, setInView] = useState(eager);
   const [firstFrame, setFirstFrame] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const net = useNetworkProfile();
 
   const posterMeta = poster ? getOptimized(poster) : null;
   const posterSources = poster
@@ -56,6 +60,11 @@ export function OptimizedVideo({
       })()
     : null;
 
+  /** Should we even attempt to mount a <video> element on this device? */
+  const shouldMountVideo =
+    !reduceMotion && !net.saveData && !net.slow && !net.lowEnd;
+
+  // prefers-reduced-motion subscription
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     setReduceMotion(mq.matches);
@@ -64,8 +73,10 @@ export function OptimizedVideo({
     return () => mq.removeEventListener?.("change", handler);
   }, []);
 
+  // IntersectionObserver — defer mount until visible (or eager).
   useEffect(() => {
     if (eager || !containerRef.current) return;
+    const el = containerRef.current;
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -78,10 +89,20 @@ export function OptimizedVideo({
       },
       { rootMargin: "200px" }
     );
-    observer.observe(containerRef.current);
+    observer.observe(el);
     return () => observer.disconnect();
   }, [eager]);
 
+  // Eager + good network: still wait for browser idle so the hero video
+  // doesn't fight the LCP image for bandwidth.
+  const [idlePassed, setIdlePassed] = useState(!eager);
+  useEffect(() => {
+    if (!eager) return;
+    const cancel = whenIdle(() => setIdlePassed(true), 1500);
+    return cancel;
+  }, [eager]);
+
+  // First-frame hook + pause-when-offscreen for low-end mobile battery.
   useEffect(() => {
     if (!inView || !videoRef.current) return;
     const v = videoRef.current;
@@ -90,11 +111,34 @@ export function OptimizedVideo({
       onReady?.();
     };
     v.addEventListener("loadeddata", handle, { once: true });
-    return () => v.removeEventListener("loadeddata", handle);
-  }, [inView, onReady]);
 
-  // Reduce motion: render a high-quality still poster instead of the video.
-  if (reduceMotion && poster) {
+    // Pause when off-screen so the GPU decoder can spin down.
+    let pauseObserver: IntersectionObserver | null = null;
+    if ("IntersectionObserver" in window) {
+      pauseObserver = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting && autoPlay) {
+              v.play().catch(() => {});
+            } else if (!entry.isIntersecting) {
+              v.pause();
+            }
+          }
+        },
+        { threshold: 0.05 }
+      );
+      pauseObserver.observe(v);
+    }
+    return () => {
+      v.removeEventListener("loadeddata", handle);
+      pauseObserver?.disconnect();
+    };
+  }, [inView, onReady, autoPlay]);
+
+  const fallbackPosterOnly = !shouldMountVideo;
+
+  // ── Poster-only branch (slow network / save-data / reduced motion) ──
+  if (fallbackPosterOnly && poster) {
     return (
       <div ref={containerRef} className={className} style={style}>
         <picture>
@@ -129,11 +173,10 @@ export function OptimizedVideo({
             backgroundPosition: "center",
             opacity: firstFrame ? 0 : 1,
             transition: "opacity 600ms cubic-bezier(0.65, 0, 0.35, 1)",
-            filter: posterMeta?.lqip ? "blur(0px)" : undefined,
           }}
         />
       )}
-      {inView && (
+      {inView && idlePassed && (
         <video
           ref={videoRef}
           autoPlay={autoPlay}

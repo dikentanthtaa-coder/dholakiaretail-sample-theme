@@ -141,7 +141,7 @@ export function Hero({ smoothX, smoothY }: HeroProps) {
         </motion.div>
       </motion.div>
 
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 1 }}
@@ -154,7 +154,7 @@ export function Hero({ smoothX, smoothY }: HeroProps) {
         >
           <ChevronDown size={18} strokeWidth={1.5} />
         </motion.div>
-      </motion.div>
+      </motion.div> */}
     </section>
   );
 }

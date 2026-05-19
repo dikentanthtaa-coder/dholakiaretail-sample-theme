@@ -3,312 +3,542 @@
     "width": 800,
     "height": 801,
     "ext": "jpg",
+    "widths": [
+      640
+    ],
     "lqip": "data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAAAwBQCdASoYABgAPu1qqVAppiOiqA1RMB2JZQDLpAxwqYJDrfqFNfy06M7R2vJz+tzFgAD+8eDFmwA2S8MWjByGdfnYcNrwR0dDzG2YQnE7ePGwOj9YBEQe98sXonzKJAAAAA=="
   },
   "/assets/images/Dravya_Dholakia.png": {
     "width": 1254,
     "height": 1254,
     "ext": "png",
+    "widths": [
+      640,
+      1024
+    ],
     "lqip": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAAAQBACdASoYABgAPu1wsFIppiSiqAgBMB2JZQAALkN8g7J8epJ0IvqV2AD+6+K3Dut6xsXN+ZjXxVZQ+Hu9e0p0fO/ZYDAJeeqtmShd/0Y222lAAAA="
   },
   "/assets/images/Hasu_Dholakia.png": {
     "width": 1254,
     "height": 1254,
     "ext": "png",
+    "widths": [
+      640,
+      1024
+    ],
     "lqip": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAACQAwCdASoYABgAPu1wr1IppiQiqAgBMB2JZwAALkGDsTtWc5mYAP7ozLpIUcWb31Nu6M+ew44X2t4e717Sp5XSzrf8+91Glf8WVJj5uBJ4HsWpjK4AAA=="
   },
   "/assets/images/P01_S01_home_hero_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAADwAwCdASoYAA4APu1iqU2ppaOiMAgBMB2JZQCsABm8CKeThrzosXwAAP7w+2suUNmw5O1jIKWv7Bk4Bcblj7GTBw0JdegaBZIbAAAA"
   },
   "/assets/images/P01_S01_home_hero_optB_image.png": {
     "width": 941,
     "height": 1672,
     "ext": "png",
+    "widths": [
+      640
+    ],
     "lqip": "data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAADQBACdASoYACsAPt1epE2opaOiOrM4ARAbiWcAzBxYviD/rIKsk8xuBpCdV55sAAD+8n+15o4dDFv/JpAtJ4xvrSHk+BOvBToTHGx9e2vNq884Rk1eU7ll7dQwi2nJXnzoHPJLY+AhTEyKED2ZZT/NrPHy1Lqc2UoAOWF3zG27toAAAAA="
   },
   "/assets/images/P01_S04_home_corporate_snapshot_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADwAwCdASoYAA4APu1qrU8ppiQiMAgBMB2JYwCdACHf1WAxTz2V1uQAAP7ynpivznrst82yd6NY6UtX7HLhLhB1AAB7OskgAAA="
   },
   "/assets/images/P01_S05_home_portfolio_preview_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAABQAwCdASoYAA4APu1orU2ppqSiMAgBMB2JZ2VuADc110YmAAD+7LLS5SLr2RMc7Dt0I+f77qPbgDEkMAA="
   },
   "/assets/images/P01_S05_home_portfolio_preview_optB_image.png": {
     "width": 1122,
     "height": 1402,
     "ext": "png",
+    "widths": [
+      640,
+      1024
+    ],
     "lqip": "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAAAwBQCdASoYAB4APu1osFCppaSisBgIATAdiWkAy2gMUAupq9BHfvI7zKW7Wa4k9wZ8AAD+8N8Fm/nhpNkGS/spqH8NXkZ+TJhho12EfIx4Wwd4bo2dM+sqeahwpiKmvL68yQAAAAA="
   },
   "/assets/images/P01_S06_home_brand_film_optA_image.png": {
     "width": 1935,
     "height": 812,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAACwAwCdASoYAAoAPu1iqk2ppaQiMAgBMB2JZwDA3B6R2gKosxWe+AD+5ep7Ky7ZhdghFuwmRUksGdejzP3vzB/8O3x98AAA"
   },
   "/assets/images/P01_S07_home_sustainability_teaser_optA_image.png": {
     "width": 1915,
     "height": 821,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAADQAwCdASoYAAoAPu1kqk2ppaQiMAgBMB2JZwC7ABscXkRd26PmpgAA2++BG1RXCe8E4AKW+FQRoe9/Oli7hqY+O3E+YkAA"
   },
   "/assets/images/P01_S08_home_news_press_preview_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAAAQBACdASoYAA4APu1oqk6ppiQiMAgBMB2JZwAAUWXbmypjlCPKfXu2AAD+v3fbCyYFhg9S5PVQYcWp0ztE23UO600Fn9GRlHBDyUmaVfOoIAAA"
   },
   "/assets/images/P02_S05_the_group_timeline_optA_image.png": {
     "width": 1536,
     "height": 1024,
     "ext": "png",
+    "widths": [
+      640,
+      1024
+    ],
     "lqip": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADwAwCdASoYABAAPu1qrU8ppiQiMAgBMB2JZwDDNB6WI5PGJcavUnRgAP7jSoL3sjX9g1pcZArsosvWFsnCR3n4pFCXCeJAAAA="
   },
   "/assets/images/P03_S01_portfolio_hero_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAABQAwCdASoYAA4APu1iqk2ppaQiMAgBMB2JZQC/ODKK3IG4AAD+8I27W4wn4mHaw89k78SoecMpGaZcILIAAA=="
   },
   "/assets/images/P03_S01_portfolio_hero_optB_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAABQAwCdASoYAA4APu1kqU4ppaOiMAgBMB2JZ1TATsyTjb3FgAD+74OyR85kyyBcZLU5vfNmhDsm9VBBltmF9bByPqAAAA=="
   },
   "/assets/images/P03_S02_portfolio_brand_matrix_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAAAwBACdASoYAA4APu1kqk2ppaQiMAgBMB2JYwATwAGPv9wbra+PSlPwLAAA/o0ux/7rUAxTdgoYCEyr+7HT8zRgKysokreDmNTNt2WmkQYNmGTSPd7WBKf8z/qmTvCOV2GntsnoAAA="
   },
   "/assets/images/P04_S05_mayave_related_blog_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAADwAwCdASoYAA4APu1iqU2ppaOiMAgBMB2JZwDA3BotGfkEIUMPSbJgAP7ctFP6+05IiVdrBuy7LN3sF8fynJFR+azVtJlItEjxoc84+UWAAA=="
   },
   "/assets/images/P04_S05_mayave_related_blog_optB_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAADwAwCdASoYAA4APu1yrU+pp6QiMAgBMB2JZwC7ACFeUnOcANuiVKBAAP7w02bbi3e96OqwOWFritQPIGL4aTEHWdpqfyU14+H58xtQWPAAAA=="
   },
   "/assets/images/P04_S06_mayave_related_news_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAABwAwCdASoYAA4APu1mqk2ppaQiMAgBMB2JZwCnFCzcdZ5JlSgA/u+nIWz+eJP5re98BTdKFj0GCCOvT9LidXKOLRy4cQAA"
   },
   "/assets/images/P05_S01_craftsmanship_hero_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAABQBACdASoYAA4APu1iqU2ppaOiMAgBMB2JaQC/OCB/n07f2xb9jNOBrc8GAP7L9UFt5KhEUK/zZeeIJobCnS620nwGl9l0oPIFIigA"
   },
   "/assets/images/P05_S01_craftsmanship_hero_optB_image.png": {
     "width": 941,
     "height": 1672,
     "ext": "png",
+    "widths": [
+      640
+    ],
     "lqip": "data:image/webp;base64,UklGRqQAAABXRUJQVlA4IJgAAABQBgCdASoYACsAPt1aqE2opSQiNVgMARAbiWkA0Mxpf3g+inhHKjp6isGIg34c0gTmsCWQ7wv8ro59AAD++l8Bm/q7esRyXy57x4KVKWXwiWJi2X9v16hRf4YRzjEt5HemuLz0ups31FKXQjtu6gea/lCqhYOqEFosyZ0phCkMlizBiV+Pdfdj/tBSaJHqyLZ3SJ+mAr3AAA=="
   },
   "/assets/images/P05_S02_craftsmanship_craft_philosophy_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAADwAwCdASoYAA4APu1krU2ppaSiMAgBMB2JZwAAW+mw5d4nEsJyyaeAAP7lfp16+wWlzGqg8Uc4JYR1PyZ0cPYbN1rlulwVjXqxa2MNiAgmgIAA"
   },
   "/assets/images/P05_S04_craftsmanship_process_timeline_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAADwAwCdASoYAA4APu1mqk4ppaOiMAgBMB2JaQAAP/Af2Ak+MBWRfBgAAP5Ihl5SE5f6yO869P0LQMrmKOXHhA2k5fOLv2VRxaCT1sksDbwWBYmQwMAAAA=="
   },
   "/assets/images/P06_S01_sustainability_hero_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADwAwCdASoYAA4APu1oqk6ppiQiMAgBMB2JYwCsACHcU9+z7uKZ5wLuAP7c74GH2hOQxu6m5pDJmjgO6ncXREJfGAed/Zqmv4AAAA=="
   },
   "/assets/images/P06_S03_sustainability_wider_group_context_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAADwAwCdASoYAA4APu1orU2ppqSiMAgBMB2JZwDKABitRonxTAE/WBAAAP7uoVGJrN//RlMjwCjjTng7a/kXsV4PEDcAAA=="
   },
   "/assets/images/P07_S01_innovation_hero_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAAAwBACdASoYAA4APu1oqk6ppiQiMAgBMB2JZwDCgCFsGKH2ciSt709AfAAA/vFlfNCnoO8JDTY4y+FgJpGulPsSzKEnrG6vxh0IpNfeQAA="
   },
   "/assets/images/P07_S02_innovation_lab_grown_diamond_story_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAACQAwCdASoYAA4APu1mq04ppaQiMAgBMB2JZwCdACFRrChu7JgAAP7i+2AHXuQKl0Ht2/+Xgzan5etveTorpeBZc8ztWrxZeym6DLw6Z0hA2AAA"
   },
   "/assets/images/P07_S03_innovation_process_explainer_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAADwAwCdASoYAA4APu1oqk6ppiQiMAgBMB2JZwDA3CGoAsP70e2gLVcwAP7kNmJaRP72u+TBS6MDn8XPPw3LUjDDzMmFsRbYkn9VIR0pAAA="
   },
   "/assets/images/P07_S04_innovation_quality_relevance_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAADQAwCdASoYAA4APu1krU2ppaSiMAgBMB2JZwC7ACHfSORtN4ViUNgA/uvvuhSSi2+V+Z1ZWx42OGYvsZr/UUlrV+NAGqAA"
   },
   "/assets/images/P08_S01_global_presence_partnerships_hero_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADQAwCdASoYAA4APu1krU6ppaSiMAgBMB2JZQCdACHfjnaQ7bFXnIAA/uzWZuW8AREpiQRaER/Kq3yAEpjx4NVktAsBp58sZxAAAA=="
   },
   "/assets/images/P10_S01_careers_hero_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAACwAwCdASoYAA4APu1kqk4ppaQiMAgBMB2JZwCdAA5pKN+kDYeIIAD+qZ6KYYWcaxWxNXB3PhCS4B6/bVUoPrj4VcY9i6V8lgD1mnc8p9KvIAAA"
   },
   "/assets/images/P19_S02_single_blog_post_article_body_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAADQAwCdASoYAA4APu1mqk2ppaQiMAgBMB2JZwCw7BjisUTiR7WI6AAA/unVXd2U9ojD87nqB+94zriE+3pCJRkVMO/2kSf9yu4Pn3UwAAA="
   },
   "/assets/images/P19_S04_single_blog_post_related_posts_optA_image.png": {
     "width": 1672,
     "height": 941,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAAAwBACdASoYAA4APu1krU2ppaSiMAgBMB2JZQC7ACIj16RChSHrZ/AJogAA/syPoKbVjIiTT6it6rm3FCHeh+wB7LNORnlNoAA="
   },
   "/assets/images/Rajesh Himmat Dholakia.jpg": {
     "width": 800,
     "height": 801,
     "ext": "jpg",
+    "widths": [
+      640
+    ],
     "lqip": "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAADwBACdASoYABgAPu1sr1CppiQiqAqpMB2JZQC/OBDR4vlf0tPA04IwyWGgzgIAUAAA/vHcL/QYDx5SEYfeIxfA233pC6XDPo5wQJ8WhRBZUI7AGIZJvww2jnY/Rd7HhSQU/X1+PpVA1BilJ35DjSL3CyQAAA=="
   },
   "/assets/images/Rajesh_Dholakia.png": {
     "width": 1254,
     "height": 1254,
     "ext": "png",
+    "widths": [
+      640,
+      1024
+    ],
     "lqip": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAADQBACdASoYABgAPu1qsFAppiUiqAqpMB2JZwDKtBEdsshv9wegi9wwBn68XxzDQAD+6+qDwt8WbSYh2nkagBHh144yoycBhhZlGAPs1uUAzkAA"
   },
   "/assets/images/Shri Himmat Dholakia.jpg": {
     "width": 800,
     "height": 800,
     "ext": "jpg",
+    "widths": [
+      640
+    ],
     "lqip": "data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAADQBACdASoYABgAPu1ysVKppqSiqAgBMB2JZwC/OAoaWy714lkyPwz12/f3t6tfAAD+524WkKnrQLO99Feo09HVzEyap+VYH3Dc6bGcp5RbIxZXe7FemcBJgDCUpSOEfsTAJyUJpjjIuCrTeAX5VhtahDJZQAAA"
   },
   "/assets/images/Shri Savji Dholakia.jpg": {
     "width": 800,
     "height": 800,
     "ext": "jpg",
+    "widths": [
+      640
+    ],
     "lqip": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAADwBACdASoYABgAPu1kq06ppaOiKA1RMB2JYwDKABEc2nqIJ09rgoHwwCV46k5I8AAA/u1DUUsrIVfYCVDQS/Jdjz+NXxuq4Ebfsc+CLVupVTPTmNxruNE63DB4X//ZW+mj0I7ATzKD4I6TBjvAAA=="
   },
   "/assets/images/building-the-future-of-luxury-retail.png": {
     "width": 1536,
     "height": 1024,
     "ext": "png",
+    "widths": [
+      640,
+      1024
+    ],
     "lqip": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAADwAwCdASoYABAAPu1kqk2ppaQiMAgBMB2JZQC7ACHcrkN283xXeYbAAP6LnaRW8jcy7Uq/zux2RGGGpdQnPc3ZLkbF0c5ljRgBki1CibAAAA=="
   },
   "/assets/images/what-defines-a-house-of-brands.png": {
     "width": 1536,
     "height": 1024,
     "ext": "png",
+    "widths": [
+      640,
+      1024
+    ],
     "lqip": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAACQAwCdASoYABAAPu1kqU4ppaOiMAgBMB2JQBOgAoCbtvLGMrCcAP3SZBwDJjFsDBIMpq7YxMs4wmknMooo74V8tESxyE9BZxdHWd00+ZqgAA=="
   },
   "/assets/mayave/journal_01_restraint.jpg": {
     "width": 1920,
     "height": 1080,
     "ext": "jpg",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAADQAwCdASoYAA4APu1mq04ppaQiMAgBMB2JZwDE2CHf3jOFJCTuwAAA/t535hWOOP1zCSVAknPcGD6q887ckAAA"
   },
   "/assets/mayave/journal_02_polish.jpg": {
     "width": 1920,
     "height": 1080,
     "ext": "jpg",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAACwAwCdASoYAA4APu1yrU+pp6QiMAgBMB2JZwAAW+w6oglFuVPwQAD+69/SE6edW3cCz5aJspjmJvyDvOBOAAAA"
   },
   "/assets/mayave/journal_03_cutter.jpg": {
     "width": 1920,
     "height": 1080,
     "ext": "jpg",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAACwAwCdASoYAA4APu1iqU2ppaQiMAgBMB2JQBOmUABpqfG1eHJoAAD+3nBVYEQlrCVvdlWMqi2mnQa/XyhncbNFItZ8fPe3BEyGAAAA"
   },
   "/assets/mayave/lookbook_01_stillness.jpg": {
     "width": 1600,
     "height": 2000,
     "ext": "jpg",
+    "widths": [
+      640,
+      1024
+    ],
     "lqip": "data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAAAQBgCdASoYAB4APu1mrU+ppSQiMBgIATAdiWMAnTKAAcOUXLzjPB0b/9+tNL8w+82MGLZsHO2TTVAA/tYdyxTAKOygia7+UHKr4yvk05iL+vss7w8tGcInGpwTQaBh7HEBXbkdDYf6sCoQpkSzkG3dCJMU7o/33h+smtND8MjFYUdOophaKAAA"
   },
   "/assets/mayave/lookbook_02_proportion.jpg": {
     "width": 1600,
     "height": 1600,
     "ext": "jpg",
+    "widths": [
+      640,
+      1024
+    ],
     "lqip": "data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAABQBQCdASoYABgAPu1wslKppiSiqAgBMB2JQBOmYwA0F8FNtPVRlUSA2FvrrNxAMYlP4AAA/ujb1cKmzZjLzomfQ+xu5b/QpaI1UDGaW36OMLMVCEu2yDOgOPBHDIPaN04Xckq/qfsvw5rVfJqT1AjOPy0rnrU0QxVoO2S0SqAAAA=="
   },
   "/assets/mayave/lookbook_03_surface.jpg": {
     "width": 1920,
     "height": 1080,
     "ext": "jpg",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAACQAwCdASoYAA4APu1kqk2ppaQiMAgBMB2JaQAAW+oD3NeNhcAAAP7xgHgqV1hRz5fs4rFcMA0cxL15YJG1SaJa63LnwvyfAAA="
   },
   "/assets/mayave/lookbook_04_whisper.jpg": {
     "width": 1600,
     "height": 2000,
     "ext": "jpg",
+    "widths": [
+      640,
+      1024
+    ],
     "lqip": "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAACwBQCdASoYAB4APu1iqE2ppaOiMAgBMB2JYgCdMoAC7Y2d/NVmTE3vP6TfqG89ROEUaQ4OI4AA/vDfrZQSNclgA9O9u8Rjqz/gqDDl4YXY8eo5h1zyG6vJFCxU7eWaJsb5cJ2vy2YyNX0FbcBXtGQIDgd1/krs2hcLrjI+qc5smCo/GrUdCjsKAAA="
   },
   "/assets/mayave/lookbook_05_chain.jpg": {
     "width": 1600,
     "height": 1600,
     "ext": "jpg",
+    "widths": [
+      640,
+      1024
+    ],
     "lqip": "data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAAAQBQCdASoYABgAPu1grFAppKQisBgIATAdiUATplmAI9XeBYhjvkUeszNXW/pMaJrAAPhQG/i2V+kW0tXiuOFB+9g+KXJiHZB1ddkSjDNfLRK8jRylo2YGv2lm3UIAzsJywRlBSclfW9ByidaFDfJij2OgOTg1BqWBQTXCJXZic5TAAAA="
   },
   "/assets/mayave/lookbook_06_bench.jpg": {
     "width": 1920,
     "height": 1080,
     "ext": "jpg",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAAAQBACdASoYAA4APu1mqk2ppaQiMAgBMB2JaQAAYcDKVIoauma0NSb1AADhr4KnDwVzGDTTqNaZ83EzTrNQW6nhe+JwR2shh1pT/dlG2Uie2dX/dfgeAAAA"
   },
   "/assets/mayave/mayave_banner.png": {
     "width": 1920,
     "height": 1072,
     "ext": "png",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAABQBACdASoYAA0APu1iqU2ppaOiMAgBMB2JYwCdMoADf5FemBB3PZGrrM8AAP7Q9JQCRlPUIDIvflJSomuKifCs87JLvBK1XRGX/OJ1tWU4/+bkdgVv1ruQxEAVAUKvFiayqAAA"
   },
   "/assets/web/P04_S01_mayave_hero_optA_image.jpg": {
     "width": 360,
     "height": 202,
     "ext": "jpg",
+    "widths": [],
     "lqip": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADQAwCdASoYAA0APu1krU2ppaSiMAgBMB2JZwDA3CFNSXhOtWGq3WAA/vDYn5Ph3XWWy4+gdbLp8SWVTnX7cVlTQinJtou5d5AAAA=="
   },
   "/assets/web/P05_S03_craftsmanship_making_ecosystem_optA_image.jpg": {
     "width": 1300,
     "height": 958,
     "ext": "jpg",
+    "widths": [
+      640,
+      1024
+    ],
     "lqip": "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAADwBACdASoYABIAPu1orVCppaQiqAqpMB2JZwDM0BGtEb667PVo+fWLvYXYJ0uM8kAA/ty4ROJ4bSmqxXU1+6HmLnILaVsU46ca/kyoQPpjTc7ZFxpQ4ITJqOxWMKzsN0JuKG0gAAA="
   },
   "/assets/web/P18_S04_blog_listing_posts_grid_optA_image.jpg": {
     "width": 2500,
     "height": 2500,
     "ext": "jpg",
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
     "lqip": "data:image/webp;base64,UklGRrAAAABXRUJQVlA4IKQAAABwBQCdASoYABgAPu1qqVAppiOiqA1RMB2JaQAIEAGU99OSL4swq1H9jnXFfwQCJHHdCBYAAP7Sa1mcYZc9tcavtlKqviRBurIJpo/ItGxGzk7hoSnNTIS+teqQe0PzpPEqBG0kb0TgCnOb0G5ME9ZqIoxI8zQ+qNZy5E4hzjI36jLVlKTbx68ajav4jfkJ+OLszogxEOXt6dDzUTLdaA0jKwgAAA=="
   },
   "/assets/web/P19_S03_single_blog_post_author_share_optA_image.jpg": {
     "width": 1000,
     "height": 667,
     "ext": "jpg",
+    "widths": [
+      640
+    ],
     "lqip": "data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAABwAwCdASoYABAALrV2u12jqampiYC0S0gABc6XZvu1zIgQkwAA/uL1h9HBUwOcGVT7k7Kur6T5cnRDw+lAAA=="
   }
 }

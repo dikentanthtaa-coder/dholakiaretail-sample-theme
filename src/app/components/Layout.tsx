@@ -5,6 +5,7 @@ import { Footer } from "./Footer";
 import { ScrollProgress } from "./ScrollProgress";
 import { RouteSeo } from "./ui/RouteSeo";
 import { OrganizationJsonLd } from "./ui/Seo";
+import { IdlePrefetch } from "./ui/IdlePrefetch";
 
 export { navLinks, LOGO_URL } from "./constants";
 
@@ -29,6 +30,7 @@ export function Layout() {
     <div className="min-h-screen bg-bg-deep text-text-primary selection:bg-[#3B6FFF] selection:text-white overflow-x-hidden font-dm">
       <RouteSeo />
       <OrganizationJsonLd />
+      <IdlePrefetch />
       <ScrollProgress />
       <Header />
       <main>

@@ -1,6 +1,7 @@
 import { motion, useMotionValue, useSpring, useTransform, useScroll, MotionValue } from "motion/react";
 import { useRef, useEffect, useCallback, useState } from "react";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
+import { getNetworkProfile } from "@/lib/network";
 
 /**
  * Hook: detect "I'm on a touch device or a mouse-free screen" so we can
@@ -22,6 +23,11 @@ function useHasFineMouse() {
 }
 
 // ─── Global mouse parallax hook ───────────────────────────────────────────────
+//
+// On touch devices, low-end Androids, save-data, and slow networks this is a
+// no-op: smoothX/smoothY remain at 0 and no listener is ever attached.
+// Saves a 60 Hz event stream and an entire spring solver on the slowest
+// devices that would otherwise drop frames.
 export function useMouseParallax() {
   const rawX = useMotionValue(0);
   const rawY = useMotionValue(0);
@@ -30,6 +36,10 @@ export function useMouseParallax() {
   const hasFineMouse = useHasFineMouse();
   useEffect(() => {
     if (!hasFineMouse) return;
+    // Skip on low-end hardware or slow networks — the parallax adds nothing
+    // a constrained device can render at 60 fps anyway.
+    const net = getNetworkProfile();
+    if (net.lowEnd || net.slow) return;
     let raf = 0;
     let nextX = 0;
     let nextY = 0;
@@ -41,7 +51,6 @@ export function useMouseParallax() {
     const onMove = (e: MouseEvent) => {
       nextX = (e.clientX / window.innerWidth) * 2 - 1;
       nextY = (e.clientY / window.innerHeight) * 2 - 1;
-      // Coalesce to one update per animation frame.
       if (!raf) raf = window.requestAnimationFrame(apply);
     };
     window.addEventListener("mousemove", onMove, { passive: true });
@@ -180,14 +189,20 @@ export function FloatingParticles({
   smoothY: MotionValue<number>;
 }) {
   const [reduced, setReduced] = useState(false);
+  const [skip, setSkip] = useState(false);
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     setReduced(mq.matches);
     const onChange = () => setReduced(mq.matches);
     mq.addEventListener?.("change", onChange);
+    // Cheap escape hatch: don't render the particle system at all on
+    // budget Androids / slow connections. 10 motion subscribers + 10
+    // requestAnimationFrame loops is a real drain on low-end CPUs.
+    const net = getNetworkProfile();
+    setSkip(net.lowEnd || net.slow);
     return () => mq.removeEventListener?.("change", onChange);
   }, []);
-  if (reduced) return null;
+  if (reduced || skip) return null;
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
       {PARTICLES.map((p) => (

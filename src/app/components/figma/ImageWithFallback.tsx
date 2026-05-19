@@ -4,11 +4,14 @@ import { deriveModernSources, getOptimized } from "@/lib/imageManifest";
 const ERROR_IMG_SRC =
   "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODgiIGhlaWdodD0iODgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBvcGFjaXR5PSIuMTUiIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMy43Ij48cmVjdCB4PSIxNiIgeT0iMTYiIHdpZHRoPSI1NiIgaGVpZ2h0PSI1NiIgcng9IjYiLz48cGF0aCBkPSJtMTYgNTggMTYtMTggMzIgMzIiLz48Y2lyY2xlIGN4PSI1MyIgY3k9IjM1IiByPSI3Ii8+PC9zdmc+Cgo=";
 
+const DEFAULT_SIZES =
+  "(max-width: 640px) 640px, (max-width: 1024px) 1024px, (max-width: 1600px) 1600px, 100vw";
+
 export type ImageWithFallbackProps =
   React.ImgHTMLAttributes<HTMLImageElement> & {
     /**
-     * When true the image is critical (above-the-fold hero) and should be
-     * loaded eagerly with high fetch priority. Defaults to lazy/low.
+     * Critical above-the-fold image — load eagerly with high fetch priority.
+     * Defaults to lazy/low.
      */
     priority?: boolean;
     /** Override responsive sizes attribute. */
@@ -16,18 +19,20 @@ export type ImageWithFallbackProps =
   };
 
 /**
- * Modern-format aware image component.
+ * Modern-format aware image with responsive srcset.
  *
- * For each `<img src="/assets/images/foo.png" />` we transparently render:
  *   <picture>
- *     <source type="image/avif" srcSet="/assets/images/foo.avif" />
- *     <source type="image/webp" srcSet="/assets/images/foo.webp" />
- *     <img loading="lazy" decoding="async" src="/assets/images/foo.png" … />
+ *     <source type="image/avif" srcSet="… 640w, … 1024w, … 1600w" sizes="…" />
+ *     <source type="image/webp" srcSet="… 640w, … 1024w, … 1600w" sizes="…" />
+ *     <img loading="lazy" decoding="async" src="<original>" … />
  *   </picture>
  *
- * Reads intrinsic width/height from the build-time manifest so layout is
- * reserved → eliminates CLS. Renders a tiny LQIP blur until the real image
- * decodes, then fades it in.
+ * Browsers on phones pick the smallest variant that fits — typically the
+ * 640w AVIF (often <20 KB) instead of the full 1600w (>100 KB).
+ *
+ * Layout is reserved via intrinsic w/h from `image-manifest.json` so CLS
+ * stays at 0. A 24px blurred LQIP is painted as a background until the
+ * real image's `load` fires, then we fade it in.
  */
 export function ImageWithFallback(props: ImageWithFallbackProps) {
   const {
@@ -79,6 +84,7 @@ export function ImageWithFallback(props: ImageWithFallbackProps) {
   }
 
   const eager = priority || loading === "eager";
+  const effectiveSizes = sizes ?? (sources?.avifSrcSet ? DEFAULT_SIZES : undefined);
 
   const imgEl = (
     <img
@@ -93,7 +99,7 @@ export function ImageWithFallback(props: ImageWithFallbackProps) {
       }}
       loading={eager ? "eager" : loading ?? "lazy"}
       decoding={decoding ?? "async"}
-      sizes={sizes}
+      sizes={effectiveSizes}
       width={propWidth ?? meta?.width}
       height={propHeight ?? meta?.height}
       onLoad={(e) => {
@@ -118,8 +124,16 @@ export function ImageWithFallback(props: ImageWithFallbackProps) {
   if (isAbsoluteFill && meta?.lqip) {
     return (
       <picture>
-        <source type="image/avif" srcSet={sources.avif} sizes={sizes} />
-        <source type="image/webp" srcSet={sources.webp} sizes={sizes} />
+        <source
+          type="image/avif"
+          srcSet={sources.avifSrcSet ?? sources.avif}
+          sizes={effectiveSizes}
+        />
+        <source
+          type="image/webp"
+          srcSet={sources.webpSrcSet ?? sources.webp}
+          sizes={effectiveSizes}
+        />
         {React.cloneElement(imgEl, {
           style: {
             ...imgEl.props.style,
@@ -134,8 +148,16 @@ export function ImageWithFallback(props: ImageWithFallbackProps) {
 
   return (
     <picture>
-      <source type="image/avif" srcSet={sources.avif} sizes={sizes} />
-      <source type="image/webp" srcSet={sources.webp} sizes={sizes} />
+      <source
+        type="image/avif"
+        srcSet={sources.avifSrcSet ?? sources.avif}
+        sizes={effectiveSizes}
+      />
+      <source
+        type="image/webp"
+        srcSet={sources.webpSrcSet ?? sources.webp}
+        sizes={effectiveSizes}
+      />
       {imgEl}
     </picture>
   );

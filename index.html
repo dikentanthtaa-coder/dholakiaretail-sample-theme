@@ -48,25 +48,43 @@
     <link rel="icon" type="image/png" href="/fevicon.png" />
     <link rel="apple-touch-icon" href="/fevicon.png" />
 
-    <!-- Resource hints -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <!--
+      Fonts are self-hosted under /assets/fonts/ — no cross-origin
+      handshake to fonts.googleapis.com / fonts.gstatic.com. Preload
+      the two weights that paint above the fold (Syne 500 for the
+      headline, DM Sans 400 for body) so they don't FOUC on first paint.
+    -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/assets/fonts/Syne-500.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/assets/fonts/DM_Sans-400.woff2"
+      crossorigin
+    />
 
-    <!-- Critical asset preloads (LCP candidates) -->
+    <!--
+      Critical asset preload — ONLY the AVIF hero (~30 KB).
+
+      The hero MP4 used to be preloaded here too, but on Slow 3G a 2.9 MB
+      video over a preload directive eats >60 s of bandwidth before any
+      JS, CSS, or content can paint. The video now lazy-mounts from
+      <OptimizedVideo eager> *after* the route paints and only if the
+      Network Information API reports a "good" connection. The AVIF stays
+      as the guaranteed LCP candidate.
+    -->
     <link
       rel="preload"
       as="image"
       type="image/avif"
       href="/assets/images/P01_S01_home_hero_optA_image.avif"
       fetchpriority="high"
-    />
-    <link
-      rel="preload"
-      as="video"
-      href="/assets/videos/P01_S01_Hero_Video_idea_360.mp4"
-      type="video/mp4"
     />
 
     <!--

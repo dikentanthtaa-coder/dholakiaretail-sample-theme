@@ -1,7 +1,7 @@
-
 import { createRoot } from "react-dom/client";
 import App from "./app/App.tsx";
 import "./styles/index.css";
+import { registerServiceWorker } from "./lib/registerSW";
 
 declare global {
   interface Window {
@@ -19,3 +19,9 @@ createRoot(document.getElementById("root")!).render(<App />);
  * here, because at this point the lazy route chunk may still be loading
  * and the user would just see the RouteLoader skeleton flashing into view.
  */
+
+// Register the service worker (production only, on `load`). This is what
+// makes repeat visits feel instant even on Slow 3G: the SW serves images,
+// videos, JS, CSS, and fonts straight from disk while quietly revalidating
+// in the background.
+registerServiceWorker();
