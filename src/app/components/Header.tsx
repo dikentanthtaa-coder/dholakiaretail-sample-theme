@@ -67,10 +67,33 @@ function useHeaderSurface(routeKey: string) {
     compute();
     window.addEventListener("scroll", scheduleCompute, { passive: true });
     window.addEventListener("resize", scheduleCompute);
+
+    /*
+     * Recompute whenever the DOM changes shape.
+     *
+     * Critical on first load: the Header mounts inside <Layout> BEFORE the
+     * lazy route chunk arrives. At that moment <Outlet> is showing the
+     * Suspense fallback (RouteLoader), which has no [data-header-theme]
+     * sections — so the probe sees nothing and the header defaults to the
+     * "light" surface (black logo & text).
+     *
+     * A few hundred milliseconds later the real HomePage mounts and
+     * inserts the dark hero section with data-header-theme="dark". Without
+     * this MutationObserver nothing triggers a recompute and the header
+     * stays black on top of the dark hero until the user happens to scroll
+     * — exactly the bug shown in the reload screenshot.
+     *
+     * scheduleCompute is rAF-coalesced, so dozens of inserts during route
+     * mount collapse into one compute on the next frame.
+     */
+    const mo = new MutationObserver(scheduleCompute);
+    mo.observe(document.body, { childList: true, subtree: true });
+
     return () => {
       window.clearTimeout(t);
       window.removeEventListener("scroll", scheduleCompute);
       window.removeEventListener("resize", scheduleCompute);
+      mo.disconnect();
       if (rafRef.current != null) window.cancelAnimationFrame(rafRef.current);
     };
   }, [compute, scheduleCompute, routeKey]);
