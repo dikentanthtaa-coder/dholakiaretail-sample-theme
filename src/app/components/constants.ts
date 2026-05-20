@@ -77,10 +77,10 @@ export const FOOTER_NAV = [
   {
     title: "Contact",
     links: [
-      { label: "Contact", path: "/contact" },
+      { label: "Contact", path: "/contact#write-to-us" },
       { label: "Careers", path: "/careers" },
-      { label: "Partnerships", path: "/contact?type=partnership" },
-      { label: "Press", path: "/contact?type=press" },
+      { label: "Partnerships", path: "/contact?type=partnership#write-to-us" },
+      { label: "Press", path: "/contact?type=press#write-to-us" },
     ],
   },
 ] as const;

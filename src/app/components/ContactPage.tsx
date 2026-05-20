@@ -48,7 +48,7 @@ const ROUTING_CARDS = [
     type: "brand",
     title: "Brand Inquiries",
     body: "Mayavé private viewings, brand development inquiries, future-territory proposals.",
-    email: "Info@mayave.com",
+    email: "info@dholakiaretail.com",
   },
 ] as const;
 
@@ -179,7 +179,7 @@ export function ContactPage() {
                   value:
                     "Dholakia Ventures, Plot No. D-02 and D-11, Gem & Jewellery Park, GHB, Ichchhapor, Surat, Gujarat 394510, India",
                 },
-                { icon: Mail, label: "Email", value: "Info@mayave.com", mailto: true, mono: true },
+                { icon: Mail, label: "Email", value: "info@dholakiaretail.com", mailto: true, mono: true },
               ].map((row) => (
                 <div
                   key={row.label}
@@ -209,7 +209,7 @@ export function ContactPage() {
           </div>
 
           {/* P12-S04 — Form */}
-          <div>
+          <div id="write-to-us" className="scroll-mt-28">
             <p className="font-dm text-[#3B6FFF] text-[11px] font-medium tracking-[0.22em] uppercase mb-5">
               Write to us
             </p>
@@ -358,7 +358,7 @@ export function ContactPage() {
               ["Business", "partnerships@dholakiaretail.com"],
               ["Press", "press@dholakiaretail.com"],
               ["Careers", "careers@dholakiaretail.com"],
-              ["Brand", "Info@mayave.com"],
+              ["Brand", "info@dholakiaretail.com"],
             ].map(([label, email]) => (
               <li key={email} className="flex items-center justify-between gap-3 border-b border-[#0B1426]/10 py-2">
                 <span className="font-dm text-[#0B1426]/55 text-[11px] font-medium tracking-[0.14em] uppercase">

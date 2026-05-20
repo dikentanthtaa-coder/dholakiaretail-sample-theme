@@ -17,7 +17,7 @@ const DEFAULTS = {
   heading: "Start the conversation.",
   body:
     "For partnerships, media inquiries, brand discussions, or future collaboration, connect with Dholakia Retail directly.",
-  primary: { label: "Contact the House", to: "/contact" } as CTAButton,
+  primary: { label: "Contact the House", to: "/contact#write-to-us" } as CTAButton,
   secondary: { label: "Explore Careers", to: "/careers" } as CTAButton,
 };
 

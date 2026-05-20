@@ -212,7 +212,7 @@ export function BrandPage() {
             className="mt-10 flex flex-wrap gap-3"
           >
             <Link
-              to="/contact?type=appointment"
+              to="/contact?type=appointment#write-to-us"
               className="font-dm group inline-flex items-center gap-2 px-7 h-12 bg-[#3B6FFF] hover:bg-[#14275C] text-white rounded-sm text-[14px] font-semibold transition-colors duration-300"
             >
               Book a Private Viewing
@@ -485,7 +485,7 @@ export function BrandPage() {
         eyebrow="Mayavé"
         heading="By appointment, by intention."
         body="For private consultations, bespoke discussions, and brand inquiries, connect with Mayavé directly through Dholakia Retail."
-        primary={{ label: "Arrange a Viewing", to: "/contact?type=appointment" }}
+        primary={{ label: "Arrange a Viewing", to: "/contact?type=appointment#write-to-us" }}
         secondary={{ label: "Explore the Portfolio", to: "/portfolio" }}
       />
     </div>

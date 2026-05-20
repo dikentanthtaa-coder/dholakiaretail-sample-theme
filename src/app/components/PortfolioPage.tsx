@@ -237,7 +237,7 @@ export function PortfolioPage() {
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
               </Link>
               <Link
-                to="/contact?type=appointment"
+                to="/contact?type=appointment#write-to-us"
                 className="font-dm inline-flex items-center gap-2 px-7 h-12 border border-[#0B1426]/30 text-[#0B1426] hover:border-[#3B6FFF] hover:text-[#3B6FFF] rounded-sm text-[14px] font-medium transition-all duration-300"
               >
                 Book a viewing
@@ -266,7 +266,7 @@ export function PortfolioPage() {
         eyebrow="Portfolio"
         heading="Interested in partnerships or future brand development?"
         body="We build with patience. If your ambition aligns with the long-term stewardship of luxury jewellery houses, we would welcome the conversation."
-        primary={{ label: "Start a conversation", to: "/contact?type=partnership" }}
+        primary={{ label: "Start a conversation", to: "/contact?type=partnership#write-to-us" }}
         secondary={{ label: "Meet The Group", to: "/the-group" }}
       />
     </div>

@@ -142,7 +142,7 @@ export function GlobalPresencePage() {
         eyebrow="Global Presence"
         heading="Open to partners with the right ambition."
         body="We work with stockists, ateliers, and partners whose values align with the long-term stewardship of luxury jewellery houses."
-        primary={{ label: "Partner with the House", to: "/contact?type=partnership" }}
+        primary={{ label: "Partner with the House", to: "/contact?type=partnership#write-to-us" }}
         secondary={{ label: "Explore Careers", to: "/careers" }}
       />
     </div>

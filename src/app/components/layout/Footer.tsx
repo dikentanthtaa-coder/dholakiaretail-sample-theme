@@ -29,7 +29,7 @@ export function Footer() {
           {[
             { title: "Group", links: [["About", "/about"], ["Manufacturing", "/about"], ["Sustainability", "/sustainability"], ["Investors", "/investor-relations"]] },
             { title: "Brands", links: [["RARE", "/portfolio/rare"], ["Kisna", "/portfolio/kisna"], ["Unity Jewels", "/portfolio/unity-jewels"], ["HK Designs", "/portfolio/hk-designs"]] },
-            { title: "Connect", links: [["News", "/news"], ["Careers", "/careers"], ["Contact", "/contact"]] },
+            { title: "Connect", links: [["News", "/news"], ["Careers", "/careers"], ["Contact", "/contact#write-to-us"]] },
           ].map((col, idx) => (
             <div key={col.title} className={`lg:col-span-2 ${idx === 0 ? 'lg:col-start-7' : ''}`}>
               <h4 className="text-white/30 mb-6" style={{ fontFamily: grotesk, fontSize: 11, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" }}>{col.title}</h4>

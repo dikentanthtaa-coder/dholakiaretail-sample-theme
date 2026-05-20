@@ -139,7 +139,7 @@ export function CareersPage() {
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </a>
             <Link
-              to="/contact?type=careers"
+              to="/contact?type=careers#write-to-us"
               className="font-dm inline-flex items-center gap-2 px-7 h-12 border border-white/30 text-white hover:bg-white/10 rounded-sm text-[14px] font-medium transition-all duration-300"
             >
               Submit your profile
@@ -261,7 +261,7 @@ export function CareersPage() {
 
           <div className="flex flex-wrap gap-3 mt-12">
             <Link
-              to="/contact?type=careers"
+              to="/contact?type=careers#write-to-us"
               className="font-dm group inline-flex items-center gap-2 px-7 h-12 bg-[#3B6FFF] hover:bg-[#14275C] text-white rounded-sm text-[14px] font-semibold transition-colors duration-300"
             >
               Share your profile
@@ -282,8 +282,8 @@ export function CareersPage() {
         eyebrow="Careers"
         heading="Speak to us about a career."
         body="Send your profile, your portfolio, or simply a note. Every serious application is read by a human."
-        primary={{ label: "Share your profile", to: "/contact?type=careers" }}
-        secondary={{ label: "Visit Contact", to: "/contact" }}
+        primary={{ label: "Share your profile", to: "/contact?type=careers#write-to-us" }}
+        secondary={{ label: "Visit Contact", to: "/contact#write-to-us" }}
       />
     </div>
   );

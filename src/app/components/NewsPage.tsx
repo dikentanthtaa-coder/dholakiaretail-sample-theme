@@ -198,7 +198,7 @@ export function NewsPage() {
         heading="Need corporate information or brand assets?"
         body="Logos, fact sheet, leadership portraits — everything press teams require, in a single download."
         primary={{ label: "Request the Press Kit", to: "/press-kit" }}
-        secondary={{ label: "Press inquiries", to: "/contact?type=press" }}
+        secondary={{ label: "Press inquiries", to: "/contact?type=press#write-to-us" }}
       />
     </div>
   );

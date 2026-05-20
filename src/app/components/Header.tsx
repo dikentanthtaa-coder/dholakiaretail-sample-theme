@@ -296,8 +296,8 @@ export function Header(_props: HeaderProps = {}) {
 
               {/* Contact CTA — visible at xl ≥ 1280px (matches desktop nav breakpoint) */}
               <Link
-                to="/contact"
-                aria-label="Go to contact page"
+                to="/contact#write-to-us"
+                aria-label="Go to contact form"
                 className="font-dm hidden xl:inline-flex items-center gap-2 whitespace-nowrap px-4 2xl:px-5 h-9 rounded-sm text-white text-[12.5px] 2xl:text-[13px] font-semibold bg-[#3B6FFF] hover:bg-[#14275C] transition-colors duration-300 group shrink-0"
               >
                 Contact us
@@ -386,7 +386,7 @@ export function Header(_props: HeaderProps = {}) {
                 className="mt-12 flex flex-col items-center gap-4"
               >
                 <Link
-                  to="/contact"
+                  to="/contact#write-to-us"
                   onClick={() => setMobileOpen(false)}
                   className="font-dm inline-flex items-center gap-2 px-7 h-11 rounded-sm bg-[#3B6FFF] text-white hover:bg-[#14275C] transition-colors text-[14px] font-semibold"
                 >

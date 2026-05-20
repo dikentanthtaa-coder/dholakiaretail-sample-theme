@@ -18,7 +18,8 @@ const PROCESS = [
 /**
  * Page 5 — Craftsmanship
  */
-export function CraftsmanshipPage() {
+export function 
+CraftsmanshipPage() {
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);

@@ -129,7 +129,7 @@ export function PressKitPage() {
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </a>
             <Link
-              to="/contact?type=press"
+              to="/contact?type=press#write-to-us"
               className="font-dm inline-flex items-center gap-2 px-7 h-12 border border-white/30 text-white hover:bg-white/10 rounded-sm text-[14px] font-medium transition-all duration-300"
             >
               Send a press inquiry

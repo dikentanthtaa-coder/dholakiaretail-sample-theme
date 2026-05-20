@@ -94,7 +94,7 @@ export const router = createBrowserRouter([
       { path: "legal", element: <Navigate to="/legal/privacy" replace /> },
 
       // Compatibility — old IR route → contact
-      { path: "investor-relations", element: <Navigate to="/contact?type=investor" replace /> },
+      { path: "investor-relations", element: <Navigate to="/contact?type=investor#write-to-us" replace /> },
 
       // 404
       { path: "*", element: withSuspense(NotFoundPage) },

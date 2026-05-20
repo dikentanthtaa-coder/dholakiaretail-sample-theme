@@ -508,7 +508,7 @@ export function AboutPage() {
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
             <Link
-              to="/contact"
+              to="/contact#write-to-us"
               className="font-dm inline-flex items-center gap-2 px-7 h-12 border border-[#0B1426]/30 text-[#0B1426] hover:border-[#3B6FFF] hover:text-[#3B6FFF] rounded-sm text-[14px] font-medium transition-all duration-300"
             >
               Contact the House

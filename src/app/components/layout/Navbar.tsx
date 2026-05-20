@@ -105,7 +105,7 @@ export function Navbar() {
         </nav>
 
         <div className="hidden lg:flex items-center gap-3">
-          <Link to="/contact" className="relative overflow-hidden group px-7 py-3 bg-white text-black rounded-full transition-all" style={{ fontFamily: inter, fontSize: 13, fontWeight: 600 }}>
+          <Link to="/contact#write-to-us" className="relative overflow-hidden group px-7 py-3 bg-white text-black rounded-full transition-all" style={{ fontFamily: inter, fontSize: 13, fontWeight: 600 }}>
             <span className="relative z-10">Get in Touch</span>
             <div className="absolute inset-0 bg-neutral-200 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out" />
           </Link>

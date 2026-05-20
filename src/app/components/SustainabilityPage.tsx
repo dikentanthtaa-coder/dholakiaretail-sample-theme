@@ -179,7 +179,7 @@ export function SustainabilityPage() {
           </motion.p>
           <div className="flex flex-wrap justify-center gap-3 mt-10">
             <Link
-              to="/contact?type=press"
+              to="/contact?type=press#write-to-us"
               className="font-dm group inline-flex items-center gap-2 px-7 h-12 bg-[#3B6FFF] hover:bg-[#14275C] text-white rounded-sm text-[14px] font-semibold transition-colors duration-300"
             >
               Request our ESG materials

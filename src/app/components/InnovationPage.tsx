@@ -255,7 +255,7 @@ export function InnovationPage() {
         eyebrow="Innovation"
         heading="Precision, made repeatable."
         body="Technology strengthens control, consistency, and credibility — the qualities that build enduring luxury houses. Speak with us about the wider approach."
-        primary={{ label: "Explore the wider approach", to: "/contact?type=partnership" }}
+        primary={{ label: "Explore the wider approach", to: "/contact?type=partnership#write-to-us" }}
         secondary={{ label: "Visit Craftsmanship", to: "/craftsmanship" }}
       />
     </div>
