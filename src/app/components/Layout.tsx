@@ -6,6 +6,7 @@ import { ScrollProgress } from "./ScrollProgress";
 import { RouteSeo } from "./ui/RouteSeo";
 import { OrganizationJsonLd } from "./ui/Seo";
 import { IdlePrefetch } from "./ui/IdlePrefetch";
+import { VideoPrefetcher } from "./ui/VideoPrefetcher";
 
 export { navLinks, LOGO_URL } from "./constants";
 
@@ -31,6 +32,7 @@ export function Layout() {
       <RouteSeo />
       <OrganizationJsonLd />
       <IdlePrefetch />
+      <VideoPrefetcher />
       <ScrollProgress />
       <Header />
       <main>
